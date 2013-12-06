@@ -69,7 +69,7 @@
         var message = msg;
 
         // if a collection is passed the selection is randomized
-        if (msg.length) {
+        if( Object.prototype.toString.call( msg ) === '[object Array]' ) {
           var i = Math.round(Math.random()*(msg.length-1));
           message = msg[i];
         }
