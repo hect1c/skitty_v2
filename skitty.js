@@ -1,32 +1,34 @@
 (function () {
 
-  // skeleton plugbot
-  function Bot (api, plugins) {
-    // extend api
-    api.woot = function() {
-      $('#woot').click();
-    };
+  // <skeleton plugbot>
+    function Bot (api, plugins) {
+      // extend api
+      api.woot = function() {
+        $('#woot').click();
+      };
 
-    api.curate = function () {
-      $('#curate').click();
+      api.curate = function () {
+        // $('#curate').click();
 
-      setTimeout(function() {
-        $('.pop-menu.curate .icon-active-selected').parent().trigger('click');
-      });
-    };
+        // setTimeout(function() {
+        //   $('.pop-menu.curate .icon-active-selected').parent().trigger('click');
+        // });
+      };
 
-    api.meh = function () {
-      $('#meh').click();
-    };
+      api.meh = function () {
+        $('#meh').click();
+      };
 
-    // register plugins
-    for (var i = 0; i < plugins.length; i++) {
-      plugins[i](api);
+      // register plugins
+      for (var i = 0; i < plugins.length; i++) {
+        plugins[i].init(api);
+      }
     }
-  }
+  // </skeleton plugbot>
 
-  function Skitty (api) {
-    var voteReqCount = 0,
+  function Skitty () {
+    var self = this,
+        voteReqCount = 0,
         snagReqCount = 0,
         maxMsgSent = false,
         gifs = {
@@ -56,7 +58,6 @@
         var now = new Date(),
               days = ['Sunday', 'Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'],
               day = days[ now.getDay() ];
-
 
           if (day === 'Friday') {
             api.sendChat("Funky Fuckin' Friday! Every Friday we implement a theme: Electro Soul, Glitch, Funk, Hip Hop, medium Dubstep(if it has some funk to it) ...as long as it has a sick beat and some funk you're winning.");
@@ -88,8 +89,9 @@
           if (speak) {
             api.sendChat('Bonus. :thumbsup:');
           }
-        } else if (speak && maxMsgSent) {
+        } else if (speak && !maxMsgSent) {
           api.sendChat('Bonuses to the max! Good play youse. :thumbsup:');
+          maxMsgSent = true;
         }
         voteReqCount++;
       }
@@ -116,6 +118,7 @@
         { trigger: '.nice',     action: bop.bind(this, true) },
         { trigger: '.sick',     action: bop.bind(this, true) },
         { trigger: '.dope',     action: bop.bind(this, true) },
+        { trigger: '.jazzy',     action: bop.bind(this, true) },
         // { trigger: '.snag',     action: snag },
         // { trigger: '.nomnom',   action: snag },
         // { trigger: '.currate',  action: snag },
@@ -152,11 +155,14 @@
       }
     // </subscription methods>
 
+    self.init = function (plugApi) {
+      api = plugApi;
 
-    // subscriptions
-    api.on(api.CHAT, checkCommands);
-    api.on(api.DJ_ADVANCE, songChange);
+      // subscriptions
+      api.on(api.CHAT, checkCommands);
+      api.on(api.DJ_ADVANCE, songChange);
+    };
   }
 
-  var skitty = new Bot(API, [ Skitty ]);
+  var skitty = new Bot(API, [ new Skitty() ]);
 }());
