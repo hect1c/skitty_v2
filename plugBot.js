@@ -5,7 +5,7 @@
   phantom.create(function(err,ph) {
     ph.addCookie({
       'name': 'usr',
-      'value': 'f9jxkL5LEn+FbBxI67Ff9tqs2gw=?_expires=STE0MDE2NzY1MjMKLg==&user_id=Uyc1MjkzZTE2NjNlMDgzZTFkMDc4YzkxYzInCnAxCi4=&v=STIKLg==',
+      'value': 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx',
       'domain': '.plug.dj',
       'path': '/',
       'httpOnly': true,
@@ -18,7 +18,7 @@
         page.onNavigationRequested = function (url, type, willNavigate, main) {
           console.log(arguments);
         };
-        
+
         page.onConsoleMessage = function (msg, lineNum, sourceId) {
           console.log('CONSOLE: ' + msg + ' (from line #' + lineNum + ' in "' + sourceId + '")');
         };
