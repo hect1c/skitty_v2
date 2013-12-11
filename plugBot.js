@@ -5,7 +5,7 @@
   phantom.create(function(err,ph) {
     ph.addCookie({
       'name': 'usr',
-      'value': 'f9jxkL5LEn+FbBxI67Ff9tqs2gw=?_expires=STE0MDE2NzY1MjMKLg==&user_id=Uyc1MjkzZTE2NjNlMDgzZTFkMDc4YzkxYzInCnAxCi4=&v=STIKLg==',
+      'value': 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx',
       'domain': '.plug.dj',
       'path': '/',
       'httpOnly': true,
