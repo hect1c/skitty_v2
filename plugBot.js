@@ -1,57 +1,17 @@
 (function () {
-  // TESTING
-  var phantom = require('node-phantom-simple');
-  
-  phantom.create(function(err,ph) {
-    ph.addCookie({
-      'name': 'usr',
-      'value': 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx',
-      'domain': '.plug.dj',
-      'path': '/',
-      'httpOnly': true,
-      'secure': false,
-      'expires': '01/06/2014 10:35 PM' 
-    });
+  // <skeleton plugbot>
+    function Bot (model, plugApi, plugins) {     
+      var api = new plugApi(model.auth, model.updateCode);
 
-    return ph.createPage(function(err, page) {
-      // <debug>
-        page.onNavigationRequested = function (url, type, willNavigate, main) {
-          console.log(arguments);
-        };
+      // register plugins
+      for (var i = 0; i < plugins.length; i++) {
+        plugins[i].init(api);
+      }
+      
+      // connect
+      api.connect(model.room);
+    }
+  // </skeleton plugbot>
 
-        page.onConsoleMessage = function (msg, lineNum, sourceId) {
-          console.log('CONSOLE: ' + msg + ' (from line #' + lineNum + ' in "' + sourceId + '")');
-        };
-
-        page.onError = function(msg, trace) {
-          var msgStack = ['ERROR: ' + msg];
-          if (trace && trace.length) {
-            msgStack.push('TRACE:');
-            trace.forEach(function(t) {
-              msgStack.push(' -> ' + t.file + ': ' + t.line + (t.function ? ' (in function "' + t.function + '")' : ''));
-            });
-          }
-          console.error(msgStack.join('\n'));
-        };
-      // </debug>
-
-      return page.open("http://plug.dj/coding-soundtrack-lounge/", function(err,status) {
-        console.log('connection: ' + status);
-
-        // wait for plug to load before doing anything
-        setTimeout(function() {
-          // *try* to inject skitty script - doesnt seem to work tho
-          var injected = page.injectJs('skitty.js');
-          
-          // check to see if API is even available
-          page.evaluate(function() {
-            return API;
-          }, function(err, result) {         
-            // console.log(result || err);
-          });
-        }, 15000);
-      })
-    })
-  });
+  exports.Bot = Bot;
 }());
-
