@@ -7,7 +7,7 @@
   var model = {
         room: 'coding-soundtrack-lounge',
         updateCode: '$&2h72=^^@jdBf_n!`-38UHs', 
-        auth: 'f9jxkL5LEn+FbBxI67Ff9tqs2gw=?_expires=STE0MDE2NzY1MjMKLg==&user_id=Uyc1MjkzZTE2NjNlMDgzZTFkMDc4YzkxYzInCnAxCi4=&v=STIKLg==',
+        auth: 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx',
       },
       plugins = [ 
         new Skitty(),
