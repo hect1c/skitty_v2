@@ -5,9 +5,9 @@
       PlaylistManager = require ('./modules/playlistManager').PlaylistManager;
 
   var model = {
-        room: 'coding-soundtrack-lounge',
+        room: '',
         updateCode: '$&2h72=^^@jdBf_n!`-38UHs', 
-        auth: 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx',
+        auth: '',
       },
       plugins = [ 
         new Skitty(),
