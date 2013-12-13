@@ -26,8 +26,8 @@
 
 
         var quotes = require('./../quotes');
-        var rude_responses = require('./../rude_responses');
-        var funny_responses = require('./../funny_responses');
+        var rudeResponses = require('./../rude_responses');
+        var funnyResponses = require('./../funny_responses');
 
 
       // <action methods>
@@ -101,9 +101,9 @@
         
         // generic responses
         { trigger: '.quote',  action: showMessage.bind(this, quotes, true) },
-        { trigger: '.rude',  action: showMessage.bind(this, rude_responses, true) },
-        { trigger: 'lol',  action: showMessage.bind(this, funny_responses, true) },
-        { trigger: 'haha',  action: showMessage.bind(this, funny_responses, true) },
+        { trigger: '.rude',  action: showMessage.bind(this, rudeResponses, true) },
+        { trigger: 'lol',  action: showMessage.bind(this, funnyResponses, true) },
+        { trigger: 'haha',  action: showMessage.bind(this, funnyResponses, true) },
 
         // info
         { trigger: '.cmds',     action: showMessage.bind(this, 'http://bit.ly/skittyCommands', false) },
