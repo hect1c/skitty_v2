@@ -2,7 +2,6 @@
 ## Eclipse
 #################
 
-server.js
 *.pydevproject
 .project
 .metadata
@@ -16,8 +15,7 @@ local.properties
 .classpath
 .settings/
 .loadpath
-node_modules/
-
+node_modules
 
 # External tool builders
 .externalToolBuilders/
