@@ -21,11 +21,16 @@
           ],
           chill: [
             'http://bit.ly/csl-chill'
-          ]
+          ],
         };
 
 
-    // <action methods>
+        var quotes = require('./../quotes');
+        var rude_responses = require('./../rude_responses');
+        var funny_responses = require('./../funny_responses');
+
+
+      // <action methods>
       function showTheme () {
         var now = new Date(),
               days = ['Sunday', 'Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'],
@@ -69,7 +74,7 @@
       }
     // </action methods>
 
-    // <chat commands>
+      // <chat commands>
       var chatCommands = [
         // bop and snag
         { trigger: '.woot',     action: bop.bind(this, true) },
@@ -93,6 +98,12 @@
         { trigger: '.trippy',   action: showMessage.bind(this, gifs.trippy, true) },
         { trigger: '.chill',    action: showMessage.bind(this, gifs.chill, true) },
         { trigger: '.meow',     action: showMessage.bind(this, gifs.meow, false) },
+        
+        // generic responses
+        { trigger: '.quote',  action: showMessage.bind(this, quotes, true) },
+        { trigger: '.rude',  action: showMessage.bind(this, rude_responses, true) },
+        { trigger: 'lol',  action: showMessage.bind(this, funny_responses, true) },
+        { trigger: 'haha',  action: showMessage.bind(this, funny_responses, true) },
 
         // info
         { trigger: '.cmds',     action: showMessage.bind(this, 'http://bit.ly/skittyCommands', false) },
