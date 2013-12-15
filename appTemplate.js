@@ -12,6 +12,8 @@
         room: 'coding-soundtrack-lounge',
         updateCode: '$&2h72=^^@jdBf_n!`-38UHs', 
         auth: 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx',
+        reconnectDelay: 1000,
+        reconnectAttempts: 5 
       },
 
       // create plugins
