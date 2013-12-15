@@ -43,7 +43,7 @@
           if (playlistId && songId) {
             api.addSongToPlaylist(playlistId, songId, function() {
               console.log(arguments);
-              api.sendChat(':dash::heart:');
+              api.sendChat(':cat2::dash::heart:');
             });            
           }          
         });

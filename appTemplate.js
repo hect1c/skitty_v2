@@ -16,7 +16,15 @@
 
       // create plugins
       plugins = [ 
-        new Skitty(),
+        new Skitty({
+          resources: {
+            info: require('./resources/info'),
+            gifs: require('./resources/gifs'),
+            quotes: require('./resources/quotes'),
+            rudeResponses: require('./resources/rude_responses'),
+            funnyResponses: require('./resources/funny_responses')
+          }
+        }),
         new PlaylistManager({ defaultPlaylist: 'snags' })
       ];
 

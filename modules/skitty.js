@@ -1,45 +1,20 @@
 (function () {
-  function Skitty () {
+  function Skitty (model) {
+    model = model || {};
     var self = this,
         voteReqCount = 0,
-        maxMsgSent = false,
-        gifs = {
-          haters: [
-            'http://bit.ly/csl-haters',
-            'http://bit.ly/csl-haters-01'
-          ],
-          meow: [
-            'http://bit.ly/csl-meow',
-            'http://bit.ly/csl-meow-01'
-          ],
-          trippy: [
-            'http://bit.ly/efrul',
-            'http://bit.ly/1bhcBEj'
-          ],
-          dance: [
-            'http://bit.ly/csl-dance'
-          ],
-          chill: [
-            'http://bit.ly/csl-chill'
-          ],
-        };
+        maxMsgSent = false;
 
-
-        var quotes = require('./../quotes');
-        var rudeResponses = require('./../rude_responses');
-        var funnyResponses = require('./../funny_responses');
-
-
-      // <action methods>
+    // <action methods>
       function showTheme () {
         var now = new Date(),
               days = ['Sunday', 'Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'],
               day = days[ now.getDay() ];
 
           if (day === 'Friday') {
-            api.sendChat("Funky Fuckin' Friday! Every Friday we implement a theme: Electro Soul, Glitch, Funk, Hip Hop, medium Dubstep(if it has some funk to it) ...as long as it has a sick beat and some funk you're winning.");
+            api.sendChat(model.resources.info.theme.funkyFriday);
           } else {
-            api.sendChat("No theme active. See room info for music format details.");
+            api.sendChat(model.resources.info.theme.none);
           }
       }
 
@@ -74,7 +49,7 @@
       }
     // </action methods>
 
-      // <chat commands>
+    // <chat commands>
       var chatCommands = [
         // bop and snag
         { trigger: '.woot',     action: bop.bind(this, true) },
@@ -93,21 +68,21 @@
         // { trigger: '.currate',  action: snag },
 
         // gif
-        { trigger: '.dance',    action: showMessage.bind(this, gifs.dance, true) },
-        { trigger: '.boogie',   action: showMessage.bind(this, gifs.dance, true) },
-        { trigger: '.trippy',   action: showMessage.bind(this, gifs.trippy, true) },
-        { trigger: '.chill',    action: showMessage.bind(this, gifs.chill, true) },
-        { trigger: '.meow',     action: showMessage.bind(this, gifs.meow, false) },
+        { trigger: '.dance',    action: showMessage.bind(this, model.resources.gifs.dance, true) },
+        { trigger: '.boogie',   action: showMessage.bind(this, model.resources.gifs.dance, true) },
+        { trigger: '.trippy',   action: showMessage.bind(this, model.resources.gifs.trippy, true) },
+        { trigger: '.chill',    action: showMessage.bind(this, model.resources.gifs.chill, true) },
+        { trigger: '.meow',     action: showMessage.bind(this, model.resources.gifs.meow, false) },
         
         // generic responses
-        { trigger: '.quote',  action: showMessage.bind(this, quotes, true) },
-        { trigger: '.rude',  action: showMessage.bind(this, rudeResponses, true) },
-        { trigger: 'lol',  action: showMessage.bind(this, funnyResponses, true) },
-        { trigger: 'haha',  action: showMessage.bind(this, funnyResponses, true) },
+        { trigger: '.quote',  action: showMessage.bind(this, model.resources.quotes, true) },
+        { trigger: '.rude',  action: showMessage.bind(this, model.resources.rudeResponses, true) },
+        { trigger: 'lol',  action: showMessage.bind(this, model.resources.funnyResponses, true) },
+        { trigger: 'haha',  action: showMessage.bind(this, model.resources.funnyResponses, true) },
 
         // info
-        { trigger: '.cmds',     action: showMessage.bind(this, 'http://bit.ly/skittyCommands', false) },
-        { trigger: '.commands', action: showMessage.bind(this, 'http://bit.ly/skittyCommands', false) },
+        { trigger: '.cmds',     action: showMessage.bind(this, model.resources.info.commands, false) },
+        { trigger: '.commands', action: showMessage.bind(this, model.resources.info.commands, false) },
         { trigger: '.theme',     action: showTheme }
       ];
     // </chat commands>
