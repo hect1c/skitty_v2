@@ -54,9 +54,20 @@
 
     // <subscription methods>
       function checkCommands (data) {
+        var msg = data.message.trim();
+
         for (var i = 0; i < chatCommands.length; i++) {
-          var msg = data.message.trim();
-          if (msg.indexOf(chatCommands[i].trigger) >= 0) {
+          // wildcard check
+          if (chatCommands[i].wildCard && msg.match(chatCommands[i].trigger)) {
+            chatCommands[i].action(data);
+            return;
+          } 
+
+          // command check
+          if (( msg.indexOf('.') === 0 || 
+                msg.indexOf('!') === 0 ||
+                msg.indexOf('?') === 0) && 
+                msg.indexOf(chatCommands[i].trigger) === 1) {
             chatCommands[i].action(data);
             return;
           }
@@ -71,10 +82,10 @@
 
     // <chat commands>
       var chatCommands = [
-        { trigger: '.snag',     action: snag },
-        { trigger: '.nomnom',   action: snag },
-        { trigger: '.yoink',   action: snag },
-        { trigger: '.currate',  action: snag }
+        { trigger: 'snag',    action: snag },
+        { trigger: 'nomnom',  action: snag },
+        { trigger: 'yoink',   action: snag },
+        { trigger: 'currate', action: snag }
       ];
     // </chat commands>
 

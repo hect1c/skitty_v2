@@ -18,7 +18,7 @@
           }
       }
 
-      function showMessage (msg, doBop) {
+      function showMessage (msg, doBop, data) {
         var message = msg;
 
         // if a collection is passed the selection is randomized
@@ -26,6 +26,9 @@
           var i = Math.round(Math.random()*(msg.length-1));
           message = msg[i];
         }
+
+        console.log(data);
+        message = message.replace('{sender}', '@' + data.from);
 
         api.sendChat(message);
 
@@ -52,46 +55,63 @@
     // <chat commands>
       var chatCommands = [
         // bop and snag
-        { trigger: '.woot',     action: bop.bind(this, true) },
-        { trigger: '.awesome',  action: bop.bind(this, true) },
-        { trigger: '.bonus',    action: bop.bind(this, true) },
-        { trigger: '.props',    action: bop.bind(this, true) },
-        { trigger: '.badass',   action: bop.bind(this, true) },
-        { trigger: '.groovy',   action: bop.bind(this, true) },
-        { trigger: '.nice',     action: bop.bind(this, true) },
-        { trigger: '.sick',     action: bop.bind(this, true) },
-        { trigger: '.dope',     action: bop.bind(this, true) },
-        { trigger: '.jazzy',    action: bop.bind(this, true) },
-        { trigger: '.funky',    action: bop.bind(this, true) },
-        // { trigger: '.snag',     action: snag },
-        // { trigger: '.nomnom',   action: snag },
-        // { trigger: '.currate',  action: snag },
+        { trigger: 'woot',    action: bop.bind(this, true) },
+        { trigger: 'awesome', action: bop.bind(this, true) },
+        { trigger: 'bonus',   action: bop.bind(this, true) },
+        { trigger: 'props',   action: bop.bind(this, true) },
+        { trigger: 'badass',  action: bop.bind(this, true) },
+        { trigger: 'groovy',  action: bop.bind(this, true) },
+        { trigger: 'nice',    action: bop.bind(this, true) },
+        { trigger: 'sick',    action: bop.bind(this, true) },
+        { trigger: 'dope',    action: bop.bind(this, true) },
+        { trigger: 'jazzy',   action: bop.bind(this, true) },
+        { trigger: 'funky',   action: bop.bind(this, true) },
+        { trigger: 'snag',    action: bop.bind(this, false) },
+        { trigger: 'nomnom',  action: bop.bind(this, false) },
+        { trigger: 'currate', action: bop.bind(this, false) },
 
         // gif
-        { trigger: '.dance',    action: showMessage.bind(this, model.resources.gifs.dance, true) },
-        { trigger: '.boogie',   action: showMessage.bind(this, model.resources.gifs.dance, true) },
-        { trigger: '.trippy',   action: showMessage.bind(this, model.resources.gifs.trippy, true) },
-        { trigger: '.chill',    action: showMessage.bind(this, model.resources.gifs.chill, true) },
-        { trigger: '.meow',     action: showMessage.bind(this, model.resources.gifs.meow, false) },
+        { trigger: 'dance',  action: showMessage.bind(this, model.resources.gifs.dance, true) },
+        { trigger: 'boogie', action: showMessage.bind(this, model.resources.gifs.dance, true) },
+        { trigger: 'bounce', action: showMessage.bind(this, model.resources.gifs.dance, true) },
+        { trigger: 'trippy', action: showMessage.bind(this, model.resources.gifs.trippy, true) },
+        { trigger: 'chill',  action: showMessage.bind(this, model.resources.gifs.chill, true) },
+        { trigger: 'meow',   action: showMessage.bind(this, model.resources.gifs.meow, false) },
         
         // generic responses
-        { trigger: '.quote',  action: showMessage.bind(this, model.resources.quotes, true) },
-        { trigger: '.rude',  action: showMessage.bind(this, model.resources.rudeResponses, true) },
-        { trigger: 'lol',  action: showMessage.bind(this, model.resources.funnyResponses, true) },
-        { trigger: 'haha',  action: showMessage.bind(this, model.resources.funnyResponses, true) },
+        { trigger: 'quote', action: showMessage.bind(this, model.resources.quotes, true) },
+        { trigger: 'rude',  action: showMessage.bind(this, model.resources.rudeResponses.generic, true) },
+        { trigger: 'lol',    action: showMessage.bind(this, model.resources.funnyResponses, true) },
+        { trigger: 'haha',   action: showMessage.bind(this, model.resources.funnyResponses, true) },
+
+        // special triggers
+        { trigger: 'fuck you s\'kitty', wildCard: true, action: showMessage.bind(this, model.resources.rudeResponses.fuckYou, false) },
+        { trigger: 'fuck you skitty',   wildCard: true, action: showMessage.bind(this, model.resources.rudeResponses.fuckYou, false) },
 
         // info
-        { trigger: '.cmds',     action: showMessage.bind(this, model.resources.info.commands, false) },
-        { trigger: '.commands', action: showMessage.bind(this, model.resources.info.commands, false) },
-        { trigger: '.theme',     action: showTheme }
+        { trigger: 'cmds',     action: showMessage.bind(this, model.resources.info.commands, false) },
+        { trigger: 'commands', action: showMessage.bind(this, model.resources.info.commands, false) },
+        { trigger: 'help',     action: showMessage.bind(this, model.resources.info.commands, false) },
+        { trigger: 'theme',    action: showTheme }
       ];
     // </chat commands>
 
     // <subscription methods>
       function checkCommands (data) {
+        var msg = data.message.trim();
+
         for (var i = 0; i < chatCommands.length; i++) {
-          var msg = data.message.trim();
-          if (msg.indexOf(chatCommands[i].trigger) >= 0) {
+          // wildcard check
+          if (chatCommands[i].wildCard && msg.match(chatCommands[i].trigger)) {
+            chatCommands[i].action(data);
+            return;
+          } 
+
+          // command check
+          if (( msg.indexOf('.') === 0 || 
+                msg.indexOf('!') === 0 ||
+                msg.indexOf('?') === 0) && 
+                msg.indexOf(chatCommands[i].trigger) === 1) {
             chatCommands[i].action(data);
             return;
           }

@@ -1,4 +1,7 @@
-[
-	"I hate you",
-	"You should stop talking"
-]
+{
+  "generic": [
+  	"I hate you",
+  	"You should stop talking"
+  ],
+  "fuckYou": "fuck you too, {sender}!"
+}
