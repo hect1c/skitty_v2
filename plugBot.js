@@ -15,7 +15,8 @@
 
         model.reconnectAttempts = model.reconnectAttempts || 100;
 
-        var reconnect = function(err) { 
+        var reconnect = function() {
+          var err = arguments; 
           if (tries < model.reconnectAttempts) {
             setTimeout(function () {
               console.log('Disconnected.');

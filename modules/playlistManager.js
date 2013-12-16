@@ -42,7 +42,6 @@
 
           if (playlistId && songId) {
             api.addSongToPlaylist(playlistId, songId, function() {
-              console.log(arguments);
               api.sendChat(':cat2::dash::heart:');
             });            
           }          

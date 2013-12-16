@@ -4,7 +4,8 @@
     var self = this,
         voteReqCount = 0,
         maxMsgSent = false,
-        botAcctInfo = {};
+        botAcctInfo = {},
+        gifs = model.resources.gifs;;
 
     // <action methods>
       function showTheme () {
@@ -48,6 +49,7 @@
           api.sendChat('Bonuses to the max! Good play youse. :thumbsup:');
           maxMsgSent = true;
         }
+
         voteReqCount++;
       }
     // </action methods>
@@ -63,6 +65,7 @@
         { trigger: 'groovy',  action: bop.bind(this, true) },
         { trigger: 'nice',    action: bop.bind(this, true) },
         { trigger: 'sick',    action: bop.bind(this, true) },
+        { trigger: 'dig',    action: bop.bind(this, true) },
         { trigger: 'dope',    action: bop.bind(this, true) },
         { trigger: 'jazzy',   action: bop.bind(this, true) },
         { trigger: 'funky',   action: bop.bind(this, true) },
@@ -70,15 +73,20 @@
         { trigger: 'nomnom',  action: bop.bind(this, false) },
         { trigger: 'currate', action: bop.bind(this, false) },
 
-        // gif
-        { trigger: 'dance',     action: showMessage.bind(this, model.resources.gifs.dance, true) },
-        { trigger: 'boogie',    action: showMessage.bind(this, model.resources.gifs.dance, true) },
-        { trigger: 'bounce',    action: showMessage.bind(this, model.resources.gifs.dance, true) },
-        { trigger: 'trippy',    action: showMessage.bind(this, model.resources.gifs.trippy, true) },
-        { trigger: 'chill',     action: showMessage.bind(this, model.resources.gifs.chill, true) },
-        { trigger: 'meow',      action: showMessage.bind(this, model.resources.gifs.meow, false) },
-        { trigger: 'twerk',     action: showMessage.bind(this, model.resources.gifs.twerk, true) },
-        { trigger: 'milkshake', action: showMessage.bind(this, model.resources.gifs.milkshake, false) },
+        // gifs
+        { trigger: 'dance',     action: showMessage.bind(this, gifs.dance, true) },
+        { trigger: 'boogie',    action: showMessage.bind(this, gifs.dance, true) },
+        { trigger: 'groove',    action: showMessage.bind(this, gifs.dance, true) },
+        { trigger: 'bounce',    action: showMessage.bind(this, gifs.dance, true) },
+        { trigger: 'trippy',    action: showMessage.bind(this, gifs.trippy, true) },
+        { trigger: 'chill',     action: showMessage.bind(this, gifs.chill, true) },
+        { trigger: 'meow',      action: showMessage.bind(this, gifs.meow, false) },
+        { trigger: 'twerk',     action: showMessage.bind(this, gifs.twerk, true) },
+        { trigger: 'milkshake', action: showMessage.bind(this, gifs.milkshake, false) },
+        { trigger: 'thuglife',  action: showMessage.bind(this, gifs.thugLife, false) },
+        { trigger: 'fail',      action: showMessage.bind(this, gifs.fail, false) },
+        { trigger: 'derp',      action: showMessage.bind(this, gifs.fail, false) },
+        { trigger: 'ynb',       action: showMessage.bind(this, gifs.whynotboth, false) },
 
         // generic responses
         { trigger: 'quote', action: showMessage.bind(this, model.resources.quotes, true) },
@@ -92,6 +100,7 @@
         { trigger: 'woah',              wildCard: true, action: showMessage.bind(this, model.resources.rudeResponses.whoa, false) },
         { trigger: 'whoa',              wildCard: true, action: showMessage.bind(this, model.resources.rudeResponses.whoa, false) },
         { trigger: 'exactly',           wildCard: true, action: showMessage.bind(this, model.resources.rudeResponses.exactly, false) },
+        { trigger: 'motorboat',         wildCard: true, action: showMessage.bind(this, model.resources.rudeResponses.exactly, false) },
 
         // info
         { trigger: 'cmds',     action: showMessage.bind(this, model.resources.info.commands, false) },
