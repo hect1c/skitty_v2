@@ -1,4 +1,5 @@
 (function () {
+  // plugin for managing the bot's playlist
   function PlaylistManager (model) {
     model = model || {};
     var self = this,

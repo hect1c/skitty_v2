@@ -1,4 +1,5 @@
 (function () {
+  // the soul of our beloved bot
   function Skitty (model) {
     model = model || {};
     var self = this,
@@ -8,18 +9,6 @@
         gifs = model.resources.gifs;;
 
     // <action methods>
-      function showTheme () {
-        var now = new Date(),
-              days = ['Sunday', 'Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'],
-              day = days[ now.getDay() ];
-
-          if (day === 'Friday') {
-            api.sendChat(model.resources.info.theme.funkyFriday);
-          } else {
-            api.sendChat(model.resources.info.theme.none);
-          }
-      }
-
       function showMessage (msg, doBop, data) {
         var message = msg;
 
@@ -102,13 +91,7 @@
         { trigger: 'whoa',              wildCard: true, action: showMessage.bind(this, model.resources.rudeResponses.whoa, false) },
         { trigger: 'exactly',           wildCard: true, action: showMessage.bind(this, model.resources.rudeResponses.exactly, false) },
         { trigger: 'motorboat',         wildCard: true, action: showMessage.bind(this, model.resources.rudeResponses.exactly, false) },
-        { trigger: 'Supercalifragilisticexpialidocious', wildCard: true, action: showMessage.bind(this, model.resources.funnyResponses.magicWord, false) },
-
-        // info
-        { trigger: 'cmds',     action: showMessage.bind(this, model.resources.info.commands, false) },
-        { trigger: 'commands', action: showMessage.bind(this, model.resources.info.commands, false) },
-        { trigger: 'help',     action: showMessage.bind(this, model.resources.info.commands, false) },
-        { trigger: 'theme',    action: showTheme }
+        { trigger: 'Supercalifragilisticexpialidocious', wildCard: true, action: showMessage.bind(this, model.resources.funnyResponses.magicWord, false) }
       ];
     // </chat commands>
 

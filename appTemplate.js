@@ -27,7 +27,12 @@
             funnyResponses: require('./resources/funny_responses')
           }
         }),
-        new PlaylistManager({ defaultPlaylist: 'snags' })
+        new InfoPlugin({ 
+          resources: require('./resources/info') 
+        }),
+        new PlaylistManager({ 
+          defaultPlaylist: 'snags' 
+        })
       ];
 
       // create bot
