@@ -87,12 +87,13 @@
         { trigger: 'fail',      action: showMessage.bind(this, gifs.fail, false) },
         { trigger: 'derp',      action: showMessage.bind(this, gifs.fail, false) },
         { trigger: 'ynb',       action: showMessage.bind(this, gifs.whynotboth, false) },
+        { trigger: 'cry',       action: showMessage.bind(this, gifs.cry, false) },
 
         // generic responses
         { trigger: 'quote', action: showMessage.bind(this, model.resources.quotes, true) },
         { trigger: 'rude',  action: showMessage.bind(this, model.resources.rudeResponses.generic, true) },
-        { trigger: 'lol',   action: showMessage.bind(this, model.resources.funnyResponses, true) },
-        { trigger: 'haha',  action: showMessage.bind(this, model.resources.funnyResponses, true) },
+        { trigger: 'lol',   action: showMessage.bind(this, model.resources.funnyResponses.generic, true) },
+        { trigger: 'haha',  action: showMessage.bind(this, model.resources.funnyResponses.generic, true) },
 
         // wildcard triggers
         { trigger: 'fuck you s\'kitty', wildCard: true, action: showMessage.bind(this, model.resources.rudeResponses.fuckYou, false) },
@@ -101,6 +102,7 @@
         { trigger: 'whoa',              wildCard: true, action: showMessage.bind(this, model.resources.rudeResponses.whoa, false) },
         { trigger: 'exactly',           wildCard: true, action: showMessage.bind(this, model.resources.rudeResponses.exactly, false) },
         { trigger: 'motorboat',         wildCard: true, action: showMessage.bind(this, model.resources.rudeResponses.exactly, false) },
+        { trigger: 'Supercalifragilisticexpialidocious', wildCard: true, action: showMessage.bind(this, model.resources.funnyResponses.magicWord, false) },
 
         // info
         { trigger: 'cmds',     action: showMessage.bind(this, model.resources.info.commands, false) },
