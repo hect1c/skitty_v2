@@ -74,9 +74,12 @@
         { trigger: 'milkshake', action: showMessage.bind(this, gifs.milkshake, false) },
         { trigger: 'thuglife',  action: showMessage.bind(this, gifs.thugLife, false) },
         { trigger: 'fail',      action: showMessage.bind(this, gifs.fail, false) },
-        { trigger: 'derp',      action: showMessage.bind(this, gifs.fail, false) },
+        { trigger: 'wut',      action: showMessage.bind(this, gifs.wut, false) },
         { trigger: 'ynb',       action: showMessage.bind(this, gifs.whynotboth, false) },
         { trigger: 'cry',       action: showMessage.bind(this, gifs.cry, false) },
+        { trigger: 'flow',      action: showMessage.bind(this, gifs.poorFlow, false) },
+        { trigger: 'poorflow',  action: showMessage.bind(this, gifs.poorFlow, false) },
+        { trigger: 'flowkill',  action: showMessage.bind(this, gifs.poorFlow, false) },
 
         // generic responses
         { trigger: 'quote', action: showMessage.bind(this, model.resources.quotes, true) },
