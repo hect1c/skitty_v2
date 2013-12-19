@@ -28,9 +28,9 @@
           day = days[ now.getDay() ];
 
       if (day === 'Friday') {
-        api.sendChat(model.resources.info.theme.funkyFriday);
+        api.sendChat(model.resources.theme.funkyFriday);
       } else {
-        api.sendChat(model.resources.info.theme.none);
+        api.sendChat(model.resources.theme.none);
       }
     }
 
