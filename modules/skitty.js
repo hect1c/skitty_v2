@@ -87,10 +87,10 @@
         { trigger: 'nosound',      action: showMessage.bind(this, gifs.silence, false) },
 
         // generic responses
-        { trigger: 'quote', action: showMessage.bind(this, model.resources.quotes, true) },
-        { trigger: 'rude',  action: showMessage.bind(this, model.resources.rudeResponses.generic, true) },
-        { trigger: 'lol',   action: showMessage.bind(this, model.resources.funnyResponses.generic, true) },
-        { trigger: 'haha',  action: showMessage.bind(this, model.resources.funnyResponses.generic, true) },
+        { trigger: 'quote', action: showMessage.bind(this, model.resources.quotes, false) },
+        { trigger: 'rude',  action: showMessage.bind(this, model.resources.rudeResponses.generic, false) },
+        { trigger: 'lol',   action: showMessage.bind(this, model.resources.funnyResponses.generic, false) },
+        { trigger: 'haha',  action: showMessage.bind(this, model.resources.funnyResponses.generic, false) },
 
         // wildcard triggers
         { trigger: 'fuck you s\'kitty', wildCard: true, action: showMessage.bind(this, model.resources.rudeResponses.fuckYou, false) },
