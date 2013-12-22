@@ -98,7 +98,7 @@
         { trigger: 'woah',              wildCard: true, action: showMessage.bind(this, model.resources.rudeResponses.whoa, false) },
         { trigger: 'whoa',              wildCard: true, action: showMessage.bind(this, model.resources.rudeResponses.whoa, false) },
         { trigger: 'exactly',           wildCard: true, action: showMessage.bind(this, model.resources.rudeResponses.exactly, false) },
-        { trigger: 'motorboat',         wildCard: true, action: showMessage.bind(this, model.resources.rudeResponses.exactly, false) },
+        { trigger: 'motorboat',         wildCard: true, action: showMessage.bind(this, gifs.motorboat, false) },
         { trigger: 'Supercalifragilisticexpialidocious', wildCard: true, action: showMessage.bind(this, model.resources.funnyResponses.magicWord, false) }
       ];
     // </chat commands>
