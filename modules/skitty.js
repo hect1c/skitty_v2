@@ -4,6 +4,7 @@
     model = model || {};
     var self = this,
         api = {},
+        currentSong = null,
         voteReqCount = 0,
         maxMsgSent = false,
         botAcctInfo = {},
@@ -21,15 +22,17 @@
 
         message = message.replace('{sender}', '@' + data.from);
 
-        api.sendChat(message);
-
+        if (!doBop || (doBop && currentSong)) {
+          api.sendChat(message);  
+        }
+        
         if (doBop) {
           bop(false);
         }
       }
 
       function bop (speak) {
-        if (voteReqCount === 0) {
+        if (voteReqCount === 0 && currentSong) {
           api.woot();
 
           if (speak) {
@@ -38,6 +41,8 @@
         } else if (speak && !maxMsgSent) {
           api.sendChat('Bonuses to the max! Good play youse. :thumbsup:');
           maxMsgSent = true;
+        } else if (!currentSong) {
+          api.sendChat('There ain\'t nothing to bop to kid!');
         }
 
         voteReqCount++;
@@ -111,7 +116,8 @@
 
           for (var i = 0; i < chatCommands.length; i++) {
             // wildcard check
-            if (chatCommands[i].wildCard && msg.match(chatCommands[i].trigger)) {
+            if (chatCommands[i].wildCard &&
+             msg.match(chatCommands[i].trigger)) {
               chatCommands[i].action(data);
               return;
             }
@@ -128,9 +134,15 @@
         }
       }
 
-      function songChange () {
+      function songChange (data) {
         voteReqCount = 0;
         maxMsgSent = false;
+        currentSong = data.media;
+      }
+
+      function joinRoom (data) {
+        botAcctInfo = api.getSelf();
+        currentSong = data.room.media;
       }
     // </subscription methods>
 
@@ -138,9 +150,7 @@
       api = plugApi;
 
       // subscriptions
-      api.on('roomJoin', function () {
-        botAcctInfo = api.getSelf();
-      });
+      api.on('roomJoin', joinRoom);
       api.on('chat', checkCommands);
       api.on('djAdvance', songChange);
     };
