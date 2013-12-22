@@ -2,6 +2,7 @@
   // plugin that provides information about the room, djs and songs playing
   function InfoPlugin (model) {
     var self = this,
+        currentSong = null,
         api = {};
 
     function showMessage (msg, doBop, data) {
@@ -70,16 +71,19 @@
       }
 
       function songChange (data) {
-        var message = '/me {dj} started playing ' + data.media.title + ' by ' + data.media.author;
+        currentSong = data.media;
 
-        for(var i in data.djs) {
-          if (data.djs[i].user.id === data.currentDJ) {
-            message = message.replace('{dj}', data.djs[i].user.username);
-            api.sendChat(message);
-            return;
+        if (currentSong) {
+          var message = '/me {dj} started playing ' + data.media.title + ' by ' + data.media.author;
+
+          for(var i in data.djs) {
+            if (data.djs[i].user.id === data.currentDJ) {
+              message = message.replace('{dj}', data.djs[i].user.username);
+              api.sendChat(message);
+              return;
+            }
           }
-        }
-
+        } 
       }
     // </subscription methods>
 
@@ -87,8 +91,9 @@
       api = plugApi;
 
       // subscriptions
-      api.on('roomJoin', function () {
+      api.on('roomJoin', function (data) {
         botAcctInfo = api.getSelf();
+        currentSong = data.room.media;
       });
       api.on('chat', checkCommands);
       api.on('djAdvance', songChange);

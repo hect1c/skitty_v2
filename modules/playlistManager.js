@@ -4,7 +4,7 @@
     model = model || {};
     var self = this,
         api = {},
-        currentSong,
+        currentSong = null,
         snagReqCount = 0;
 
     function findPlaylistId (playlistName, playlists) {
@@ -33,20 +33,24 @@
     }
 
     function snag (data) {
-      var playlistId,
-          songId = currentSong.media.id,
-          allowed = hasPermission(data.fromID);
+      if (currentSong.media) {
+        var playlistId,
+            songId = currentSong.media.id,
+            allowed = hasPermission(data.fromID);
 
-      if (allowed && snagReqCount === 0) {
-        api.getPlaylists(function(playlists) {
-          playlistId = findPlaylistId(model.defaultPlaylist, playlists);
+        if (allowed && snagReqCount === 0) {
+          api.getPlaylists(function(playlists) {
+            playlistId = findPlaylistId(model.defaultPlaylist, playlists);
 
-          if (playlistId && songId) {
-            api.addSongToPlaylist(playlistId, songId, function() {
-              api.sendChat(':cat2::dash::heart:');
-            });            
-          }          
-        });
+            if (playlistId && songId) {
+              api.addSongToPlaylist(playlistId, songId, function() {
+                api.sendChat(':cat2::dash::heart:');
+              });            
+            }          
+          });
+        }        
+      } else {
+        api.sendChat('There ain\'t nothing to snag kid!');
       }
 
       snagReqCount++;
