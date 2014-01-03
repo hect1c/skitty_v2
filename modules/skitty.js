@@ -116,8 +116,7 @@
 
           for (var i = 0; i < chatCommands.length; i++) {
             // wildcard check
-            if (chatCommands[i].wildCard &&
-             msg.match(chatCommands[i].trigger)) {
+            if (chatCommands[i].wildCard && msg.match(chatCommands[i].trigger)) {
               chatCommands[i].action(data);
               return;
             }

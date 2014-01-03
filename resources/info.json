@@ -3,5 +3,23 @@
     "funkyFriday": "Funky Fuckin' Friday! Every Friday we implement a theme: Electro Soul, Glitch, Funk, Hip Hop, medium Dubstep(if it has some funk to it) ...as long as it has a sick beat and some funk you're winning.",
     "none": "No theme active. See room info for music format details."
   },
-  "commands": "http://bit.ly/skittyCommands"
+  "commands": "http://bit.ly/skittyCommands",
+  "stats": {
+    "songPlay": ":thumbsup: {woots} :thumbsdown: {mehs} :heart: {grabs}"  
+  },
+  "affirmativeResponses": [
+    "you got it boss!",
+    "yes sir!",
+    "aye cap'n",
+    "roger that",
+    "as you wish",
+    "sure thing",
+    "okie dokie",
+    "done.",
+    "fine.",
+    "ugh, so needy..",
+    "what if I don't wanna?",
+    "fuck you, pay me",
+    "lalala what?"
+  ]
 }
