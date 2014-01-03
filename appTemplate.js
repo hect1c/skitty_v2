@@ -1,5 +1,5 @@
 (function () {
-      // import core modules
+  // import core modules
   var PlugAPI = require('./lib/plugapi'),
       PlugBot = require('./plugBot').Bot,
 
@@ -8,11 +8,11 @@
       InfoPlugin = require('./modules/info').InfoPlugin,
       PlaylistManager = require ('./modules/playlistManager').PlaylistManager;
 
-      // define bot model
+  // define bot model
   var model = {
         room: 'coding-soundtrack-lounge',
         updateCode: '***REMOVED***',
-        auth: 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx',
+        auth: 'WAFuMNzVsP3zE60DDuQhUJjrsvM=?_expires=STE0MDE4MDM4NjIKLg==&user_id=Uyc1MjkzZTE2NjNlMDgzZTFkMDc4YzkxYzInCnAxCi4=&v=STIKLg==',
         reconnectDelay: 1000,
         reconnectAttempts: 5
       },
@@ -36,6 +36,14 @@
         })
       ];
 
-      // create bot
-  var skitty = new PlugBot(model, PlugAPI, plugins);
+    // run bot
+    var skitty = new PlugBot(model, PlugAPI, plugins);
+    
+    
+    // start simple webserver
+    var app = require('express').createServer();
+    app.get('/', function(req, res) {
+      res.send('meow.');
+    });
+    app.listen(process.env.VCAP_APP_PORT || 3000);
 }());

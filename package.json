@@ -1,10 +1,12 @@
 {
   "name": "skitty",
-  "version": "0.0.0",
+  "version": "2",
   "description": "plug.dj bot",
-  "main": "server.js",
+  "main": "app.js",
   "dependencies": {
     "cheerio": "~0.12.4",
+    "coffee-script": "~1.6.3",
+    "express": "*",
     "node-html-encoder": "~0.0.2",
     "node-uuid": "~1.4.1",
     "request": "~2.29.0",
@@ -12,17 +14,17 @@
     "ws": "~0.4.31"
   },
   "devDependencies": {
-    "node-html-encoder": "0.0.2",
-    "node-uuid": "~1.4.1",
-    "uuid": "~1.4.1",
-    "request": "~2.29.0",
     "cheerio": "~0.12.4",
-    "ws": "~0.4.31",
-    "coffee-script": "~1.6.3"
+    "coffee-script": "~1.6.3",
+    "express": "*",
+    "node-html-encoder": "~0.0.2",
+    "node-uuid": "~1.4.1",
+    "request": "~2.29.0",
+    "uuid": "~1.4.1",
+    "ws": "~0.4.31"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server.js"
+    "start": "node app.js"
   },
   "repository": {
     "type": "git",
