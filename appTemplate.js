@@ -6,7 +6,8 @@
       // import bot plugin modules
       Skitty = require('./modules/skitty').Skitty,
       InfoPlugin = require('./modules/info').InfoPlugin,
-      PlaylistManager = require ('./modules/playlistManager').PlaylistManager;
+      PlaylistManager = require ('./modules/playlistManager').PlaylistManager,
+      StatTracker =     require('./modules/statTracker').StatTracker;
 
   // define bot model
   var model = {
@@ -21,18 +22,21 @@
       plugins = [
         new Skitty({
           resources: {
-            info: require('./resources/info'),
             gifs: require('./resources/gifs'),
             quotes: require('./resources/quotes'),
             rudeResponses: require('./resources/rude_responses'),
             funnyResponses: require('./resources/funny_responses')
           }
         }),
-        new InfoPlugin({
-          resources: require('./resources/info')
+        new PlaylistManager({ 
+          defaultPlaylist: 'snags' 
         }),
-        new PlaylistManager({
-          defaultPlaylist: 'snags'
+        new StatTracker({
+          announcePlayStats: true,
+          resources: require('./resources/info') 
+        }),
+        new InfoPlugin({ 
+          resources: require('./resources/info') 
         })
       ];
 
