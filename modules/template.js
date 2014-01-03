@@ -1,17 +1,56 @@
 (function () {
-  // plugins should be initialized before passing them into the plug bot
-  //   the api will be passed via the init function
+  // plugins get initialized before being passed to the plug bot
+  //   the api will be provided via the init function
 
   function PluginTemplate (model) {
     var self = this,
-        api = {};
+        api = {},
+        botAccount,
+        chatCommands = [
+          { trigger: 'woot',    action: function() { /* do something */ } }
+        ];
 
-    // your plugin code here
+    // <subscription methods>
+      function checkCommands (data) {
+        // don't evaluate messages sent by self
+        if (botAcctInfo.id !== data.fromID) {
+          var msg = data.message.trim();
 
+          for (var i = 0; i < chatCommands.length; i++) {
+            // wildcard check
+            if (chatCommands[i].wildCard && msg.match(chatCommands[i].trigger)) {
+              chatCommands[i].action(data);
+              return;
+            }
+
+            // command check
+            if (( msg.indexOf('.') === 0 ||
+                  msg.indexOf('!') === 0 ||
+                  msg.indexOf('?') === 0) &&
+                  msg.indexOf(chatCommands[i].trigger) === 1) {
+              chatCommands[i].action(data);
+              return;
+            }
+          }
+        }
+      }
+
+      function songChange (data) {
+
+      }
+
+      function joinRoom (data) {
+        botAcctInfo = api.getSelf();
+      }
+    // </subscription methods>
+
+    // add subscriptions and init code here
     self.init = function (plugApi) {
       api = plugApi;
 
-      // add subscriptions and init code here    
+      api.on('roomJoin', joinRoom);
+      api.on('chat', checkCommands);
+      api.on('djAdvance', songChange);    
     };
   }
 
