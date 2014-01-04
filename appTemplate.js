@@ -4,39 +4,55 @@
       PlugBot = require('./plugBot').Bot,
 
       // import bot plugin modules
-      Skitty = require('./modules/skitty').Skitty,
-      InfoPlugin = require('./modules/info').InfoPlugin,
-      PlaylistManager = require ('./modules/playlistManager').PlaylistManager,
-      StatTracker =     require('./modules/statTracker').StatTracker;
+      Skitty =      require('./modules/skitty').Skitty,
+      InfoPlugin =  require('./modules/info').InfoPlugin,
+      Dj =          require ('./modules/dj').Dj,
+      StatTracker = require('./modules/statTracker').StatTracker
+      
+      // import resources
+      resources = {
+        info: require('./resources/info'),
+        gifs: require('./resources/gifs'),
+        quotes: require('./resources/quotes'),
+        rudeResponses: require('./resources/rude_responses'),
+        funnyResponses: require('./resources/funny_responses'),
+        dj: require('./resources/dj')
+      };
 
   // define bot model
   var model = {
         room: 'coding-soundtrack-lounge',
-        updateCode: '_:8s[H@*dnPe!nNerEM',
-        auth: 'XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX',
+        updateCode: '_:8s[H@*dnPe!nNerEM', 
+        auth: 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx',
         reconnectDelay: 1000,
-        reconnectAttempts: 5
+        reconnectAttempts: 5 
       },
 
       // create plugins
-      plugins = [
+      plugins = [ 
         new Skitty({
           resources: {
-            gifs: require('./resources/gifs'),
-            quotes: require('./resources/quotes'),
-            rudeResponses: require('./resources/rude_responses'),
-            funnyResponses: require('./resources/funny_responses')
+            gifs: resources.gifs,
+            quotes: resources.quotes,
+            rudeResponses: resources.rudeResponses,
+            funnyResponses: resources.funnyResponses
           }
         }),
-        new PlaylistManager({ 
-          defaultPlaylist: 'snags' 
+        new Dj({ 
+          defaultPlaylist: 'snags',
+          autoDj: false,
+          autoDjThreshold: 0,
+          resources: {
+            generic: resources.info,
+            dj: resources.dj
+          }
         }),
         new StatTracker({
           announcePlayStats: true,
-          resources: require('./resources/info') 
+          resources: resources.info 
         }),
         new InfoPlugin({ 
-          resources: require('./resources/info') 
+          resources: resources.info
         })
       ];
 
