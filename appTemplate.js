@@ -7,8 +7,9 @@
       Skitty =      require('./modules/skitty').Skitty,
       InfoPlugin =  require('./modules/info').InfoPlugin,
       Dj =          require ('./modules/dj').Dj,
-      StatTracker = require('./modules/statTracker').StatTracker
-      
+      StatTracker = require('./modules/statTracker').StatTracker,
+      KillSwitch =      require('./modules/killSwitch').KillSwitch,
+
       // import resources
       resources = {
         info: require('./resources/info'),
@@ -53,6 +54,9 @@
         }),
         new InfoPlugin({ 
           resources: resources.info
+        }),
+        new KillSwitch({
+          timeout: 5000
         })
       ];
 
