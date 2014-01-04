@@ -41,7 +41,7 @@
         } else if (speak && !maxMsgSent) {
           api.sendChat('Bonuses to the max! Good play youse. :thumbsup:');
           maxMsgSent = true;
-        } else if (!currentSong) {
+        } else if (!currentSong && speak) {
           api.sendChat('There ain\'t nothing to bop to kid!');
         }
 
@@ -142,6 +142,7 @@
       function joinRoom (data) {
         botAcctInfo = api.getSelf();
         currentSong = data.room.media;
+        api.sendChat(model.resources.info.roomEnter);
       }
     // </subscription methods>
 

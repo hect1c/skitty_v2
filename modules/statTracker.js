@@ -12,10 +12,22 @@
           { trigger: 'statChatOff', action: toggleStatChat.bind(this, false) }
         ],
         announcePlayStats = model.announcePlayStats || false,
-        currentSong = {}.
+        currentSong = {},
         botAcctInfo = {};
 
     // <helpers>
+      function showMessage (msg) {
+        var message = msg;
+
+        // if a collection is passed the selection is randomized
+        if( Object.prototype.toString.call( msg ) === '[object Array]' ) {
+          var i = Math.round(Math.random()*(msg.length-1));
+          message = msg[i];
+        }
+
+        api.sendChat(message);
+      }
+    
       // checks user against all staff
       function hasPermission (userId) {
         var staff = api.getStaff(),
@@ -33,16 +45,10 @@
 
       function toggleStatChat (onoff, data) {                
         if (hasPermission(data.fromID)) {
-          var message;
-
-          // if a collection is passed the selection is randomized
-          if( Object.prototype.toString.call( model.resources.affirmativeResponse ) === '[object Array]' ) {
-            var i = Math.round(Math.random()*(model.resources.affirmativeResponse.length-1));
-            message = model.resources.affirmativeResponses[i];
-          }
-          
+          showMessage(model.resources.affirmativeResponse);
           announcePlayStats = onoff;
-          api.sendChat(message);
+        } else {
+          showMessage(model.resources.accessDeniedResponse); 
         }
       }
 
