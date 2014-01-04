@@ -10,7 +10,9 @@
         snagReqCount = 0,
         inTheBooth = false,
         djs = [],
-        botAccountInfo = {};
+        playingTrack = false,
+        botAccountInfo = {},
+        leaveAfter = false;
 
     // <helper methods>
       function showMessage (msg) {
@@ -50,14 +52,16 @@
         return false;
       }
 
-      // bot will enter/leave booth based on provided model settigs
+      // auto Dj Check: bot will enter/leave booth based on provided model settigs
       function djCheck () {        
-        if (model.autoDj) {
+        if (model.autoDj && !playingTrack) {
           if (!inTheBooth && djs.length <= model.autoDjThreshold) {
             api.joinBooth();
+            showMessage(model.resources.dj.autoDj.activate);
             inTheBooth = true;
-          } else if (inTheBooth && djs.length > model.autoDjThreshold + 1) {
+          } else if (inTheBooth && djs.length > model.autoDjThreshold +1) {
             api.leaveBooth();
+            showMessage(model.resources.dj.autoDj.deactivate);
             inTheBooth = false;
           }          
         }
@@ -81,13 +85,13 @@
 
             if (playlistId && songId) {
               api.addSongToPlaylist(playlistId, songId, function() {
-                api.sendChat(':cat2::dash::heart:');
+                showMessage(model.resources.dj.currateMessage);
               });            
             }          
           });
         }        
       } else {
-        api.sendChat('There ain\'t nothing to snag kid!');
+        showMessage(model.resources.dj.cantCurrate);
       }
 
       snagReqCount++;
@@ -100,8 +104,13 @@
             showMessage(model.resources.generic.redundantRequestResponse);
           } else {
             model.autoDj = true;   
+          
             djCheck();       
-            showMessage(model.resources.dj.autoDj.activate);
+            
+            // if we're going to begin djing immediately we'll rely on the "activate" message instead
+            if (djs.length > model.autoDjThreshold) {
+              showMessage(model.resources.generic.affirmativeResponse);
+            }
           }
         } else {
           showMessage(model.resources.generic.accessDeniedResponse);
@@ -109,18 +118,29 @@
       }
 
       function toggleDj (onff, data) {
+        var wasAutoDj = model.autoDj; 
         model.autoDj = false;
 
         if (hasPermission(data.fromID)) {
-          if (onff != inTheBooth) {
+          if (onff != inTheBooth || wasAutoDj) {
             if (onff) {
               api.joinBooth();
-              showMessage(model.resources.dj.activate);
+              
+              if (wasAutoDj) {
+                showMessage(model.resources.generic.affirmativeResponse);
+              } else {
+                showMessage(model.resources.dj.activate);
+              }
               inTheBooth = true;
             } else {
-              api.leaveBooth();
+              if (!playingTrack) {
+                api.leaveBooth();
+                inTheBooth = false;
+              } else {
+                leaveAfter = true;
+              }
+              
               showMessage(model.resources.dj.deactivate);
-              inTheBooth = false;
             }
           } else {
             showMessage(model.resources.generic.redundantRequestResponse);
@@ -139,22 +159,26 @@
       } 
 
       function checkCommands (data) {
-        var msg = data.message.trim();
-
-        for (var i = 0; i < chatCommands.length; i++) {
-          // wildcard check
-          if (chatCommands[i].wildCard && msg.match(chatCommands[i].trigger)) {
-            chatCommands[i].action(data);
-            return;
-          } 
-
-          // command check
-          if (( msg.indexOf('.') === 0 || 
-                msg.indexOf('!') === 0 ||
-                msg.indexOf('?') === 0) && 
-                msg.indexOf(chatCommands[i].trigger) === 1) {
-            chatCommands[i].action(data);
-            return;
+        // don't evaluate messages sent by self
+        if (botAccountInfo.id !== data.fromID) {
+          
+          var msg = data.message.trim();
+  
+          for (var i = 0; i < chatCommands.length; i++) {
+            // wildcard check
+            if (chatCommands[i].wildCard && msg.match(chatCommands[i].trigger)) {
+              chatCommands[i].action(data);
+              return;
+            } 
+  
+            // command check
+            if (( msg.indexOf('.') === 0 || 
+                  msg.indexOf('!') === 0 ||
+                  msg.indexOf('?') === 0) && 
+                  msg.indexOf(chatCommands[i].trigger) === 1) {
+              chatCommands[i].action(data);
+              return;
+            }
           }
         }
       }
@@ -163,7 +187,17 @@
         currentSong = data;
         snagReqCount = 0;
         djs = data.djs || [];
-        djCheck();
+
+        // if we are the first dj we are playing
+        playingTrack = djs[0] && djs[0].user && djs[0].user.id === botAccountInfo.id;
+
+        if (leaveAfter && inTheBooth) {
+          api.leaveBooth();
+          leaveAfter = false;
+          inTheBooth = false;
+        } else {
+          djCheck();
+        }
       }
     // </subscription methods>
 
@@ -174,6 +208,7 @@
         { trigger: 'yoink',   action: snag },
         { trigger: 'currate', action: snag },
         { trigger: 'skip',    action: skip },
+        { trigger: 'skerp',   action: skip },
         { trigger: 'next',    action: skip },
         { trigger: 'gtfo',    action: skip },
         { trigger: 'djOn',    action: toggleDj.bind(this, true) },
@@ -194,7 +229,7 @@
       api.on('djUpdate', djUpdate);
       api.on('roomJoin', function(data) {
         currentSong = { media: data.room.media };
-        botAcctInfo = api.getSelf();
+        botAccountInfo = api.getSelf();
       });
 
     };

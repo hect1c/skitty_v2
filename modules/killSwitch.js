@@ -1,10 +1,10 @@
 (function () {
-  // Allows the bot application to be exited from chat. 
+  // Allows the bot application to be exited from chat using a two-step process. 
   //   Useful in case a bug causes a chat loop or something silly like that ;)
   function KillSwitch (model) {
     var self = this,
         api = {},
-        botAccount,
+        botAcctInfo = {},
         chatCommands = [
           { trigger: 'exit', action: stageKill },
           { trigger: 'yes',  action: terminate },
@@ -40,6 +40,7 @@
     }
 
     function terminate (data) {
+      // only the person who staged the kill can execute it
       if (hasPermission(data.fromID) && data.fromID === killStagedBy) {
         api.sendChat("bye bye.");
 
@@ -51,6 +52,7 @@
     }
 
     function cancel (data) {
+      // only the person who staged the kill can cancel it
       if (hasPermission(data.fromID) && data.fromID === killStagedBy) {
         api.sendChat("yay! I get to stay :)");
         killStagedBy = null;

@@ -28,16 +28,11 @@
         reconnectDelay: 1000,
         reconnectAttempts: 5 
       },
-
+  
       // create plugins
       plugins = [ 
         new Skitty({
-          resources: {
-            gifs: resources.gifs,
-            quotes: resources.quotes,
-            rudeResponses: resources.rudeResponses,
-            funnyResponses: resources.funnyResponses
-          }
+          resources: resources
         }),
         new Dj({ 
           defaultPlaylist: 'snags',
@@ -49,7 +44,7 @@
           }
         }),
         new StatTracker({
-          announcePlayStats: true,
+          announcePlayStats: false,
           resources: resources.info 
         }),
         new InfoPlugin({ 
@@ -60,14 +55,17 @@
         })
       ];
 
-    // run bot
-    var skitty = new PlugBot(model, PlugAPI, plugins);
+  // run bot
+  var skitty = new PlugBot(model, PlugAPI, plugins);
     
     
-    // start simple webserver
-    var app = require('express').createServer();
-    app.get('/', function(req, res) {
-      res.send('meow.');
-    });
-    app.listen(process.env.VCAP_APP_PORT || 3000);
+  // start simple webserver
+  var express = require('express'),
+      app = express();
+  
+  app.get('/', function(req, res) {
+    res.send('meow.');
+  });
+  
+  app.listen(process.env.VCAP_APP_PORT || 3000);
 }());
