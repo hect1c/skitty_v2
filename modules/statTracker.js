@@ -12,7 +12,8 @@
           { trigger: 'statChatOff', action: toggleStatChat.bind(this, false) }
         ],
         announcePlayStats = model.announcePlayStats || false,
-        currentSong = {};
+        currentSong = {}.
+        botAcctInfo = {};
 
     // <helpers>
       // checks user against all staff
@@ -35,12 +36,11 @@
           var message;
 
           // if a collection is passed the selection is randomized
-          if( Object.prototype.toString.call( model.resources.affirmativeResponses ) === '[object Array]' ) {
-            var i = Math.round(Math.random()*(model.resources.affirmativeResponses.length-1));
+          if( Object.prototype.toString.call( model.resources.affirmativeResponse ) === '[object Array]' ) {
+            var i = Math.round(Math.random()*(model.resources.affirmativeResponse.length-1));
             message = model.resources.affirmativeResponses[i];
           }
           
-          console.log(onoff);
           announcePlayStats = onoff;
           api.sendChat(message);
         }
@@ -87,18 +87,22 @@
       function songChange (data) {
         logSongPlay(currentSong);
 
-        currentSong = data.media;
+        if (data.media) {
+          currentSong = data.media;
 
-        // append stat props
-        currentSong.startTime = data.mediaStartTime;
-        currentSong.woots = [];
-        currentSong.mehs = [];
-        currentSong.grabs = [];
+          // append stat props
+          currentSong.startTime = data.mediaStartTime;
+          currentSong.woots = [];
+          currentSong.mehs = [];
+          currentSong.grabs = [];
+        } else {
+          currentSong = {};
+        }
       }
 
       function joinRoom (data) {
         botAcctInfo = api.getSelf();
-        currentSong = data.room.media;
+        currentSong = data.room.media || {};
       }
 
       function checkCommands (data) {

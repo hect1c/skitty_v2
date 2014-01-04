@@ -7,7 +7,7 @@
   "stats": {
     "songPlay": ":thumbsup: {woots} :thumbsdown: {mehs} :heart: {grabs}"  
   },
-  "affirmativeResponses": [
+  "affirmativeResponse": [
     "you got it boss!",
     "yes sir!",
     "aye cap'n",
@@ -21,5 +21,20 @@
     "what if I don't wanna?",
     "fuck you, pay me",
     "lalala what?"
+  ],
+  "redundantRequestResponse": [
+    "already on it ;)",
+    "rest assured. I'm one step ahead of ya",
+    "yeah yeah yeah",
+    "chill son. I got it.",
+    "dude, I'm a robot. you only have to ask once"
+  ],
+  "accessDeniedResponse": [
+    "you can't tell me what to do",
+    "you're not the boss of me",
+    "access denied.",
+    "ah ah ah, you have to say the magic word",
+    "I'm sorry Dave, I'm afraid I can't do that",
+    "ER MAH GERD, U NERD TER BER STERF TER DER THERT"
   ]
 }
