@@ -1,6 +1,7 @@
 (function () {
   // import core modules
-  var PlugAPI = require('./lib/plugapi'),
+  var mongojs = require("mongojs"),
+      PlugAPI = require('./lib/plugapi'),
       PlugBot = require('./plugBot').Bot,
 
       // import bot plugin modules
@@ -12,12 +13,13 @@
 
       // import resources
       resources = {
-        info: require('./resources/info'),
-        gifs: require('./resources/gifs'),
-        quotes: require('./resources/quotes'),
-        rudeResponses: require('./resources/rude_responses'),
+        info:           require('./resources/info'),
+        gifs:           require('./resources/gifs'),
+        quotes:         require('./resources/quotes'),
+        rudeResponses:  require('./resources/rude_responses'),
         funnyResponses: require('./resources/funny_responses'),
-        dj: require('./resources/dj')
+        dj:             require('./resources/dj'),
+        stats: require('./resources/stats')
       };
 
   // define bot model
@@ -45,7 +47,11 @@
         }),
         new StatTracker({
           announcePlayStats: false,
-          resources: resources.info 
+          resources: {
+            generic: resources.info,
+            stats: resources.stats
+          },
+          db: mongojs.connect('mongodb://<user>:<password>@linus.mongohq.com:10065/tt-db', ["songPlays"])
         }),
         new InfoPlugin({ 
           resources: resources.info
@@ -57,7 +63,6 @@
 
   // run bot
   var skitty = new PlugBot(model, PlugAPI, plugins);
-    
     
   // start simple webserver
   var express = require('express'),
