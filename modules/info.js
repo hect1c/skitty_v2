@@ -5,7 +5,7 @@
         currentSong = null,
         api = {};
 
-    function showMessage (msg, doBop, data) {
+    function showMessage (msg, data) {
       var message = msg;
 
       // if a collection is passed the selection is randomized
@@ -17,10 +17,6 @@
       message = message.replace('{sender}', '@' + data.from);
 
       api.sendChat(message);
-
-      if (doBop) {
-        bop(false);
-      }
     }
 
     function showTheme () {
@@ -38,9 +34,12 @@
     // <chat commands>
       // info
       var chatCommands = [
-        { trigger: 'cmds',     action: showMessage.bind(this, model.resources.commands, false) },
-        { trigger: 'commands', action: showMessage.bind(this, model.resources.commands, false) },
-        { trigger: 'help',     action: showMessage.bind(this, model.resources.commands, false) },
+        { trigger: 'cmds',     action: showMessage.bind(this, model.resources.commands) },
+        { trigger: 'commands', action: showMessage.bind(this, model.resources.commands) },
+        { trigger: 'help',     action: showMessage.bind(this, model.resources.commands) },
+        { trigger: 'help',     action: showMessage.bind(this, model.resources.commands) },
+        { trigger: 'plugapi',     action: showMessage.bind(this, model.resources.plugapi) },
+        { trigger: 'src',     action: showMessage.bind(this, model.resources.src) },
         { trigger: 'theme',    action: showTheme }
       ];
     // </chat commands>
