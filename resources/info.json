@@ -6,9 +6,6 @@
     "none": "No theme active. See room info for music format details."
   },
   "commands": "http://bit.ly/skittyCommands",
-  "stats": {
-    "songPlay": ":thumbsup: {woots} :thumbsdown: {mehs} :heart: {grabs}"  
-  },
   "roomEnter": "I'm baaaack!",
   "affirmativeResponse": [
     "you got it boss!",

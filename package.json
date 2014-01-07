@@ -7,8 +7,11 @@
     "cheerio": "~0.12.4",
     "coffee-script": "~1.6.3",
     "express": "*",
+    "moment": "*",
+    "mongojs": "*",
     "node-html-encoder": "~0.0.2",
     "node-uuid": "~1.4.1",
+    "q": "*",
     "request": "~2.29.0",
     "uuid": "~1.4.1",
     "ws": "~0.4.31"
@@ -17,8 +20,11 @@
     "cheerio": "~0.12.4",
     "coffee-script": "~1.6.3",
     "express": "*",
+    "moment": "*",
+    "mongojs": "*",
     "node-html-encoder": "~0.0.2",
     "node-uuid": "~1.4.1",
+    "q": "*",
     "request": "~2.29.0",
     "uuid": "~1.4.1",
     "ws": "~0.4.31"
