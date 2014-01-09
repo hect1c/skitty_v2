@@ -9,8 +9,8 @@
     var self = this,
         api = {},
         chatCommands = [
-          { trigger: 'statchaton', action: toggleStatChat.bind(this, true) },
-          { trigger: 'statChatOn', action: toggleStatChat.bind(this, true) },
+          { trigger: 'statchaton',  action: toggleStatChat.bind(this, true) },
+          { trigger: 'statChatOn',  action: toggleStatChat.bind(this, true) },
           { trigger: 'statchatoff', action: toggleStatChat.bind(this, false) },
           { trigger: 'statChatOff', action: toggleStatChat.bind(this, false) },
           { trigger: 'roomstats',   action: function () { qGetAllPlays().then(statSummary, genericErrorHandler); }}
@@ -66,21 +66,23 @@
       }
 
       function logSongPlay (song) {
-        model.db.songPlays.save(song, function (err, saved) {
-          if (err || !saved) {
-            console.log("Song save failed: " + err);
-          }
-          else {
-            console.log("Saved song play - "  + getTimeStamp());
-          }
-        });
+        if (song.startTime) {
+          model.db.songPlays.save(song, function (err, saved) {
+            if (err || !saved) {
+              console.log("Song save failed: " + err);
+            }
+            // else {
+            //   console.log("Saved song play - "  + getTimeStamp());
+            // }
+          });
 
-        if (announcePlayStats && song.startTime) {
-          var woots = song.woots.length || 0,
-              mehs  = song.mehs.length || 0,
-              grabs = song.grabs.length || 0;
-
-          showMessage(model.resources.stats.songPlay.replace('{woots}', woots).replace('{mehs}', mehs).replace('{grabs}', grabs));
+          if (announcePlayStats && song.startTime) {
+            var woots = song.woots.length || 0,
+                mehs  = song.mehs.length || 0,
+                grabs = song.grabs.length || 0;
+  
+            showMessage(model.resources.stats.songPlay.replace('{woots}', woots).replace('{mehs}', mehs).replace('{grabs}', grabs));
+          }  
         }
       }
     // </helpers>
