@@ -21,6 +21,17 @@
         dj:             require('./resources/dj'),
         stats: require('./resources/stats')
       };
+  
+  // determine stats db: check env first, fallback on development db
+  var statsDb;
+  if(process.env.VCAP_SERVICES){
+    var env = JSON.parse(process.env.VCAP_SERVICES),
+        mongo = env['mongodb-1.8'][0]['credentials'];
+    
+    statsDb = mongo.url;
+  } else {
+    statsDb = 'mongodb://<user>:<password>@linus.mongohq.com:10065/tt-db';
+  }
 
   // define bot model
   var model = {
@@ -51,7 +62,7 @@
             generic: resources.info,
             stats: resources.stats
           },
-          db: mongojs.connect('mongodb://<user>:<password>@linus.mongohq.com:10065/tt-db', ["songPlays"])
+          db: mongojs.connect(statsDb, ['songPlays'])
         }),
         new InfoPlugin({ 
           resources: resources.info
