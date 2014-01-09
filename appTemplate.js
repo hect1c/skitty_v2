@@ -57,7 +57,8 @@
           resources: resources.info
         }),
         new KillSwitch({
-          timeout: 5000
+          timeout: 5000,
+          resources: resources.info.killSwitch
         })
       ];
 

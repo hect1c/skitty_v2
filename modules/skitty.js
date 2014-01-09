@@ -76,6 +76,8 @@
         { trigger: 'trippy',       action: showMessage.bind(this, gifs.trippy, true) },
         { trigger: 'chill',        action: showMessage.bind(this, gifs.chill, true) },
         { trigger: 'meow',         action: showMessage.bind(this, gifs.meow, false) },
+        { trigger: 'prrr',         action: showMessage.bind(this, gifs.prrr, false) },
+        { trigger: 'pur',         action: showMessage.bind(this, gifs.prrr, false) },
         { trigger: 'twerk',        action: showMessage.bind(this, gifs.twerk, true) },
         { trigger: 'milkshake',    action: showMessage.bind(this, gifs.milkshake, false) },
         { trigger: 'thuglife',     action: showMessage.bind(this, gifs.thugLife, false) },
