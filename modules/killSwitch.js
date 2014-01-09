@@ -11,6 +11,18 @@
           { trigger: 'no',   action: cancel }
         ],
         killStagedBy = null;
+        
+    function showMessage (msg) {
+      var message = msg;
+
+      // if a collection is passed the selection is randomized
+      if( Object.prototype.toString.call( msg ) === '[object Array]' ) {
+        var i = Math.round(Math.random()*(msg.length-1));
+        message = msg[i];
+      }
+
+      api.sendChat(message);
+    }
 
     // checks user against all staff
     function hasPermission (userId) {
@@ -30,7 +42,7 @@
     function stageKill (data) {
       if (hasPermission(data.fromID) && !killStagedBy) {
         killStagedBy = data.fromID;
-        api.sendChat("Are you sure you want me to go? (.yes/.no)");
+        showMessage(model.resources.confirm);
 
         // TODO: make auto-unstage configurable via model
         setTimeout(function () {
@@ -42,7 +54,7 @@
     function terminate (data) {
       // only the person who staged the kill can execute it
       if (hasPermission(data.fromID) && data.fromID === killStagedBy) {
-        api.sendChat("bye bye.");
+        showMessage(model.resources.logoff);
 
         setTimeout(function() {
           console.log("exited by user: " + killStagedBy);
@@ -54,7 +66,7 @@
     function cancel (data) {
       // only the person who staged the kill can cancel it
       if (hasPermission(data.fromID) && data.fromID === killStagedBy) {
-        api.sendChat("yay! I get to stay :)");
+        showMessage(model.resources.cancel);
         killStagedBy = null;
       }
     }
