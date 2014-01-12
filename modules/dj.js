@@ -125,10 +125,14 @@
       }
 
       function skip (data) {
-        if (core.hasPermission(data.fromID)) {
-          api.skipSong();
+        if (playingTrack) {
+          if (core.hasPermission(data.fromID)) {
+            api.skipSong();
+          } else {
+            core.showMessage(model.resources.generic.accessDeniedResponse);
+          }
         } else {
-          core.showMessage(model.resources.generic.accessDeniedResponse);
+          core.showMessage(model.resources.dj.notPlaying);
         }
       } 
 
@@ -138,7 +142,12 @@
         djs = data.djs || [];
 
         // if we are the first dj we are playing
-        playingTrack = djs[0] && djs[0].user && djs[0].user.id === botAccountInfo.id;
+        var djs = api.getDJs();
+        if (djs.length > 0) {
+          playingTrack = botAccountInfo.id === djs[0].id;
+        } else {
+          playingTrack = false;
+        }
 
         if (leaveAfter && inTheBooth) {
           api.leaveBooth();
@@ -146,6 +155,18 @@
           inTheBooth = false;
         } else {
           djCheck();
+        }
+      }
+
+      function roomJoin (data) {
+        currentSong = { media: data.room.media };
+        botAccountInfo = api.getSelf();
+        
+        var djs = api.getDJs();
+        if (djs.length > 0) {
+          playingTrack = botAccountInfo.id === djs[0].id;
+        } else {
+          playingTrack = false;
         }
       }
     // </subscription methods>
@@ -178,10 +199,7 @@
       api.on('chat', core.checkCommands.bind(core, chatCommands));
       api.on('djAdvance', songChange);
       api.on('djUpdate', djUpdate);
-      api.on('roomJoin', function(data) {
-        currentSong = { media: data.room.media };
-        botAccountInfo = api.getSelf();
-      });
+      api.on('roomJoin', roomJoin);
 
     };
   }
