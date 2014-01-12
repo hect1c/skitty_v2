@@ -9,7 +9,10 @@
       InfoPlugin =  require('./modules/info').InfoPlugin,
       Dj =          require ('./modules/dj').Dj,
       StatTracker = require('./modules/statTracker').StatTracker,
-      KillSwitch =      require('./modules/killSwitch').KillSwitch,
+      KillSwitch =  require('./modules/killSwitch').KillSwitch,
+
+      // import other modules
+      TurntableStats = require('./modules/ttApi').TurntableStats,
 
       // import resources
       resources = {
@@ -19,7 +22,7 @@
         rudeResponses:  require('./resources/rude_responses'),
         funnyResponses: require('./resources/funny_responses'),
         dj:             require('./resources/dj'),
-        stats: require('./resources/stats')
+        stats:          require('./resources/stats')
       };
   
   // determine stats db: check env first, fallback on development db
@@ -76,13 +79,16 @@
   // run bot
   var skitty = new PlugBot(model, PlugAPI, plugins);
     
-  // start simple webserver
+  // start webserver
   var express = require('express'),
       app = express();
   
   app.get('/', function(req, res) {
     res.send('meow.');
   });
+
+  // run turntable stats api
+  // var ttApi = new TurntableStats(app, mongojs.connect(statsDb, ['plays', 'hearts']));
   
   app.listen(process.env.VCAP_APP_PORT || 3000);
 }());
