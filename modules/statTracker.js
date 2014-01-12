@@ -49,7 +49,7 @@
             // }
           });
 
-          if (announcePlayStats && song.startTime) {
+          if (announcePlayStats) {
             var woots = song.woots.length || 0,
                 mehs  = song.mehs.length || 0,
                 grabs = song.grabs.length || 0;
@@ -207,7 +207,7 @@
       api.on('chat', core.checkCommands.bind(core, chatCommands));
       api.on('djAdvance', songChange);    
       api.on('voteUpdate', voteUpdate);
-      api.on('currateUpdate', grabUpdate);
+      api.on('curateUpdate', grabUpdate);
     };
   }
 
