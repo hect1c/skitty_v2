@@ -8,6 +8,7 @@
   function StatTracker (model, api) {
     var self = this,
         api = {},
+        core = {},
         chatCommands = [
           { trigger: 'statchaton',  action: toggleStatChat.bind(this, true) },
           { trigger: 'statChatOn',  action: toggleStatChat.bind(this, true) },
@@ -16,8 +17,7 @@
           { trigger: 'roomstats',   action: function () { qGetAllPlays().then(statSummary, genericErrorHandler); }}
         ],
         announcePlayStats = model.announcePlayStats || false,
-        currentSong = {},
-        botAcctInfo = {};
+        currentSong = {};
 
     // <helpers>
       function getTimeStamp () {
@@ -25,43 +25,16 @@
         return now.toLocaleDateString() + " - "  + now.toLocaleTimeString();
       }
 
-      function showMessage (msg) {
-        var message = msg;
-
-        // if a collection is passed the selection is randomized
-        if( Object.prototype.toString.call( msg ) === '[object Array]' ) {
-          var i = Math.round(Math.random()*(msg.length-1));
-          message = msg[i];
-        }
-
-        api.sendChat(message);
-      }
-
       function genericErrorHandler (err) {
-        showMessage("er, shit got fucked up. error logged.");
+        core.showMessage("er, shit got fucked up. error logged.");
       }
     
-      // checks user against all staff
-      function hasPermission (userId) {
-        var staff = api.getStaff(),
-            admins = api.getAdmins(),
-            mods = staff.concat(admins);
-
-        for (var i in mods) {
-          if (mods[i].id === userId) {
-            return true;
-          }
-        }
-
-        return false;
-      }
-
       function toggleStatChat (onoff, data) {                
-        if (hasPermission(data.fromID)) {
-          showMessage(model.resources.generic.affirmativeResponse);
+        if (core.hasPermission(data.fromID)) {
+          core.showMessage(model.resources.generic.affirmativeResponse);
           announcePlayStats = onoff;
         } else {
-          showMessage(model.resources.generic.accessDeniedResponse); 
+          core.showMessage(model.resources.generic.accessDeniedResponse); 
         }
       }
 
@@ -81,7 +54,7 @@
                 mehs  = song.mehs.length || 0,
                 grabs = song.grabs.length || 0;
   
-            showMessage(model.resources.stats.songPlay.replace('{woots}', woots).replace('{mehs}', mehs).replace('{grabs}', grabs));
+            core.showMessage(model.resources.stats.songPlay.replace('{woots}', woots).replace('{mehs}', mehs).replace('{grabs}', grabs));
           }  
         }
       }
@@ -176,7 +149,7 @@
                                           .replace('{hearts}', hearts)
                                           .replace('{peakListeners}', peakListeners);
 
-        showMessage(message);       
+        core.showMessage(message);       
       }
     // </stat reports>
 
@@ -225,44 +198,16 @@
           currentSong = {};
         }
       }
-
-      function joinRoom (data) {
-        botAcctInfo = api.getSelf();
-      }
-
-      function checkCommands (data) {
-        // don't evaluate messages sent by self
-        if (botAcctInfo.id !== data.fromID) {
-          var msg = data.message.trim();
-
-          for (var i = 0; i < chatCommands.length; i++) {
-            // wildcard check
-            if (chatCommands[i].wildCard && msg.match(chatCommands[i].trigger)) {
-              chatCommands[i].action(data);
-              return;
-            }
-
-            // command check
-            if (( msg.indexOf('.') === 0 ||
-                  msg.indexOf('!') === 0 ||
-                  msg.indexOf('?') === 0) &&
-                  msg.indexOf(chatCommands[i].trigger) === 1) {
-              chatCommands[i].action(data);
-              return;
-            }
-          }
-        }
-      }
     // </subscription methods>
 
-    self.init = function (plugApi) {
+    self.init = function (plugApi, pluginCore) {
       api = plugApi;
+      core = pluginCore;
 
-      api.on('chat', checkCommands);
+      api.on('chat', core.checkCommands.bind(core, chatCommands));
       api.on('djAdvance', songChange);    
       api.on('voteUpdate', voteUpdate);
       api.on('currateUpdate', grabUpdate);
-      api.on('roomJoin', joinRoom);
     };
   }
 

@@ -6,6 +6,7 @@
 
     var self = this,
         api = {},
+        core = {},
         currentSong = null,
         snagReqCount = 0,
         inTheBooth = false,
@@ -15,18 +16,6 @@
         leaveAfter = false;
 
     // <helper methods>
-      function showMessage (msg) {
-        var message = msg;
-
-        // if a collection is passed the selection is randomized
-        if( Object.prototype.toString.call( msg ) === '[object Array]' ) {
-          var i = Math.round(Math.random()*(msg.length-1));
-          message = msg[i];
-        }
-
-        api.sendChat(message);
-      }
-
       function findPlaylistId (playlistName, playlists) {
         for (var i in playlists) {
           if (playlists[i].name === playlistName) {
@@ -37,31 +26,16 @@
         return false;
       }
 
-      // checks user against all staff
-      function hasPermission (userId) {
-        var staff = api.getStaff(),
-            admins = api.getAdmins(),
-            mods = staff.concat(admins);
-
-        for (var i in mods) {
-          if (mods[i].id === userId) {
-            return true;
-          }
-        }
-
-        return false;
-      }
-
       // auto Dj Check: bot will enter/leave booth based on provided model settigs
       function djCheck () {        
         if (model.autoDj && !playingTrack) {
           if (!inTheBooth && djs.length <= model.autoDjThreshold) {
             api.joinBooth();
-            showMessage(model.resources.dj.autoDj.activate);
+            core.showMessage(model.resources.dj.autoDj.activate);
             inTheBooth = true;
           } else if (inTheBooth && djs.length > model.autoDjThreshold +1) {
             api.leaveBooth();
-            showMessage(model.resources.dj.autoDj.deactivate);
+            core.showMessage(model.resources.dj.autoDj.deactivate);
             inTheBooth = false;
           }          
         }
@@ -77,7 +51,7 @@
       if (currentSong.media) {
         var playlistId,
             songId = currentSong.media.id,
-            allowed = hasPermission(data.fromID);
+            allowed = core.hasPermission(data.fromID);
 
         if (allowed && snagReqCount === 0) {
           api.getPlaylists(function(playlists) {
@@ -85,13 +59,13 @@
 
             if (playlistId && songId) {
               api.addSongToPlaylist(playlistId, songId, function() {
-                showMessage(model.resources.dj.currateMessage);
+                core.showMessage(model.resources.dj.currateMessage);
               });            
             }          
           });
         }        
       } else {
-        showMessage(model.resources.dj.cantCurrate);
+        core.showMessage(model.resources.dj.cantCurrate);
       }
 
       snagReqCount++;
@@ -99,9 +73,9 @@
 
     // <subscription methods>
       function autoDj (data) {
-        if (hasPermission(data.fromID)) { 
+        if (core.hasPermission(data.fromID)) { 
           if (model.autoDj) {
-            showMessage(model.resources.generic.redundantRequestResponse);
+            core.showMessage(model.resources.generic.redundantRequestResponse);
           } else {
             model.autoDj = true;   
           
@@ -109,11 +83,11 @@
             
             // if we're going to begin djing immediately we'll rely on the "activate" message instead
             if (djs.length > model.autoDjThreshold) {
-              showMessage(model.resources.generic.affirmativeResponse);
+              core.showMessage(model.resources.generic.affirmativeResponse);
             }
           }
         } else {
-          showMessage(model.resources.generic.accessDeniedResponse);
+          core.showMessage(model.resources.generic.accessDeniedResponse);
         }
       }
 
@@ -121,15 +95,15 @@
         var wasAutoDj = model.autoDj; 
         model.autoDj = false;
 
-        if (hasPermission(data.fromID)) {
+        if (core.hasPermission(data.fromID)) {
           if (onff != inTheBooth || wasAutoDj) {
             if (onff) {
               api.joinBooth();
               
               if (wasAutoDj) {
-                showMessage(model.resources.generic.affirmativeResponse);
+                core.showMessage(model.resources.generic.affirmativeResponse);
               } else {
-                showMessage(model.resources.dj.activate);
+                core.showMessage(model.resources.dj.activate);
               }
               inTheBooth = true;
             } else {
@@ -140,48 +114,23 @@
                 leaveAfter = true;
               }
               
-              showMessage(model.resources.dj.deactivate);
+              core.showMessage(model.resources.dj.deactivate);
             }
           } else {
-            showMessage(model.resources.generic.redundantRequestResponse);
+            core.showMessage(model.resources.generic.redundantRequestResponse);
           }
         } else {
-          showMessage(model.resources.generic.accessDeniedResponse);
+          core.showMessage(model.resources.generic.accessDeniedResponse);
         }
       }
 
       function skip (data) {
-        if (hasPermission(data.fromID)) {
+        if (core.hasPermission(data.fromID)) {
           api.skipSong();
         } else {
-          showMessage(model.resources.generic.accessDeniedResponse);
+          core.showMessage(model.resources.generic.accessDeniedResponse);
         }
       } 
-
-      function checkCommands (data) {
-        // don't evaluate messages sent by self
-        if (botAccountInfo.id !== data.fromID) {
-          
-          var msg = data.message.trim();
-  
-          for (var i = 0; i < chatCommands.length; i++) {
-            // wildcard check
-            if (chatCommands[i].wildCard && msg.match(chatCommands[i].trigger)) {
-              chatCommands[i].action(data);
-              return;
-            } 
-  
-            // command check
-            if (( msg.indexOf('.') === 0 || 
-                  msg.indexOf('!') === 0 ||
-                  msg.indexOf('?') === 0) && 
-                  msg.indexOf(chatCommands[i].trigger) === 1) {
-              chatCommands[i].action(data);
-              return;
-            }
-          }
-        }
-      }
 
       function songChange (data) {
         currentSong = data;
@@ -221,10 +170,12 @@
       ];
     // </chat commands>
 
-    self.init = function (plugApi) {
+    self.init = function (plugApi, pluginCore) {
       api = plugApi;
+      core = pluginCore;
 
-      api.on('chat', checkCommands);
+      // subscriptions
+      api.on('chat', core.checkCommands.bind(core, chatCommands));
       api.on('djAdvance', songChange);
       api.on('djUpdate', djUpdate);
       api.on('roomJoin', function(data) {
