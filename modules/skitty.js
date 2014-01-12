@@ -4,6 +4,7 @@
     model = model || {};
     var self = this,
         api = {},
+        core = {},
         currentSong = null,
         voteReqCount = 0,
         maxMsgSent = false,
@@ -12,18 +13,8 @@
 
     // <action methods>
       function showMessage (msg, doBop, data) {
-        var message = msg;
-
-        // if a collection is passed the selection is randomized
-        if( Object.prototype.toString.call( msg ) === '[object Array]' ) {
-          var i = Math.round(Math.random()*(msg.length-1));
-          message = msg[i];
-        }
-
-        message = message.replace('{sender}', '@' + data.from);
-
         if (!doBop || (doBop && currentSong)) {
-          api.sendChat(message);  
+          core.showMessage(msg, data);  
         }
         
         if (doBop) {
@@ -77,7 +68,7 @@
         { trigger: 'chill',        action: showMessage.bind(this, gifs.chill, true) },
         { trigger: 'meow',         action: showMessage.bind(this, gifs.meow, false) },
         { trigger: 'prrr',         action: showMessage.bind(this, gifs.prrr, false) },
-        { trigger: 'pur',         action: showMessage.bind(this, gifs.prrr, false) },
+        { trigger: 'pur',          action: showMessage.bind(this, gifs.prrr, false) },
         { trigger: 'twerk',        action: showMessage.bind(this, gifs.twerk, true) },
         { trigger: 'milkshake',    action: showMessage.bind(this, gifs.milkshake, false) },
         { trigger: 'thuglife',     action: showMessage.bind(this, gifs.thugLife, false) },
@@ -111,30 +102,6 @@
     // </chat commands>
 
     // <subscription methods>
-      function checkCommands (data) {
-        // don't evaluate messages sent by self
-        if (botAcctInfo.id !== data.fromID) {
-          var msg = data.message.trim();
-
-          for (var i = 0; i < chatCommands.length; i++) {
-            // wildcard check
-            if (chatCommands[i].wildCard && msg.match(chatCommands[i].trigger)) {
-              chatCommands[i].action(data);
-              return;
-            }
-
-            // command check
-            if (( msg.indexOf('.') === 0 ||
-                  msg.indexOf('!') === 0 ||
-                  msg.indexOf('?') === 0) &&
-                  msg.indexOf(chatCommands[i].trigger) === 1) {
-              chatCommands[i].action(data);
-              return;
-            }
-          }
-        }
-      }
-
       function songChange (data) {
         voteReqCount = 0;
         maxMsgSent = false;
@@ -148,12 +115,13 @@
       }
     // </subscription methods>
 
-    self.init = function (plugApi) {
+    self.init = function (plugApi, pluginCore) {
       api = plugApi;
+      core = pluginCore;
 
       // subscriptions
+      api.on('chat', core.checkCommands.bind(core, chatCommands));
       api.on('roomJoin', joinRoom);
-      api.on('chat', checkCommands);
       api.on('djAdvance', songChange);
     };
   }

@@ -3,21 +3,9 @@
   function InfoPlugin (model) {
     var self = this,
         currentSong = null,
-        api = {};
-
-    function showMessage (msg, data) {
-      var message = msg;
-
-      // if a collection is passed the selection is randomized
-      if( Object.prototype.toString.call( msg ) === '[object Array]' ) {
-        var i = Math.round(Math.random()*(msg.length-1));
-        message = msg[i];
-      }
-
-      message = message.replace('{sender}', '@' + data.from);
-
-      api.sendChat(message);
-    }
+        api = {},
+        core = {},
+        announceSongPlay = model.announceSongPlay || true;
 
     function showTheme () {
       var now = new Date(),
@@ -31,48 +19,40 @@
       }
     }
 
+    function toggleSongMessage (onoff, data) {                
+        if (core.hasPermission(data.fromID)) {
+          core.showMessage(model.resources.affirmativeResponse);
+          announceSongPlay = onoff;
+        } else {
+          core.showMessage(model.resources.accessDeniedResponse); 
+        }
+      }
+
     // <chat commands>
-      // info
       var chatCommands = [
-        { trigger: 'cmds',     action: showMessage.bind(this, model.resources.commands) },
-        { trigger: 'commands', action: showMessage.bind(this, model.resources.commands) },
-        { trigger: 'help',     action: showMessage.bind(this, model.resources.commands) },
-        { trigger: 'help',     action: showMessage.bind(this, model.resources.commands) },
-        { trigger: 'plugapi',     action: showMessage.bind(this, model.resources.plugapi) },
-        { trigger: 'src',     action: showMessage.bind(this, model.resources.src) },
-        { trigger: 'theme',    action: showTheme }
+        { trigger: 'cmds',       action: showMessage.bind(this, model.resources.commands) },
+        { trigger: 'commands',   action: showMessage.bind(this, model.resources.commands) },
+        { trigger: 'help',       action: showMessage.bind(this, model.resources.commands) },
+        { trigger: 'help',       action: showMessage.bind(this, model.resources.commands) },
+        { trigger: 'plugapi',    action: showMessage.bind(this, model.resources.plugapi) },
+        { trigger: 'src',        action: showMessage.bind(this, model.resources.src) },
+        { trigger: 'theme',      action: showTheme },
+        { trigger: 'songMsgOn',  action: toggleSongMessage.bind(this, true) },
+        { trigger: 'songmsgon',  action: toggleSongMessage.bind(this, true) },
+        { trigger: 'songmsgoff', action: toggleSongMessage.bind(this, false) },
+        { trigger: 'songmsgoff', action: toggleSongMessage.bind(this, false) },
       ];
     // </chat commands>
 
     // <subscription methods>
-      function checkCommands (data) {
-        // don't evaluate messages sent by self
-        if (botAcctInfo.id !== data.fromID) {
-          var msg = data.message.trim();
-
-          for (var i = 0; i < chatCommands.length; i++) {
-            // wildcard check
-            if (chatCommands[i].wildCard && msg.match(chatCommands[i].trigger)) {
-              chatCommands[i].action(data);
-              return;
-            }
-
-            // command check
-            if (( msg.indexOf('.') === 0 ||
-                  msg.indexOf('!') === 0 ||
-                  msg.indexOf('?') === 0) &&
-                  msg.indexOf(chatCommands[i].trigger) === 1) {
-              chatCommands[i].action(data);
-              return;
-            }
-          }
-        }
+      function showMessage (message, data) {
+        core.showMessage(message, data);
       }
 
       function songChange (data) {
         currentSong = data.media;
 
-        if (currentSong) {
+        if (currentSong && announceSongPlay) {
           var message = '/me {dj} started playing ' + data.media.title + ' by ' + data.media.author;
 
           for(var i in data.djs) {
@@ -86,15 +66,17 @@
       }
     // </subscription methods>
 
-    self.init = function (plugApi) {
+    self.init = function (plugApi, pluginCore) {
       api = plugApi;
+      core = pluginCore;
 
+      // subscriptions
       // subscriptions
       api.on('roomJoin', function (data) {
         botAcctInfo = api.getSelf();
         currentSong = data.room.media;
       });
-      api.on('chat', checkCommands);
+      api.on('chat', core.checkCommands.bind(core, chatCommands));
       api.on('djAdvance', songChange);
     };
   }

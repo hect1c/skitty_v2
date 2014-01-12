@@ -1,7 +1,6 @@
 (function () {
   // import core modules
   var mongojs = require("mongojs"),
-      PlugAPI = require('./lib/plugapi'),
       PlugBot = require('./plugBot').Bot,
 
       // import bot plugin modules
@@ -77,7 +76,7 @@
       ];
 
   // run bot
-  var skitty = new PlugBot(model, PlugAPI, plugins);
+  var skitty = new PlugBot(model, plugins);
     
   // start webserver
   var express = require('express'),
@@ -87,7 +86,7 @@
     res.send('meow.');
   });
 
-  // run turntable stats api
+  // enable turntable stats api
   // var ttApi = new TurntableStats(app, mongojs.connect(statsDb, ['plays', 'hearts']));
   
   app.listen(process.env.VCAP_APP_PORT || 3000);

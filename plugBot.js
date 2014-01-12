@@ -1,12 +1,17 @@
 (function () {
+  // local dependencies 
+  var PlugApi = require('./lib/plugapi');
+      PlugCore = require('./modules/core').PlugCore;
+
   // <skeleton plugbot>
-    function Bot (model, plugApi, plugins) {     
+    function Bot (model, plugins) {     
       model = model || {};
-      var api = new plugApi(model.auth, model.updateCode);
+      var api = new PlugApi(model.auth, model.updateCode),
+          core = new PlugCore(api);
 
       // register plugins
       for (var i = 0; i < plugins.length; i++) {
-        plugins[i].init(api);
+        plugins[i].init(api, core);
       }
 
       // <auto-reconnect>
