@@ -28,6 +28,7 @@
         message = msg[i];
       }
 
+      // if data is passed check for sender placeholder
       if (data) {
         message = message.replace('{sender}', '@' + data.from); 
       }
