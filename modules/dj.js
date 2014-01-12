@@ -167,6 +167,7 @@
           playingTrack = botAccountInfo.id === djs[0].id;
         } else {
           playingTrack = false;
+          djCheck();
         }
       }
     // </subscription methods>
