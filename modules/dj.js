@@ -43,7 +43,7 @@
     // </helper methods>
 
     function djUpdate (data) {
-      djs = djs  || [];
+      djs = data.djs || [];
       djCheck();
     }
 
@@ -139,10 +139,9 @@
       function songChange (data) {
         currentSong = data;
         snagReqCount = 0;
-        djs = data.djs || [];
-
+        
         // if we are the first dj we are playing
-        var djs = api.getDJs();
+        djs = api.getDJs();
         if (djs.length > 0) {
           playingTrack = botAccountInfo.id === djs[0].id;
         } else {
@@ -162,7 +161,7 @@
         currentSong = { media: data.room.media };
         botAccountInfo = api.getSelf();
         
-        var djs = api.getDJs();
+        djs = api.getDJs();
         if (djs.length > 0) {
           playingTrack = botAccountInfo.id === djs[0].id;
         } else {
