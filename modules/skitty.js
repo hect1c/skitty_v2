@@ -83,6 +83,8 @@
         { trigger: 'hatehatehate', action: showMessage.bind(this, gifs.haters, false) },
         { trigger: 'silence',      action: showMessage.bind(this, gifs.silence, false) },
         { trigger: 'nosound',      action: showMessage.bind(this, gifs.silence, false) },
+        { trigger: 'gross',        action: showMessage.bind(this, gifs.gross, false) },
+        { trigger: 'barf',        action: showMessage.bind(this, gifs.gross, false) },
 
         // generic responses
         { trigger: 'quote', action: showMessage.bind(this, model.resources.quotes, false) },
