@@ -1,6 +1,6 @@
 (function () {
 
-  // set of core functions that can be leveraged by the plugins
+  // set of core functions that can be leveraged by the bot plugins
   function PlugCore (api) {
     var self = this,
         botAcctInfo;
@@ -20,20 +20,22 @@
     };
 
     self.showMessage = function (msg, data) {
-      var message = msg;
+      if (msg) {
+        var message = msg;
 
-      // if a collection is passed the selection is randomized
-      if( Object.prototype.toString.call( msg ) === '[object Array]' ) {
-        var i = Math.round(Math.random()*(msg.length-1));
-        message = msg[i];
+        // if a collection is passed the selection is randomized
+        if( Object.prototype.toString.call( msg ) === '[object Array]' ) {
+          var i = Math.round(Math.random()*(msg.length-1));
+          message = msg[i];
+        }
+
+        // if data is passed check for sender placeholder
+        if (data) {
+          message = message.replace('{sender}', '@' + data.from); 
+        }
+
+        api.sendChat(message);
       }
-
-      // if data is passed check for sender placeholder
-      if (data) {
-        message = message.replace('{sender}', '@' + data.from); 
-      }
-
-      api.sendChat(message);  
     };
 
     self.checkCommands = function (chatCommands, data) {

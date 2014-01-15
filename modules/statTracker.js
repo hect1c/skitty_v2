@@ -1,11 +1,10 @@
 (function () {
   // local dependencies
   var moment = require("moment"),
-      mongojs = require("mongojs"),
       q = require("q");
 
   // tracking and reporting plugin for songs, artists and djs
-  function StatTracker (model, api) {
+  function StatTracker (model) {
     var self = this,
         api = {},
         core = {},
@@ -14,9 +13,14 @@
           { trigger: 'statChatOn',  action: toggleStatChat.bind(this, true) },
           { trigger: 'statchatoff', action: toggleStatChat.bind(this, false) },
           { trigger: 'statChatOff', action: toggleStatChat.bind(this, false) },
-          { trigger: 'roomstats',   action: function () { qGetAllPlays().then(statSummary, genericErrorHandler); }}
+          { trigger: 'songMsgOn',  action: toggleSongMessage.bind(this, true) },
+          { trigger: 'songmsgon',  action: toggleSongMessage.bind(this, true) },
+          { trigger: 'songmsgoff', action: toggleSongMessage.bind(this, false) },
+          { trigger: 'songmsgoff', action: toggleSongMessage.bind(this, false) },
+          { trigger: 'roomstats',   action: roomStats}
         ],
         announcePlayStats = model.announcePlayStats || false,
+        announceSongPlay = model.announceSongPlay || true,
         currentSong = {};
 
     // <helpers>
@@ -26,7 +30,8 @@
       }
 
       function genericErrorHandler (err) {
-        core.showMessage("er, shit got fucked up. error logged.");
+        console.log(err);
+        core.showMessage(model.resources.generic.genericError);
       }
     
       function toggleStatChat (onoff, data) {                
@@ -38,92 +43,22 @@
         }
       }
 
-      function logSongPlay (song) {
-        if (song.startTime) {
-          model.db.songPlays.save(song, function (err, saved) {
-            if (err || !saved) {
-              console.log("Song save failed: " + err);
-            }
-            // else {
-            //   console.log("Saved song play - "  + getTimeStamp());
-            // }
-          });
-
-          if (announcePlayStats) {
-            var woots = song.woots.length || 0,
-                mehs  = song.mehs.length || 0,
-                grabs = song.grabs.length || 0;
-  
-            core.showMessage(model.resources.stats.songPlay.replace('{woots}', woots).replace('{mehs}', mehs).replace('{grabs}', grabs));
-          }  
+      function toggleSongMessage (onoff, data) {                
+        if (core.hasPermission(data.fromID)) {
+          core.showMessage(model.resources.generic.affirmativeResponse);
+          announceSongPlay = onoff;
+        } else {
+          core.showMessage(model.resources.generic.accessDeniedResponse); 
         }
+      }
+
+      function roomStats () { 
+        model.stats.qGetAllPlays().then(statSummary, genericErrorHandler); 
       }
     // </helpers>
 
-    // <model.db queries>
-      function qGetAllPlays () {
-        var dfr = q.defer(),
-            dataHandler = function(err, plays) {
-              if (err || !plays) {
-                dfr.reject(err);
-              } else { 
-                if (plays.length > 0) {     
-                  dfr.resolve(plays);
-                } else {
-                  dfr.resolve(null);
-                }             
-              }  
-              
-              
-            };
-        
-        model.db.songPlays.find(dataHandler);
-        
-        return dfr.promise;
-      }
-      
-      function qGetAllBySongName (songName) {
-       var dfr = q.defer(),
-          dataHandler = function(err, plays) {
-            if (err || !plays) {
-              dfr.reject(err);
-            } else { 
-              if (plays.length > 0) {     
-                dfr.resolve(plays);
-              } else {
-                dfr.resolve(null);
-              }             
-            }  
-            
-            
-          };
-        
-        model.db.songPlays.find({ songName: songName }, dataHandler);
-        
-        return dfr.promise;
-      }
-      
-      function qGetAllByArtistName (artistName) {
-       var dfr = q.defer(),
-          dataHandler = function(err, plays) {
-            if (err || !plays) {
-              dfr.reject(err);
-            } else { 
-              if (plays.length > 0) {     
-                dfr.resolve(plays);
-              } else {
-                dfr.resolve(null);
-              }             
-            }            
-          };
-        
-        model.db.songPlays.find({ artistName: artistName }, dataHandler);
-        
-        return dfr.promise;
-      }
-    // </model.db queries>
-
     // <stat reports>
+      // stat summary for a song. also used for room stats
       function statSummary (plays) {
         var ups = 0, 
             downs = 0, 
@@ -143,13 +78,50 @@
           }
         }
         
-        message = model.resources.stats.roomStats.replace('{plays}', plays.length)
+        message = model.resources.stats.statSummary.replace('{plays}', plays.length)
                                           .replace('{ups}', ups)
                                           .replace('{downs}', downs)
                                           .replace('{hearts}', hearts)
                                           .replace('{peakListeners}', peakListeners);
 
         core.showMessage(message);       
+      }
+
+      // play stats for the song that just ended
+      function playStats (song) {
+        if (announcePlayStats) {
+          var woots = song.woots.length || 0,
+              mehs  = song.mehs.length || 0,
+              grabs = song.grabs.length || 0,
+              listeners = song.peakListeners || 0;
+
+          core.showMessage(model.resources.stats.songPlay.replace('{woots}', woots).replace('{mehs}', mehs).replace('{grabs}', grabs));
+        }  
+      }
+
+      // play start with last played info
+      function playStart (data) {
+        if (currentSong.startTime && announceSongPlay) {
+          model.stats.qFindFirstLastPlayByName(currentSong.title, -1).then(function (lastplay) {
+            var message = model.resources.stats.songStart.base.replace('{title}', currentSong.title).replace('{artist}', currentSong.author);
+
+            for(var i in data.djs) {
+              if (data.djs[i].user.id === data.currentDJ) {
+                message = message.replace('{dj}', data.djs[i].user.username);
+                break;
+              }
+            }
+
+            if (lastplay) {
+              var timefrom = moment().from(lastplay.startTime, true);
+              message = message + model.resources.stats.songStart.lastPlayed.replace('{time}', timefrom);
+            } else {
+              message = message + model.resources.stats.songStart.newPlay;
+            }
+
+            core.showMessage(message);
+          }, genericErrorHandler);       
+        } 
       }
     // </stat reports>
 
@@ -181,15 +153,19 @@
       }
 
       function songChange (data) {
-        logSongPlay(currentSong);
+        if (currentSong.startTime) {
+          model.stats.logSongPlay(currentSong);
+          playStats(currentSong);
+        }
 
+        // reset song data
         if (data.media) {
           currentSong = data.media;
 
           // append stat props
           currentSong.djId = data.currentDJ;
           currentSong.earned = data.earned;
-          currentSong.startTime = data.mediaStartTime;
+          currentSong.startTime = Date.now();
           currentSong.users = api.getUsers();
           currentSong.woots = [];
           currentSong.mehs = [];
@@ -197,6 +173,8 @@
         } else {
           currentSong = {};
         }
+
+        playStart(data);
       }
     // </subscription methods>
 
