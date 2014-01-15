@@ -37,6 +37,7 @@
     "I'm sorry Dave, I'm afraid I can't do that",
     "ER MAH GERD, U NERD TER BER STERF TER DER THERT"
   ],
+  "genericError": "er, der derr durrr. error logged.",
   "killSwitch": {
     "confirm": "Are you sure you want me to go? (.yes/.no)",
     "cancel": "yay! I get to stay :)",
