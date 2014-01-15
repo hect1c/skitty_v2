@@ -4,6 +4,6 @@
   "songStart": {
     "base": "{dj} started playing {title} by {artist}. ",
     "lastPlayed": "Last played {time} ago.",
-    "newPlay": "This track is NEW to the room!"
+    "newPlay": ":star2: NEW to the room!"
   }
 }
