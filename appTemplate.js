@@ -2,6 +2,7 @@
   // import core modules
   var mongojs = require("mongojs"),
       PlugBot = require('./plugBot').Bot,
+      StatsDb = require('./modules/core/statsDb').StatsDb,
 
       // import bot plugin modules
       Skitty =      require('./modules/skitty').Skitty,
@@ -51,7 +52,7 @@
         }),
         new Dj({ 
           defaultPlaylist: 'snags',
-          autoDj: false,
+          autoDj: true,
           autoDjThreshold: 0,
           resources: {
             generic: resources.info,
@@ -60,11 +61,12 @@
         }),
         new StatTracker({
           announcePlayStats: false,
+          announceSongPlay: true,
           resources: {
             generic: resources.info,
             stats: resources.stats
           },
-          db: mongojs.connect(statsDb, ['songPlays'])
+          stats: new StatsDb({ db: mongojs.connect(statsDb, ['songPlays']) })
         }),
         new InfoPlugin({ 
           resources: resources.info
