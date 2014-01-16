@@ -33,10 +33,28 @@
       return dfr.promise;
     };
     
-    self.qGetAllBySongName = function (songName) {
+    self.qGetDjPlaysById = function (djId) {
       var dfr = q.defer();
       
-      model.db.songPlays.find({ title: songName }, function(err, plays) {
+      model.db.songPlays.find({ djId: djId }, function(err, plays) {
+        if (err || !plays) {
+          dfr.reject(err);
+        } else { 
+          if (plays.length > 0) {     
+            dfr.resolve(plays);
+          } else {
+            dfr.resolve(null);
+          }             
+        }         
+      });
+      
+      return dfr.promise;
+    };
+
+    self.qGetAllBySongsById = function (id) {
+      var dfr = q.defer();
+      
+      model.db.songPlays.find({ id: id }, function(err, plays) {
         if (err || !plays) {
           dfr.reject(err);
         } else { 
@@ -69,11 +87,7 @@
       return dfr.promise;
     }
 
-
-    /**
-     * Find first/last playtime of a song by name
-     */
-    self.qFindFirstLastPlayByName = function (songName, sort) {
+    self.qFindFirstLastPlayById = function (id, sort) {
       var dfr = q.defer(),
           dataHandler = function(err, plays) {
             if (err || !plays) {
@@ -89,7 +103,7 @@
 
       // query database
       model.db.songPlays
-        .find({ title: songName })
+        .find({ id: id })
         .limit(2)
         .sort({ startTime: sort }, dataHandler);
       

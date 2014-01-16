@@ -8,22 +8,137 @@
     var self = this,
         api = {},
         core = {},
-        chatCommands = [
-          { trigger: 'statchaton',  action: toggleStatChat.bind(this, true) },
-          { trigger: 'statChatOn',  action: toggleStatChat.bind(this, true) },
-          { trigger: 'statchatoff', action: toggleStatChat.bind(this, false) },
-          { trigger: 'statChatOff', action: toggleStatChat.bind(this, false) },
-          { trigger: 'songMsgOn',  action: toggleSongMessage.bind(this, true) },
-          { trigger: 'songmsgon',  action: toggleSongMessage.bind(this, true) },
-          { trigger: 'songmsgoff', action: toggleSongMessage.bind(this, false) },
-          { trigger: 'songmsgoff', action: toggleSongMessage.bind(this, false) },
-          { trigger: 'roomstats',   action: roomStats}
-        ],
         announcePlayStats = model.announcePlayStats || false,
         announceSongPlay = model.announceSongPlay || true,
         currentSong = {};
 
+    // <stat reports>
+      // stat summary for a song. also used for room stats
+      function statSummary (plays, firstPlayed) {
+        var ups = 0, 
+            downs = 0, 
+            hearts = 0,
+            peakListeners = 0,
+            firstPlay = null,
+            message;
+
+        if (plays) {
+          for (var i in plays) {
+            if (plays[i].woots) {
+              ups = ups + plays[i].woots.length;
+              downs = downs + plays[i].mehs.length;
+              hearts = hearts + plays[i].grabs.length;
+              
+              if (plays[i].users.length > peakListeners) {
+                peakListeners = plays[i].users.length;
+              }
+
+              if (!firstPlay || plays[i].startTime < firstPlay) {
+                firstPlay = plays[i];
+              }
+
+            }
+          }
+          
+          message = model.resources.stats.statSummary.replace('{plays}', plays.length)
+                                            .replace('{ups}', ups)
+                                            .replace('{downs}', downs)
+                                            .replace('{hearts}', hearts)
+                                            .replace('{peakListeners}', peakListeners);
+        } else {
+          message = model.resources.stats.four04;
+        }
+
+        core.showMessage(message);       
+
+        if (firstPlayed) {
+          var timefrom = moment().from(firstPlay.startTime, true);
+          var dj = findDjName(firstPlay);
+          core.showMessage(model.resources.stats.firstPlayed.replace('{dj}', dj).replace('{time}', timefrom));     
+        }
+      }
+
+      // play stats for the song that just ended
+      function playStats (song) {
+        if (announcePlayStats) {
+          var woots = song.woots.length || 0,
+              mehs  = song.mehs.length || 0,
+              grabs = song.grabs.length || 0,
+              listeners = song.peakListeners || 0;
+
+          core.showMessage(model.resources.stats.songPlay.replace('{woots}', woots).replace('{mehs}', mehs).replace('{grabs}', grabs));
+        }  
+      }
+
+      function djSummary (plays) {
+        var ups = 0, 
+            downs = 0, 
+            hearts = 0,
+            avgUps = 0,
+            message;
+
+            console.log(plays);
+
+        if (plays) {
+          for (var i in plays) {
+            if (plays[i].woots) {
+              ups = ups + plays[i].woots.length;
+              downs = downs + plays[i].mehs.length;
+              hearts = hearts + plays[i].grabs.length;
+            }
+          }
+
+          avgUps = Math.round((ups / plays.length) * 100) / 100;
+  
+          console.log(avgUps);
+          
+          message = model.resources.stats.djStats.replace('{plays}', plays.length)
+                                                  .replace('{ups}', ups)
+                                                  .replace('{downs}', downs)
+                                                  .replace('{hearts}', hearts)
+                                                  .replace('{avgUps}', avgUps);
+        } else {
+          message = model.resources.stats.four04dj;
+        }
+
+        core.showMessage(message);
+      }
+
+      // play start with last played info
+      function playStart (data) {
+        if (currentSong.startTime && announceSongPlay) {
+          model.stats.qFindFirstLastPlayById(currentSong.id, -1).then(function (lastplay) {
+            var message = model.resources.stats.songStart.base.replace('{title}', currentSong.title).replace('{artist}', currentSong.author);
+
+            for(var i in data.djs) {
+              if (data.djs[i].user.id === data.currentDJ) {
+                message = message.replace('{dj}', data.djs[i].user.username);
+                break;
+              }
+            }
+
+            if (lastplay) {
+              var timefrom = moment().from(lastplay.startTime, true);
+              message = message + model.resources.stats.songStart.lastPlayed.replace('{time}', timefrom);
+            } else {
+              message = message + model.resources.stats.songStart.newPlay;
+            }
+
+            core.showMessage(message);
+          }, genericErrorHandler);       
+        } 
+      }
+    // </stat reports>
+
     // <helpers>
+      function findDjName (play) {
+        for (var i in play.users) {
+          if (play.users[i].id === play.djId) {
+            return play.users[i].username;
+          }
+        }
+      }
+
       function getTimeStamp () {
         var now = new Date();
         return now.toLocaleDateString() + " - "  + now.toLocaleTimeString();
@@ -52,85 +167,58 @@
         }
       }
 
+      function djStats (data) {
+        model.stats.qGetDjPlaysById(data.fromID).then(djSummary, genericErrorHandler);
+      }
+
+      function skittyStats () {
+        console.log('wtf');
+        model.stats.qGetDjPlaysById('5293e1663e083e1d078c91c2').then(djSummary, genericErrorHandler);   
+      }
+
+      function songStats () {
+        var id;
+        
+        // if we're not tracking current song, get the id from the API
+        if (currentSong.id) {
+          id = currentSong.id;
+        } else {
+          id = api.getMedia().id;
+        }
+
+        model.stats.qGetAllBySongsById(id).then(function (plays) { statSummary(plays, true); }, genericErrorHandler);  
+      }
+
+      // get artist stats. either by name or for current playing
+      function artistStats (data) {
+        var artistName,
+            command = data.message.trim();
+
+        if (command.length > 12) {
+          artistName = command.substr(12, command.length).trim();
+        } else {
+          // if we're not tracking current song, get the name from the API
+          if (currentSong.author) {
+            artistName = currentSong.author;
+          } else {
+            artistName = api.getMedia().author;
+          }
+        }
+
+        model.stats.qGetAllByArtistName(artistName).then(statSummary, genericErrorHandler);
+      }
+
       function roomStats () { 
         model.stats.qGetAllPlays().then(statSummary, genericErrorHandler); 
       }
     // </helpers>
-
-    // <stat reports>
-      // stat summary for a song. also used for room stats
-      function statSummary (plays) {
-        var ups = 0, 
-            downs = 0, 
-            hearts = 0,
-            peakListeners = 0,
-            message;
-
-        for (var i in plays) {
-          if (plays[i].woots) {
-            ups = ups + plays[i].woots.length;
-            downs = downs + plays[i].mehs.length;
-            hearts = hearts + plays[i].grabs.length;
-            
-            if (plays[i].users.length > peakListeners) {
-              peakListeners = plays[i].users.length;
-            }            
-          }
-        }
-        
-        message = model.resources.stats.statSummary.replace('{plays}', plays.length)
-                                          .replace('{ups}', ups)
-                                          .replace('{downs}', downs)
-                                          .replace('{hearts}', hearts)
-                                          .replace('{peakListeners}', peakListeners);
-
-        core.showMessage(message);       
-      }
-
-      // play stats for the song that just ended
-      function playStats (song) {
-        if (announcePlayStats) {
-          var woots = song.woots.length || 0,
-              mehs  = song.mehs.length || 0,
-              grabs = song.grabs.length || 0,
-              listeners = song.peakListeners || 0;
-
-          core.showMessage(model.resources.stats.songPlay.replace('{woots}', woots).replace('{mehs}', mehs).replace('{grabs}', grabs));
-        }  
-      }
-
-      // play start with last played info
-      function playStart (data) {
-        if (currentSong.startTime && announceSongPlay) {
-          model.stats.qFindFirstLastPlayByName(currentSong.title, -1).then(function (lastplay) {
-            var message = model.resources.stats.songStart.base.replace('{title}', currentSong.title).replace('{artist}', currentSong.author);
-
-            for(var i in data.djs) {
-              if (data.djs[i].user.id === data.currentDJ) {
-                message = message.replace('{dj}', data.djs[i].user.username);
-                break;
-              }
-            }
-
-            if (lastplay) {
-              var timefrom = moment().from(lastplay.startTime, true);
-              message = message + model.resources.stats.songStart.lastPlayed.replace('{time}', timefrom);
-            } else {
-              message = message + model.resources.stats.songStart.newPlay;
-            }
-
-            core.showMessage(message);
-          }, genericErrorHandler);       
-        } 
-      }
-    // </stat reports>
 
     // <subscription methods>
       function voteUpdate (data) {
         var clearFrom;
 
         if (currentSong.startTime) {
-          if (data.vote) {
+          if (data.vote === 1) {
             currentSong.woots.push(data.id);
             clearFrom = currentSong.mehs;
           } else {
@@ -177,6 +265,18 @@
         playStart(data);
       }
     // </subscription methods>
+
+    var chatCommands = [
+      { trigger: 'statchaton',  action: toggleStatChat.bind(this, true) },
+      { trigger: 'statchatoff', action: toggleStatChat.bind(this, false) },
+      { trigger: 'songmsgon',   action: toggleSongMessage.bind(this, true) },
+      { trigger: 'songmsgoff',  action: toggleSongMessage.bind(this, false) },
+      { trigger: 'roomstats',   action: roomStats},
+      { trigger: 'songstats',   action: songStats},
+      { trigger: 'artiststats', action: artistStats},
+      { trigger: 'skittystats', action: skittyStats},
+      { trigger: 'mystats',     action: djStats}
+    ];
 
     self.init = function (plugApi, pluginCore) {
       api = plugApi;
