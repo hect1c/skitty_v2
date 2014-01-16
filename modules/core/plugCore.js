@@ -38,6 +38,8 @@
       }
     };
 
+    // checks against array of trigger/action sets and fires trigger if match is found 
+    //  NOTE: matching is case-insensitive
     self.checkCommands = function (chatCommands, data) {
       if (!botAcctInfo) {
         botAcctInfo = api.getSelf();
@@ -45,11 +47,13 @@
       
       // don't evaluate messages sent by self
       if (botAcctInfo.id !== data.fromID) {
-        var msg = data.message.trim();
+        var msg = data.message.trim().toLowerCase();
 
-        for (var i = 0; i < chatCommands.length; i++) {
+        for (var i in chatCommands) {
+          // make match check case-insensitive
+
           // wildcard check
-          if (chatCommands[i].wildCard && msg.match(chatCommands[i].trigger)) {
+          if (chatCommands[i].wildCard && msg.indexOf(chatCommands[i].trigger.toLowerCase()) != -1) {
             chatCommands[i].action(data);
             return;
           }
