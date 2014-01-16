@@ -58,6 +58,8 @@
         { trigger: 'snag',    action: bop.bind(this, false) },
         { trigger: 'nomnom',  action: bop.bind(this, false) },
         { trigger: 'currate', action: bop.bind(this, false) },
+        { trigger: 'mmm', action: bop.bind(this, false) },
+        { trigger: 'love', action: bop.bind(this, false) },
 
         // gifs
         { trigger: 'dance',        action: showMessage.bind(this, gifs.dance, true) },
@@ -66,10 +68,12 @@
         { trigger: 'bounce',       action: showMessage.bind(this, gifs.dance, true) },
         { trigger: 'trippy',       action: showMessage.bind(this, gifs.trippy, true) },
         { trigger: 'chill',        action: showMessage.bind(this, gifs.chill, true) },
+        { trigger: 'smooth',        action: showMessage.bind(this, gifs.smooth, true) },
+
         { trigger: 'meow',         action: showMessage.bind(this, gifs.meow, false) },
         { trigger: 'prrr',         action: showMessage.bind(this, gifs.prrr, false) },
         { trigger: 'pur',          action: showMessage.bind(this, gifs.prrr, false) },
-        { trigger: 'twerk',        action: showMessage.bind(this, gifs.twerk, true) },
+        { trigger: 'twerk',        action: showMessage.bind(this, gifs.twerk, false) },
         { trigger: 'milkshake',    action: showMessage.bind(this, gifs.milkshake, false) },
         { trigger: 'thuglife',     action: showMessage.bind(this, gifs.thugLife, false) },
         { trigger: 'fail',         action: showMessage.bind(this, gifs.fail, false) },
