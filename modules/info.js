@@ -25,6 +25,7 @@
         { trigger: 'help',       action: showMessage.bind(this, model.resources.commands) },
         { trigger: 'plugapi',    action: showMessage.bind(this, model.resources.plugapi) },
         { trigger: 'src',        action: showMessage.bind(this, model.resources.src) },
+        { trigger: 'rules',      action: showMessage.bind(this, model.resources.rules) },
         { trigger: 'theme',      action: showTheme }
       ];
     // </chat commands>

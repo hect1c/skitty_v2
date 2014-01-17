@@ -62,7 +62,7 @@
         { trigger: 'love', action: bop.bind(this, true) },
 
         // bop and gif
-        { trigger: 'dance',        action: showMessage.bind(this, gifs.dance, true) },
+        { trigger: 'dance',        action: showMessage.bind(this, gifs.smiffDance, true) },
         { trigger: 'boogie',       action: showMessage.bind(this, gifs.dance, true) },
         { trigger: 'groove',       action: showMessage.bind(this, gifs.dance, true) },
         { trigger: 'bounce',       action: showMessage.bind(this, gifs.dance, true) },
