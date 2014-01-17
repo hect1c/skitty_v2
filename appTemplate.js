@@ -10,6 +10,7 @@
       Dj =          require ('./modules/dj').Dj,
       StatTracker = require('./modules/statTracker').StatTracker,
       KillSwitch =  require('./modules/killSwitch').KillSwitch,
+      Curmudgeon =      require('./modules/curmudgeon').Curmudgeon,
 
       // import other modules
       TurntableStats = require('./modules/ttApi').TurntableStats,
@@ -19,10 +20,11 @@
         info:           require('./resources/info'),
         gifs:           require('./resources/gifs'),
         quotes:         require('./resources/quotes'),
-        rudeResponses:  require('./resources/rude_responses'),
         funnyResponses: require('./resources/funny_responses'),
         dj:             require('./resources/dj'),
-        stats:          require('./resources/stats')
+        stats:          require('./resources/stats'),
+        facts:          require('./resources/facts'),
+        curmudgeon:     require('./resources/curmudgeon')
       };
   
   // determine stats db: check env first, fallback on development db
@@ -74,6 +76,9 @@
         new KillSwitch({
           timeout: 5000,
           resources: resources.info.killSwitch
+        }),
+        new Curmudgeon({
+          resources: resources.curmudgeon
         })
       ];
 

@@ -58,10 +58,10 @@
         { trigger: 'snag',    action: bop.bind(this, false) },
         { trigger: 'nomnom',  action: bop.bind(this, false) },
         { trigger: 'currate', action: bop.bind(this, false) },
-        { trigger: 'mmm', action: bop.bind(this, false) },
-        { trigger: 'love', action: bop.bind(this, false) },
+        { trigger: 'mmm', action: bop.bind(this, true) },
+        { trigger: 'love', action: bop.bind(this, true) },
 
-        // gifs
+        // bop and gif
         { trigger: 'dance',        action: showMessage.bind(this, gifs.dance, true) },
         { trigger: 'boogie',       action: showMessage.bind(this, gifs.dance, true) },
         { trigger: 'groove',       action: showMessage.bind(this, gifs.dance, true) },
@@ -70,6 +70,7 @@
         { trigger: 'chill',        action: showMessage.bind(this, gifs.chill, true) },
         { trigger: 'smooth',        action: showMessage.bind(this, gifs.smooth, true) },
 
+        // gif only
         { trigger: 'meow',         action: showMessage.bind(this, gifs.meow, false) },
         { trigger: 'prrr',         action: showMessage.bind(this, gifs.prrr, false) },
         { trigger: 'pur',          action: showMessage.bind(this, gifs.prrr, false) },
@@ -89,19 +90,18 @@
         { trigger: 'nosound',      action: showMessage.bind(this, gifs.silence, false) },
         { trigger: 'gross',        action: showMessage.bind(this, gifs.gross, false) },
         { trigger: 'barf',        action: showMessage.bind(this, gifs.gross, false) },
+        
+        // text-based responses
+        { trigger: 'catfacts',   action: showMessage.bind(this, model.resources.facts.catfacts, false) },
+        { trigger: 'pandafacts', action: showMessage.bind(this, model.resources.facts.pandafacts, false) },
 
         // generic responses
         { trigger: 'quote', action: showMessage.bind(this, model.resources.quotes, false) },
-        { trigger: 'rude',  action: showMessage.bind(this, model.resources.rudeResponses.generic, false) },
+
         { trigger: 'lol',   action: showMessage.bind(this, model.resources.funnyResponses.generic, false) },
         { trigger: 'haha',  action: showMessage.bind(this, model.resources.funnyResponses.generic, false) },
 
         // wildcard triggers
-        { trigger: 'fuck you s\'kitty', wildCard: true, action: showMessage.bind(this, model.resources.rudeResponses.fuckYou, false) },
-        { trigger: 'fuck you skitty',   wildCard: true, action: showMessage.bind(this, model.resources.rudeResponses.fuckYou, false) },
-        { trigger: 'woah',              wildCard: true, action: showMessage.bind(this, model.resources.rudeResponses.whoa, false) },
-        { trigger: 'whoa',              wildCard: true, action: showMessage.bind(this, model.resources.rudeResponses.whoa, false) },
-        { trigger: 'exactly',           wildCard: true, action: showMessage.bind(this, model.resources.rudeResponses.exactly, false) },
         { trigger: 'motorboat',         wildCard: true, action: showMessage.bind(this, gifs.motorboat, false) },
         { trigger: 'Supercalifragilisticexpialidocious', wildCard: true, action: showMessage.bind(this, model.resources.funnyResponses.magicWord, false) }
       ];
