@@ -6,6 +6,7 @@
     "none": "No theme active. See room info for music format details."
   },
   "commands": "http://bit.ly/skittyCommands",
+  "rules": "http://bit.ly/csl-rules",
   "roomEnter": "I'm baaaack!",
   "affirmativeResponse": [
     "you got it boss!",
