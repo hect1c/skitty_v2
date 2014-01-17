@@ -3,7 +3,17 @@
   function InfoPlugin (model) {
     var self = this,
         api = {},
-        core = {};
+        core = {},
+        chatCommands = [
+          { trigger: 'cmds',       action: showMessage.bind(this, model.resources.commands) },
+          { trigger: 'commands',   action: showMessage.bind(this, model.resources.commands) },
+          { trigger: 'help',       action: showMessage.bind(this, model.resources.commands) },
+          { trigger: 'help',       action: showMessage.bind(this, model.resources.commands) },
+          { trigger: 'plugapi',    action: showMessage.bind(this, model.resources.plugapi) },
+          { trigger: 'src',        action: showMessage.bind(this, model.resources.src) },
+          { trigger: 'rules',      action: showMessage.bind(this, model.resources.rules) },
+          { trigger: 'theme',      action: showTheme }
+        ];
 
     function showTheme () {
       var now = new Date(),
@@ -11,40 +21,20 @@
           day = days[ now.getDay() ];
 
       if (day === 'Friday') {
-        api.sendChat(model.resources.theme.funkyFriday);
+        core.showMessage(model.resources.theme.funkyFriday);
       } else {
-        api.sendChat(model.resources.theme.none);
+        core.showMessage(model.resources.theme.none);
       }
     }
 
-    // <chat commands>
-      var chatCommands = [
-        { trigger: 'cmds',       action: showMessage.bind(this, model.resources.commands) },
-        { trigger: 'commands',   action: showMessage.bind(this, model.resources.commands) },
-        { trigger: 'help',       action: showMessage.bind(this, model.resources.commands) },
-        { trigger: 'help',       action: showMessage.bind(this, model.resources.commands) },
-        { trigger: 'plugapi',    action: showMessage.bind(this, model.resources.plugapi) },
-        { trigger: 'src',        action: showMessage.bind(this, model.resources.src) },
-        { trigger: 'rules',      action: showMessage.bind(this, model.resources.rules) },
-        { trigger: 'theme',      action: showTheme }
-      ];
-    // </chat commands>
-
-    // <subscription methods>
-      function showMessage (message, data) {
-        core.showMessage(message, data);
-      }
-    // </subscription methods>
+    function showMessage (message, data) {
+      core.showMessage(message, data);
+    }
 
     self.init = function (plugApi, pluginCore) {
       api = plugApi;
       core = pluginCore;
 
-      // subscriptions
-      api.on('roomJoin', function (data) {
-        botAcctInfo = api.getSelf();
-        currentSong = data.room.media;
-      });
       api.on('chat', core.checkCommands.bind(core, chatCommands));
     };
   }
