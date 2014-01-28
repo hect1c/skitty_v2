@@ -1,10 +1,10 @@
 (function () {
-  // local dependencies 
-  var PlugApi = require('./lib/plugapi');
+  // local dependencies
+  var PlugApi = require('./lib/plugapi'),
       PlugCore = require('./modules/core/plugCore').PlugCore;
 
   // <skeleton plugbot>
-    function Bot (model, plugins) {     
+    function Bot (model, plugins) {
       model = model || {};
       var api = new PlugApi(model.auth, model.updateCode),
           core = new PlugCore(api);
@@ -21,12 +21,12 @@
         model.reconnectAttempts = model.reconnectAttempts || 100;
 
         var reconnect = function() {
-          var err = arguments; 
+          var err = arguments;
           if (tries < model.reconnectAttempts) {
             setTimeout(function () {
               console.log('Disconnected.');
               console.log(err);
-              api.connect(model.room); 
+              api.connect(model.room);
             }, delay);
 
             tries++;

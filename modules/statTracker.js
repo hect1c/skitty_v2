@@ -15,20 +15,21 @@
     // <stat reports>
       // stat summary for a song. also used for room stats
       function statSummary (plays, firstPlayed) {
-        var ups = 0, 
-            downs = 0, 
+        var ups = 0,
+            downs = 0,
             hearts = 0,
             peakListeners = 0,
             firstPlay = null,
-            message;
+            message,
+            botPlays = 0;
 
         if (plays) {
           for (var i in plays) {
-            if (plays[i].woots) {
+            if (plays[i].woots && !isInBlacklist(plays[i].djId)) {
               ups = ups + plays[i].woots.length;
               downs = downs + plays[i].mehs.length;
               hearts = hearts + plays[i].grabs.length;
-              
+
               if (plays[i].users.length > peakListeners) {
                 peakListeners = plays[i].users.length;
               }
@@ -37,10 +38,12 @@
                 firstPlay = plays[i];
               }
 
+            } else if (isInBlacklist(plays[i].djId)) {
+              botPlays++;
             }
           }
-          
-          message = model.resources.stats.statSummary.replace('{plays}', plays.length)
+
+          message = model.resources.stats.statSummary.replace('{plays}', plays.length - botPlays)
                                             .replace('{ups}', ups)
                                             .replace('{downs}', downs)
                                             .replace('{hearts}', hearts)
@@ -49,12 +52,12 @@
           message = model.resources.stats.four04;
         }
 
-        core.showMessage(message);       
+        core.showMessage(message);
 
         if (firstPlayed) {
           var timefrom = moment().from(firstPlay.startTime, true);
           var dj = findDjName(firstPlay);
-          core.showMessage(model.resources.stats.firstPlayed.replace('{dj}', dj).replace('{time}', timefrom));     
+          core.showMessage(model.resources.stats.firstPlayed.replace('{dj}', dj).replace('{time}', timefrom));
         }
       }
 
@@ -67,17 +70,15 @@
               listeners = song.peakListeners || 0;
 
           core.showMessage(model.resources.stats.songPlay.replace('{woots}', woots).replace('{mehs}', mehs).replace('{grabs}', grabs));
-        }  
+        }
       }
 
       function djSummary (plays) {
-        var ups = 0, 
-            downs = 0, 
+        var ups = 0,
+            downs = 0,
             hearts = 0,
             avgUps = 0,
             message;
-
-            console.log(plays);
 
         if (plays) {
           for (var i in plays) {
@@ -89,9 +90,7 @@
           }
 
           avgUps = Math.round((ups / plays.length) * 100) / 100;
-  
-          console.log(avgUps);
-          
+
           message = model.resources.stats.djStats.replace('{plays}', plays.length)
                                                   .replace('{ups}', ups)
                                                   .replace('{downs}', downs)
@@ -125,12 +124,24 @@
             }
 
             core.showMessage(message);
-          }, genericErrorHandler);       
-        } 
+          }, genericErrorHandler);
+        }
       }
     // </stat reports>
 
     // <helpers>
+      function isInBlacklist(userId) {
+        if (model.djBlacklist) {
+          for (var i in model.djBlacklist) {
+            if (model.djBlacklist[i] === userId) {
+              return true;
+            }
+          }
+        }
+
+        return false;
+      }
+
       function findDjName (play) {
         for (var i in play.users) {
           if (play.users[i].id === play.djId) {
@@ -148,22 +159,22 @@
         console.log(err);
         core.showMessage(model.resources.generic.genericError);
       }
-    
-      function toggleStatChat (onoff, data) {                
+
+      function toggleStatChat (onoff, data) {
         if (core.hasPermission(data.fromID)) {
           core.showMessage(model.resources.generic.affirmativeResponse);
           announcePlayStats = onoff;
         } else {
-          core.showMessage(model.resources.generic.accessDeniedResponse); 
+          core.showMessage(model.resources.generic.accessDeniedResponse);
         }
       }
 
-      function toggleSongMessage (onoff, data) {                
+      function toggleSongMessage (onoff, data) {
         if (core.hasPermission(data.fromID)) {
           core.showMessage(model.resources.generic.affirmativeResponse);
           announceSongPlay = onoff;
         } else {
-          core.showMessage(model.resources.generic.accessDeniedResponse); 
+          core.showMessage(model.resources.generic.accessDeniedResponse);
         }
       }
 
@@ -172,13 +183,12 @@
       }
 
       function skittyStats () {
-        console.log('wtf');
-        model.stats.qGetDjPlaysById('5293e1663e083e1d078c91c2').then(djSummary, genericErrorHandler);   
+        model.stats.qGetDjPlaysById(core.botInfo.id).then(djSummary, genericErrorHandler);
       }
 
       function songStats () {
         var id;
-        
+
         // if we're not tracking current song, get the id from the API
         if (currentSong.id) {
           id = currentSong.id;
@@ -186,7 +196,7 @@
           id = api.getMedia().id;
         }
 
-        model.stats.qGetAllBySongsById(id).then(function (plays) { statSummary(plays, true); }, genericErrorHandler);  
+        model.stats.qGetAllBySongsById(id).then(function (plays) { statSummary(plays, true); }, genericErrorHandler);
       }
 
       // get artist stats. either by name or for current playing
@@ -208,8 +218,8 @@
         model.stats.qGetAllByArtistName(artistName).then(statSummary, genericErrorHandler);
       }
 
-      function roomStats () { 
-        model.stats.qGetAllPlays().then(statSummary, genericErrorHandler); 
+      function roomStats () {
+        model.stats.qGetAllPlays().then(statSummary, genericErrorHandler);
       }
     // </helpers>
 
@@ -283,7 +293,7 @@
       core = pluginCore;
 
       api.on('chat', core.checkCommands.bind(core, chatCommands));
-      api.on('djAdvance', songChange);    
+      api.on('djAdvance', songChange);
       api.on('voteUpdate', voteUpdate);
       api.on('curateUpdate', grabUpdate);
     };
