@@ -2,8 +2,7 @@
 
   // set of core functions that can be leveraged by the bot plugins
   function PlugCore (api) {
-    var self = this,
-        botAcctInfo;
+    var self = this;
 
     self.hasPermission = function (userId) {
       var staff = api.getStaff(),
@@ -31,22 +30,22 @@
 
         // if data is passed check for sender placeholder
         if (data) {
-          message = message.replace('{sender}', '@' + data.from); 
+          message = message.replace('{sender}', '@' + data.from);
         }
 
         api.sendChat(message);
       }
     };
 
-    // checks against array of trigger/action sets and fires trigger if match is found 
+    // checks against array of trigger/action sets and fires trigger if match is found
     //  NOTE: matching is case-insensitive
     self.checkCommands = function (chatCommands, data) {
-      if (!botAcctInfo) {
-        botAcctInfo = api.getSelf();
+      if (!self.botInfo) {
+        self.botInfo = api.getSelf();
       }
-      
+
       // don't evaluate messages sent by self
-      if (botAcctInfo.id !== data.fromID) {
+      if (self.botInfo.id !== data.fromID) {
         var msg = data.message.trim().toLowerCase();
 
         for (var i in chatCommands) {

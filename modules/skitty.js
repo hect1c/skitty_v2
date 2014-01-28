@@ -14,9 +14,9 @@
     // <action methods>
       function showMessage (msg, doBop, data) {
         if (!doBop || (doBop && currentSong)) {
-          core.showMessage(msg, data);  
+          core.showMessage(msg, data);
         }
-        
+
         if (doBop) {
           bop(false);
         }
@@ -90,7 +90,7 @@
         { trigger: 'nosound',      action: showMessage.bind(this, gifs.silence, false) },
         { trigger: 'gross',        action: showMessage.bind(this, gifs.gross, false) },
         { trigger: 'barf',        action: showMessage.bind(this, gifs.gross, false) },
-        
+
         // text-based responses
         { trigger: 'catfacts',   action: showMessage.bind(this, model.resources.facts.catfacts, false) },
         { trigger: 'pandafacts', action: showMessage.bind(this, model.resources.facts.pandafacts, false) },
