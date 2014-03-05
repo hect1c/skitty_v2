@@ -2,6 +2,7 @@ skitty
 ======
 
 Plug.dj bot for Coding Soundtrack Lounge
+
 Runs on Node.js
 
 After cloning, run "npm install" to get all the dependancies.
