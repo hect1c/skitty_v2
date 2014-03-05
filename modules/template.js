@@ -21,8 +21,10 @@
       api = plugApi;
       core = pluginCore;
 
-      api.on('chat', core.checkCommands.bind(core, chatCommands));
-      api.on('djAdvance', songChange);    
+      if (core.isFirstConnect()) {
+        api.on('chat', core.checkCommands.bind(core, chatCommands));
+        api.on('djAdvance', songChange);
+      }
     };
   }
 

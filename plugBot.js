@@ -5,44 +5,51 @@
 
   // <skeleton plugbot>
     function Bot (model, plugins) {
-      model = model || {};
-      var api = new PlugApi(model.auth, model.updateCode),
-          core = new PlugCore(api);
+      var self = this;
 
-      // register plugins
-      for (var i = 0; i < plugins.length; i++) {
-        plugins[i].init(api, core);
-      }
+      self.reconnectAttempts = 0;
 
-      // <auto-reconnect>
-        var delay = model.reconnectDelay || 0,
-            tries = 0;
+      PlugApi.getUpdateCode(model.auth, model.room, function(error, updateCode) {
+        if(error === false) {
+          var api = new PlugApi(model.auth, updateCode),
+              core = new PlugCore(self, api);
 
-        model.reconnectAttempts = model.reconnectAttempts || 100;
-
-        var reconnect = function() {
-          var err = arguments;
-          if (tries < model.reconnectAttempts) {
-            setTimeout(function () {
-              console.log('Disconnected.');
-              console.log(err);
-              api.connect(model.room);
-            }, delay);
-
-            tries++;
+          // register plugins
+          for (var i = 0; i < plugins.length; i++) {
+            plugins[i].init(api, core);
           }
-        };
 
-        api.on('close', reconnect);
-        api.on('error', reconnect);
-      // </auto-reconnect>
+          // <auto-reconnect>
+            var delay = model.reconnectDelay || 0;
 
-      // connect
-      api.on('roomJoin', function(data) {
-        console.log('Connected to: ' + data.room.name);
-        tries = 0;
+            model.reconnectAttempts = model.reconnectAttempts || 100;
+
+            var reconnect = function() {
+              var err = arguments;
+              if (self.reconnectAttempts < model.reconnectAttempts) {
+                setTimeout(function () {
+                  console.log('Disconnected.');
+                  console.log(err);
+                  api.connect(model.room);
+                }, delay);
+
+                self.reconnectAttempts++;
+              }
+            };
+
+            api.on('close', reconnect);
+            api.on('error', reconnect);
+          // </auto-reconnect>
+
+          // connect
+          api.on('roomJoin', function(data) {
+            console.log('Connected to: ' + data.room.name);
+          });
+          api.connect(model.room);
+        } else {
+          console.log(error);
+        }
       });
-      api.connect(model.room);
     }
   // </skeleton plugbot>
 

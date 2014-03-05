@@ -292,10 +292,12 @@
       api = plugApi;
       core = pluginCore;
 
-      api.on('chat', core.checkCommands.bind(core, chatCommands));
-      api.on('djAdvance', songChange);
-      api.on('voteUpdate', voteUpdate);
-      api.on('curateUpdate', grabUpdate);
+      if (core.isFirstConnect()) {
+        api.on('chat', core.checkCommands.bind(core, chatCommands));
+        api.on('djAdvance', songChange);
+        api.on('voteUpdate', voteUpdate);
+        api.on('curateUpdate', grabUpdate);
+      }
     };
   }
 

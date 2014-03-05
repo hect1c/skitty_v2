@@ -35,7 +35,9 @@
       api = plugApi;
       core = pluginCore;
 
-      api.on('chat', core.checkCommands.bind(core, chatCommands));
+      if (core.isFirstConnect()) {
+        api.on('chat', core.checkCommands.bind(core, chatCommands));
+      }
     };
   }
 
