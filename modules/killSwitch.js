@@ -1,5 +1,5 @@
 (function () {
-  // Allows the bot application to be exited from chat using a two-step process. 
+  // Allows the bot application to be exited from chat using a two-step process.
   //   Useful in case a bug causes a chat loop or something silly like that ;)
   function KillSwitch (model) {
     var self = this,
@@ -11,7 +11,7 @@
           { trigger: 'no',   action: cancel }
         ],
         killStagedBy = null;
-        
+
     function stageKill (data) {
       if (core.hasPermission(data.fromID) && !killStagedBy) {
         killStagedBy = data.fromID;
@@ -48,9 +48,10 @@
     self.init = function (plugApi, pluginCore) {
       api = plugApi;
       core = pluginCore;
-
-      // subscriptions
-      api.on('chat', core.checkCommands.bind(core, chatCommands));
+      if (core.isFirstConnect()) {
+        // subscriptions
+        api.on('chat', core.checkCommands.bind(core, chatCommands));
+      }
     };
   }
 

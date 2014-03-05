@@ -58,17 +58,18 @@
         { trigger: 'snag',    action: bop.bind(this, false) },
         { trigger: 'nomnom',  action: bop.bind(this, false) },
         { trigger: 'currate', action: bop.bind(this, false) },
-        { trigger: 'mmm', action: bop.bind(this, true) },
-        { trigger: 'love', action: bop.bind(this, true) },
+        { trigger: 'mmm',     action: bop.bind(this, true) },
+        { trigger: 'love',    action: bop.bind(this, true) },
 
         // bop and gif
         { trigger: 'dance',        action: showMessage.bind(this, gifs.smiffDance, true) },
         { trigger: 'boogie',       action: showMessage.bind(this, gifs.dance, true) },
         { trigger: 'groove',       action: showMessage.bind(this, gifs.dance, true) },
         { trigger: 'bounce',       action: showMessage.bind(this, gifs.dance, true) },
+        { trigger: 'rave',         action: showMessage.bind(this, gifs.rave, true) },
         { trigger: 'trippy',       action: showMessage.bind(this, gifs.trippy, true) },
         { trigger: 'chill',        action: showMessage.bind(this, gifs.chill, true) },
-        { trigger: 'smooth',        action: showMessage.bind(this, gifs.smooth, true) },
+        { trigger: 'smooth',       action: showMessage.bind(this, gifs.smooth, true) },
 
         // gif only
         { trigger: 'meow',         action: showMessage.bind(this, gifs.meow, false) },
@@ -102,7 +103,7 @@
         { trigger: 'haha',  action: showMessage.bind(this, model.resources.funnyResponses.generic, false) },
 
         // wildcard triggers
-        { trigger: 'motorboat',         wildCard: true, action: showMessage.bind(this, gifs.motorboat, false) },
+        { trigger: 'motorboat', wildCard: true, action: showMessage.bind(this, gifs.motorboat, false) },
         { trigger: 'Supercalifragilisticexpialidocious', wildCard: true, action: showMessage.bind(this, model.resources.funnyResponses.magicWord, false) }
       ];
     // </chat commands>
@@ -125,10 +126,12 @@
       api = plugApi;
       core = pluginCore;
 
-      // subscriptions
-      api.on('chat', core.checkCommands.bind(core, chatCommands));
-      api.on('roomJoin', joinRoom);
-      api.on('djAdvance', songChange);
+      if (core.isFirstConnect()) {
+        // subscriptions
+        api.on('chat', core.checkCommands.bind(core, chatCommands));
+        api.on('roomJoin', joinRoom);
+        api.on('djAdvance', songChange);
+      }
     };
   }
 

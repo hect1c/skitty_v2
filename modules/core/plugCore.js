@@ -1,7 +1,7 @@
 (function () {
 
   // set of core functions that can be leveraged by the bot plugins
-  function PlugCore (api) {
+  function PlugCore (shell, api) {
     var self = this;
 
     self.hasPermission = function (userId) {
@@ -16,6 +16,10 @@
       }
 
       return false;
+    };
+
+    self.isFirstConnect = function() {
+      return shell.reconnectAttempts === 0;
     };
 
     self.showMessage = function (msg, data) {

@@ -2,7 +2,7 @@
   // plugin for managing the bot's playlist
   function Dj (model) {
     model = model || {};
-    model.autoDjThreshold = model.autoDjThreshold || 0; 
+    model.autoDjThreshold = model.autoDjThreshold || 0;
 
     var self = this,
         api = {},
@@ -19,15 +19,15 @@
       function findPlaylistId (playlistName, playlists) {
         for (var i in playlists) {
           if (playlists[i].name === playlistName) {
-            return playlists[i].id;    
+            return playlists[i].id;
           }
         }
-        
+
         return false;
       }
 
       // auto Dj Check: bot will enter/leave booth based on provided model settigs
-      function djCheck () {        
+      function djCheck () {
         if (model.autoDj && !playingTrack) {
           if (!inTheBooth && djs.length <= model.autoDjThreshold) {
             api.joinBooth();
@@ -37,7 +37,7 @@
             api.leaveBooth();
             core.showMessage(model.resources.dj.autoDj.deactivate);
             inTheBooth = false;
-          }          
+          }
         }
       }
     // </helper methods>
@@ -60,10 +60,10 @@
             if (playlistId && songId) {
               api.addSongToPlaylist(playlistId, songId, function() {
                 core.showMessage(model.resources.dj.currateMessage);
-              });            
-            }          
+              });
+            }
           });
-        }        
+        }
       } else {
         core.showMessage(model.resources.dj.cantCurrate);
       }
@@ -73,14 +73,14 @@
 
     // <subscription methods>
       function autoDj (data) {
-        if (core.hasPermission(data.fromID)) { 
+        if (core.hasPermission(data.fromID)) {
           if (model.autoDj) {
             core.showMessage(model.resources.generic.redundantRequestResponse);
           } else {
-            model.autoDj = true;   
-          
-            djCheck();       
-            
+            model.autoDj = true;
+
+            djCheck();
+
             // if we're going to begin djing immediately we'll rely on the "activate" message instead
             if (djs.length > model.autoDjThreshold) {
               core.showMessage(model.resources.generic.affirmativeResponse);
@@ -92,14 +92,14 @@
       }
 
       function toggleDj (onff, data) {
-        var wasAutoDj = model.autoDj; 
+        var wasAutoDj = model.autoDj;
         model.autoDj = false;
 
         if (core.hasPermission(data.fromID)) {
           if (onff != inTheBooth || wasAutoDj) {
             if (onff) {
               api.joinBooth();
-              
+
               if (wasAutoDj) {
                 core.showMessage(model.resources.generic.affirmativeResponse);
               } else {
@@ -113,7 +113,7 @@
               } else {
                 leaveAfter = true;
               }
-              
+
               core.showMessage(model.resources.dj.deactivate);
             }
           } else {
@@ -134,12 +134,12 @@
         } else {
           core.showMessage(model.resources.dj.notPlaying);
         }
-      } 
+      }
 
       function songChange (data) {
         currentSong = data;
         snagReqCount = 0;
-        
+
         // if we are the first dj we are playing
         djs = api.getDJs();
         if (djs.length > 0) {
@@ -160,7 +160,7 @@
       function roomJoin (data) {
         currentSong = { media: data.room.media };
         botAccountInfo = api.getSelf();
-        
+
         djs = api.getDJs();
         if (djs.length > 0) {
           playingTrack = botAccountInfo.id === djs[0].id;
@@ -195,11 +195,13 @@
       api = plugApi;
       core = pluginCore;
 
-      // subscriptions
-      api.on('chat', core.checkCommands.bind(core, chatCommands));
-      api.on('djAdvance', songChange);
-      api.on('djUpdate', djUpdate);
-      api.on('roomJoin', roomJoin);
+      if (core.isFirstConnect()) {
+        // subscriptions
+        api.on('chat', core.checkCommands.bind(core, chatCommands));
+        api.on('djAdvance', songChange);
+        api.on('djUpdate', djUpdate);
+        api.on('roomJoin', roomJoin);
+      }
 
     };
   }
