@@ -9,7 +9,7 @@
 
       self.reconnectAttempts = 0;
 
-      PlugApi.getUpdateCode(model.auth, model.room, function(error, updateCode) {
+      PlugApi.getUpdateCode( function(error, updateCode) {
         if(error === false) {
           var api = new PlugApi(model.auth, updateCode),
               core = new PlugCore(self, api);

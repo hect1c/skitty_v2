@@ -2,7 +2,7 @@
   "name": "skitty",
   "version": "2.0.0",
   "description": "plug.dj bot",
-  "main": "app.js",
+  "main": "appTemplate.js",
   "dependencies": {
     "cheerio": "~0.12.4",
     "coffee-script": "~1.6.3",
@@ -12,6 +12,7 @@
     "node-html-encoder": "~0.0.2",
     "node-uuid": "~1.4.1",
     "q": "*",
+    "plugapi": "*",
     "request": "~2.29.0",
     "uuid": "~1.4.1",
     "ws": "~0.4.31"
@@ -25,12 +26,16 @@
     "node-html-encoder": "~0.0.2",
     "node-uuid": "~1.4.1",
     "q": "*",
+    "plugapi": "*",
     "request": "~2.29.0",
     "uuid": "~1.4.1",
-    "ws": "~0.4.31"
+    "ws": "~0.4.31",
+    "grunt": "*",
+    "grunt-closurecompiler": "*",
+    "grunt-execute": "*"
   },
   "scripts": {
-    "start": "node app.js"
+    "start": "node appTemplate.js"
   },
   "repository": {
     "type": "git",
