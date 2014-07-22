@@ -42,7 +42,7 @@
   var model = {
         room: 'coding-soundtrack-lounge',
         updateCode: '_:8s[H@*dnPe!nNerEM',
-        auth: 'xt5FC7uoAAt6dUi45mOZh7TGhvw=?_expires=STE0MTExNDI3NjcKLg==&user_id=Uyc1MGFlYjQ0N2MzYjk3YTJjYjRjMzI1ZTcnCnAxCi4=&v=STIKLg==',
+        auth: 'tjuwLC1FFgIdUNf546wtrk99JqI=?_expires=STE0MjE2MDg0MDMKLg==&user_id=Uyc1MGFlYjQ0N2MzYjk3YTJjYjRjMzI1ZTcnCnAxCi4=&v=STIKLg==',
         reconnectDelay: 1000,
         reconnectAttempts: 5
       },
