@@ -35,7 +35,7 @@
 
     statsDb = mongo.url;
   } else {
-    statsDb = 'mongodb://<user>:<password>@linus.mongohq.com:10065/tt-db';
+    statsDb = 'mongodb://admin:Nf1kE3nrTYcL@127.11.179.2:27017/plugdjbot';
   }
 
   // define bot model
