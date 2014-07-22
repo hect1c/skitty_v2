@@ -26,13 +26,13 @@
         facts:          require('./resources/facts'),
         curmudgeon:     require('./resources/curmudgeon')
       };
-  
+
   // determine stats db: check env first, fallback on development db
   var statsDb;
   if(process.env.VCAP_SERVICES){
     var env = JSON.parse(process.env.VCAP_SERVICES),
         mongo = env['mongodb-1.8'][0]['credentials'];
-    
+
     statsDb = mongo.url;
   } else {
     statsDb = 'mongodb://<user>:<password>@linus.mongohq.com:10065/tt-db';
@@ -41,18 +41,18 @@
   // define bot model
   var model = {
         room: 'coding-soundtrack-lounge',
-        updateCode: '***REMOVED***', 
-        auth: 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx',
+        updateCode: '***REMOVED***',
+        auth: 'xt5FC7uoAAt6dUi45mOZh7TGhvw=?_expires=STE0MTExNDI3NjcKLg==&user_id=Uyc1MGFlYjQ0N2MzYjk3YTJjYjRjMzI1ZTcnCnAxCi4=&v=STIKLg==',
         reconnectDelay: 1000,
-        reconnectAttempts: 5 
+        reconnectAttempts: 5
       },
-  
+
       // create plugins
-      plugins = [ 
+      plugins = [
         new Skitty({
           resources: resources
         }),
-        new Dj({ 
+        new Dj({
           defaultPlaylist: 'snags',
           autoDj: true,
           autoDjThreshold: 0,
@@ -70,7 +70,7 @@
           },
           stats: new StatsDb({ db: mongojs.connect(statsDb, ['songPlays']) })
         }),
-        new InfoPlugin({ 
+        new InfoPlugin({
           resources: resources.info
         }),
         new KillSwitch({
@@ -84,17 +84,17 @@
 
   // run bot
   var skitty = new PlugBot(model, plugins);
-    
+
   // start webserver
   var express = require('express'),
       app = express();
-  
+
   app.get('/', function(req, res) {
     res.send('meow.');
   });
 
   // enable turntable stats api
   // var ttApi = new TurntableStats(app, mongojs.connect(statsDb, ['plays', 'hearts']));
-  
+
   app.listen(process.env.VCAP_APP_PORT || 3000);
 }());
