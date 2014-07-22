@@ -42,7 +42,7 @@
   var model = {
         room: 'coding-soundtrack-lounge',
         updateCode: '***REMOVED***',
-        auth: 'xt5FC7uoAAt6dUi45mOZh7TGhvw=?_expires=STE0MTExNDI3NjcKLg==&user_id=Uyc1MGFlYjQ0N2MzYjk3YTJjYjRjMzI1ZTcnCnAxCi4=&v=STIKLg==',
+        auth: '***REMOVED***',
         reconnectDelay: 1000,
         reconnectAttempts: 5
       },
