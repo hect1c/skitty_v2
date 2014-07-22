@@ -35,7 +35,7 @@
 
     statsDb = mongo.url;
   } else {
-    statsDb = 'mongodb://<user>:<password>@linus.mongohq.com:10065/tt-db';
+    statsDb = '***REMOVED***';
   }
 
   // define bot model
