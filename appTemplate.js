@@ -35,14 +35,14 @@
 
     statsDb = mongo.url;
   } else {
-    statsDb = 'mongodb://admin:Nf1kE3nrTYcL@127.11.179.2:27017/plugdjbot';
+    statsDb = 'mongodb://<user>:<password>@<serverIP>:<serverPort>/<dbname>';
   }
 
   // define bot model
   var model = {
-        room: 'coding-soundtrack-lounge',
-        updateCode: '_:8s[H@*dnPe!nNerEM',
-        auth: 'tjuwLC1FFgIdUNf546wtrk99JqI=?_expires=STE0MjE2MDg0MDMKLg==&user_id=Uyc1MGFlYjQ0N2MzYjk3YTJjYjRjMzI1ZTcnCnAxCi4=&v=STIKLg==',
+        room: '<roomname>',
+        updateCode: '<updateCode>',
+        auth: 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx',
         reconnectDelay: 1000,
         reconnectAttempts: 5
       },
