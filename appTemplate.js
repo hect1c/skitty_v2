@@ -35,14 +35,14 @@
 
     statsDb = mongo.url;
   } else {
-    statsDb = '***REMOVED***';
+    statsDb = 'mongodb://<user>:<password>@<serverIP>:<serverPort>/<dbname>';
   }
 
   // define bot model
   var model = {
-        room: 'coding-soundtrack-lounge',
-        updateCode: '***REMOVED***',
-        auth: '***REMOVED***',
+        room: '<roomname>',
+        updateCode: '<updateCode>',
+        auth: 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx',
         reconnectDelay: 1000,
         reconnectAttempts: 5
       },
