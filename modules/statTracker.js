@@ -109,7 +109,7 @@
           model.stats.qFindFirstLastPlayById(currentSong.id, -1).then(function (lastplay) {
             var message = model.resources.stats.songStart.base.replace('{title}', currentSong.title).replace('{artist}', currentSong.author);
 
-            for(var i in data.djs) {
+            for(var i in data.media.users) {
               if (data.media.users[i].id === data.currentDJ) {
                 message = message.replace('{dj}', data.media.users[i].username);
                 break;
