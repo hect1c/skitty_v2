@@ -7,6 +7,7 @@ The Plug.dj bot for [Coding Soundtrack Lounge](http://plug.dj/coding-soundtrack-
 1. Clone the Repo
 2. Run ```npm install``` to get all the dependancies.
 3. Copy appTemplate.js, create a new file and add your bots info and room info.
+
     ```
     var model = {
             room: '<roomname>', //Name of Plug.dj room
@@ -15,6 +16,7 @@ The Plug.dj bot for [Coding Soundtrack Lounge](http://plug.dj/coding-soundtrack-
             reconnectAttempts: 5
       },
     ```
+
     This is the file that you will run.
     After you have your app.js file setup, go ahead and start it up on a node server. (from CLI in the root of the bot run "node app.js")
 
