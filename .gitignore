@@ -16,7 +16,6 @@ local.properties
 .settings/
 .loadpath
 node_modules
-app.js
 npm-shrinkwrap.json
 
 # External tool builders
