@@ -6,7 +6,6 @@
 .project
 .metadata
 bin/
-lib/plugapi
 tmp/
 *.tmp
 *.bak
