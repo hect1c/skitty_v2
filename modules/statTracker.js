@@ -110,8 +110,8 @@
             var message = model.resources.stats.songStart.base.replace('{title}', currentSong.title).replace('{artist}', currentSong.author);
 
             for(var i in data.djs) {
-              if (data.djs[i].user.id === data.currentDJ) {
-                message = message.replace('{dj}', data.djs[i].user.username);
+              if (data.media.users[i].id === data.currentDJ) {
+                message = message.replace('{dj}', data.media.users[i].username);
                 break;
               }
             }
