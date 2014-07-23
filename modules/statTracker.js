@@ -109,13 +109,9 @@
           model.stats.qFindFirstLastPlayById(currentSong.id, -1).then(function (lastplay) {
             var message = model.resources.stats.songStart.base.replace('{title}', currentSong.title).replace('{artist}', currentSong.author);
 
-            // for(var i in data.media.users) {
-            var currentDjName = api.getDJ().username;
-              // if ( api.getDJ() ) {
-            message = message.replace('{dj}', currentDjName);
-                // break;
-              // }
-            // }
+            //Instantiate Dj Username
+            var currentDjName = api.getDJ().username; //Use getDJ action
+            message = message.replace('{dj}', currentDjName); //Setup Message
 
             if (lastplay) {
               var timefrom = moment().from(lastplay.startTime, true);
