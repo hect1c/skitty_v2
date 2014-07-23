@@ -41,7 +41,6 @@
   // define bot model
   var model = {
         room: '<roomname>',
-        updateCode: '<updateCode>',
         auth: 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx',
         reconnectDelay: 1000,
         reconnectAttempts: 5
