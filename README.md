@@ -9,10 +9,10 @@ The Plug.dj bot for [Coding Soundtrack Lounge](http://plug.dj/coding-soundtrack-
 3. Copy appTemplate.js, create a new file and add your bots info and room info.
     ```
     var model = {
-        room: '<roomname>', //Name of Plug.dj room
-        auth: 'xxxxxxxxxxxxxxxxxxxxxxxxxxx=?_expires=xxxxxxxxxxxxxxxxxx==&user_id=xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx=', // Put your auth token here, it's the cookie value for usr
-        reconnectDelay: 1000,
-        reconnectAttempts: 5
+            room: '<roomname>', //Name of Plug.dj room
+            auth: 'xxxxxxxxxxxxxxxxxxxxxxxxxxx=?_expires=xxxxxxxxxxxxxxxxxx==&user_id=xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx=', // Put your auth token here, it's the cookie value for usr
+            reconnectDelay: 1000,
+            reconnectAttempts: 5
       },
     ```
     This is the file that you will run.
