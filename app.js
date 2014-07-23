@@ -41,7 +41,6 @@
   // define bot model
   var model = {
         room: 'coding-soundtrack-lounge',
-        updateCode: '***REMOVED***',
         auth: '***REMOVED***',
         reconnectDelay: 1000,
         reconnectAttempts: 5
