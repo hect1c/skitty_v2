@@ -104,7 +104,10 @@
 
         // wildcard triggers
         { trigger: 'motorboat', wildCard: true, action: showMessage.bind(this, gifs.motorboat, false) },
-        { trigger: 'Supercalifragilisticexpialidocious', wildCard: true, action: showMessage.bind(this, model.resources.funnyResponses.magicWord, false) }
+        { trigger: 'Supercalifragilisticexpialidocious', wildCard: true, action: showMessage.bind(this, model.resources.funnyResponses.magicWord, false) },
+
+        //Bitbucket Issue
+        { trigger: 'reportbug', action: showMessage.bind( this, mode.resources.info.issuetracker, false ) }
       ];
     // </chat commands>
 
