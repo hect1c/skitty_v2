@@ -107,7 +107,7 @@
         { trigger: 'Supercalifragilisticexpialidocious', wildCard: true, action: showMessage.bind(this, model.resources.funnyResponses.magicWord, false) },
 
         //Bitbucket Issue
-        { trigger: 'reportbug', action: showMessage.bind( this, mode.resources.info.issuetracker, false ) }
+        { trigger: 'reportbug', action: showMessage.bind( this, model.resources.info.issuetracker, false ) }
       ];
     // </chat commands>
 
