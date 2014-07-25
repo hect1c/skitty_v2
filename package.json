@@ -2,13 +2,31 @@
   "name": "skitty",
   "version": "2.0.0",
   "description": "plug.dj bot",
+  "contributors":[
+    {
+      "name": "Hartley Jean-Aimee",
+      "email": "hect1c17@gmail.com"
+    },
+    {
+      "name": "Eran Schoellhorn",
+      "email": "me@eran.sh",
+      "url": "http://eran.sh/"
+    },
+    {
+      "name": "Patrick Mulcahy",
+      "email": "pmulc07@gmail.com"
+    },
+    {
+      "name": "Tyler N"
+    }
+  ],
   "main": "app.js",
   "dependencies": {
     "cheerio": "~0.12.4",
     "coffee-script": "~1.6.3",
     "express": "*",
     "moment": "*",
-    "mongojs": "*",
+    "mongoose": "*",
     "node-html-encoder": "~0.0.2",
     "node-uuid": "~1.4.1",
     "q": "*",
@@ -22,7 +40,7 @@
     "coffee-script": "~1.6.3",
     "express": "*",
     "moment": "*",
-    "mongojs": "*",
+    "mongoose": "*",
     "node-html-encoder": "~0.0.2",
     "node-uuid": "~1.4.1",
     "q": "*",
@@ -39,12 +57,11 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/hect1c/skitty.git"
+    "url": "https://github.com/hect1c/skitty_v2.git"
   },
-  "author": "",
   "license": "BSD-2-Clause",
   "bugs": {
-    "url": "https://github.com/hect1c/skitty/issues"
+    "url": "https://github.com/hect1c/skitty_v2/issues"
   },
-  "homepage": "https://github.com/hect1c/skitty"
+  "homepage": "https://github.com/hect1c/skitty_v2"
 }
