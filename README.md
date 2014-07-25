@@ -3,22 +3,23 @@ skitty
 The Plug.dj bot for [Coding Soundtrack Lounge](http://plug.dj/coding-soundtrack-lounge/) that runs on Node.js
 
 ## How To Use
-
 1. Clone the Repo
-2. Run ```npm install``` to get all the dependancies.
-3. Copy appTemplate.js, create a new file and add your bots info and room info.
+2. Run `npm install` to get all the dependancies.
+3. Copy `config.example.js` to `config.js` and complete each field.
 
+   ``` js
+    module.exports = {
+        plug : {
+            room : 'room-name',
+            auth : 'usr-cookieue'
+        },
+        mongo : 'mongodb://<USER>:<PASS>@<HOST/IP>:<PORT>/<DB NAME>'
+    };
     ```
-    var model = {
-            room: '<roomname>', //Name of Plug.dj room
-            auth: 'xxxxxxxxxxxxxxxxxxxxxxxxxxx=?_expires=xxxxxxxxxxxxxxxxxx==&user_id=xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx=', // Put your auth token here, it's the cookie value for usr
-            reconnectDelay: 1000,
-            reconnectAttempts: 5
-      },
-    ```
+    
+    To find your usr-cookie-value, check out [this](https://github.com/TATDK/plugapi/wiki/How-to-get-your-auth-token) tutorial.
+4. Fire up [MongoDB](http://www.mongodb.org/)
+5. Launch bot `node app.js`
 
-    This is the file that you will run.
-    After you have your app.js file setup, go ahead and start it up on a node server. (from CLI in the root of the bot run "node app.js")
-
-If you frequent the room feel free to send me a pull request.
+If you frequent the room and wish to contribute, feel free open a pull request or issue.
 Have fun!
