@@ -11,7 +11,7 @@ The Plug.dj bot for [Coding Soundtrack Lounge](http://plug.dj/coding-soundtrack-
     module.exports = {
         plug : {
             room : 'room-name',
-            auth : 'usr-cookieue'
+            auth : 'usr-cookie-value'
         },
         mongo : 'mongodb://<USER>:<PASS>@<HOST/IP>:<PORT>/<DB NAME>'
     };
