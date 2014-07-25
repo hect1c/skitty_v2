@@ -3,6 +3,7 @@
   var mongojs = require("mongojs"),
       PlugBot = require('./plugBot').Bot,
       StatsDb = require('./modules/core/statsDb').StatsDb,
+      config  = require('./config'),
 
       // import bot plugin modules
       Skitty =      require('./modules/skitty').Skitty,
@@ -35,13 +36,13 @@
 
     statsDb = mongo.url;
   } else {
-    statsDb = '***REMOVED***';
+    statsDb = config.mongo;
   }
 
   // define bot model
   var model = {
-        room: 'coding-soundtrack-lounge',
-        auth: '***REMOVED***',
+        room: config.plug.room,
+        auth: config.plug.auth,
         reconnectDelay: 1000,
         reconnectAttempts: 5
       },
