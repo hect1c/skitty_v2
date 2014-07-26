@@ -1,0 +1,13 @@
+{
+  "statSummary": ":arrow_forward: {plays} :thumbsup: {ups} :thumbsdown: {downs} :heart: {hearts} :busts_in_silhouette: {peakListeners}",
+  "songPlay": ":thumbsup: {woots} :thumbsdown: {mehs} :heart: {grabs}",
+  "songStart": {
+    "base": "{dj} started playing {title} by {artist}. ",
+    "lastPlayed": "Last played {time} ago.",
+    "newPlay": ":star2: NEW to the room!"
+  },
+  "firstPlayed": "First played by {dj} {time} ago.",
+  "djStats": ":arrow_forward: {plays} :thumbsup: {ups} :thumbsdown: {downs} :heart: {hearts} :thumbsup: {avgUps} (avg)",
+  "four04dj": "I don't see your name here.. how 'bout you play some tracks for us?",
+  "four04": "http://bit.ly/skitty404"
+}

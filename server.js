@@ -4,7 +4,43 @@
  */
 var init = require('./config/init')(),
 	config = require('./config/config'),
-	mongoose = require('mongoose');
+	mongoose = require('mongoose'),
+
+/**
+ * PlugDJ Module dependencies
+ */
+    PlugBot = require('./app/modules/plugdj/plugBot').Bot,
+
+/**
+ * Skitty Bot Module dependencies
+ */
+    // Playlist = require('./modules/skitty/playlist').Playlist,
+    // Skitty =      require('./app/modules/skitty/main').Skitty,
+    // InfoPlugin =  require('./modules/info').InfoPlugin,
+    // Dj =          require ('./modules/dj').Dj,
+    // StatTracker = require('./modules/statTracker').StatTracker,
+    // KillSwitch =  require('./modules/killSwitch').KillSwitch,
+    // Curmudgeon =      require('./modules/curmudgeon').Curmudgeon,
+
+/**
+ * TT Module dependencies
+ * @todo Determine if this module is still necessary
+ */
+    //TurntableStats = require('./modules/ttApi').TurntableStats,
+
+/**
+ * Resources
+ */
+    resources = {
+        info:           require('./app/modules/skitty/resources/info'),
+        gifs:           require('./app/modules/skitty/resources/gifs'),
+        quotes:         require('./app/modules/skitty/resources/quotes'),
+        funnyResponses: require('./app/modules/skitty/resources/funny_responses'),
+        dj:             require('./app/modules/skitty/resources/dj'),
+        stats:          require('./app/modules/skitty/resources/stats'),
+        facts:          require('./app/modules/skitty/resources/facts'),
+        curmudgeon:     require('./app/modules/skitty/resources/curmudgeon')
+    };
 
 /**
  * Main application entry file.
