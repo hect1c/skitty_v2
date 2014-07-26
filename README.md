@@ -4,14 +4,14 @@ The Plug.dj bot for [Coding Soundtrack Lounge](http://plug.dj/coding-soundtrack-
 
 ## How To Use
 1. Clone the Repo
-2. Run `npm install` to get all the dependancies.
+2. Run `npm install` to get all the dependencies.
 3. Copy `config.example.js` to `config.js` and complete each field.
 
    ``` js
     module.exports = {
         plug : {
             room : 'room-name',
-            auth : 'usr-cookieue'
+            auth : 'usr-cookie-value'
         },
         mongo : 'mongodb://<USER>:<PASS>@<HOST/IP>:<PORT>/<DB NAME>'
     };
