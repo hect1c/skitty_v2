@@ -1,4 +1,5 @@
 'use strict';
+
 /**
  * Module dependencies.
  */
@@ -14,13 +15,13 @@ var init = require('./config/init')(),
 /**
  * Skitty Bot Module dependencies
  */
-    // Playlist = require('./app/modules/playlist-manager/playlist').Playlist, (Note: This will be the statsDB module)
+    // Playlist = require('./app/modules/playlist-manager/statsDb').Playlist, (Note: This will be the statsDB module)
     Skitty =      require('./app/modules/skitty/main').Skitty,
     InfoPlugin =  require('./app/modules/skitty/info').InfoPlugin,
     Dj =          require ('./app/modules/skitty/dj').Dj,
     StatTracker = require('./app/modules/playlist-manager/statsTracker').StatTracker,
     KillSwitch =  require('./app/modules/skitty/killSwitch').KillSwitch,
-    // Curmudgeon =      require('./modules/curmudgeon').Curmudgeon,
+    Curmudgeon =      require('./app/modules/skitty/curmudgeon').Curmudgeon,
 
 /**
  * TT Module dependencies
