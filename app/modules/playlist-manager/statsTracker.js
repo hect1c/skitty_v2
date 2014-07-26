@@ -150,7 +150,7 @@
 
       function getTimeStamp () {
         var now = new Date();
-        return now.toLocaleDateString() + " - "  + now.toLocaleTimeString();
+        return now.toLocaleDateString() + ' - '  + now.toLocaleTimeString();
       }
 
       function genericErrorHandler (err) {
