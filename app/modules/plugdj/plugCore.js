@@ -56,7 +56,7 @@
           // make match check case-insensitive
 
           // wildcard check
-          if (chatCommands[i].wildCard && msg.indexOf(chatCommands[i].trigger.toLowerCase()) != -1) {
+          if (chatCommands[i].wildCard && msg.indexOf(chatCommands[i].trigger.toLowerCase()) !== -1) {
             chatCommands[i].action(data);
             return;
           }

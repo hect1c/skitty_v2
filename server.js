@@ -14,7 +14,7 @@ var init = require('./config/init')(),
 /**
  * Skitty Bot Module dependencies
  */
-    // Playlist = require('./modules/skitty/playlist').Playlist,
+    // Playlist = require('./modules/skitty/playlist').Playlist, (Note: This will be the statsDB module)
     // Skitty =      require('./app/modules/skitty/main').Skitty,
     // InfoPlugin =  require('./modules/info').InfoPlugin,
     // Dj =          require ('./modules/dj').Dj,

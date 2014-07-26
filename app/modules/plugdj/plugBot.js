@@ -2,7 +2,7 @@
 
   // local dependencies
   var PlugApi = require('plugapi'),
-        PlugCore = require('./app/modules/plugdj/plugCore').PlugCore;
+        PlugCore = require('./plugCore').PlugCore;
 
   // <skeleton plugbot>
     function Bot (model, plugins) {
