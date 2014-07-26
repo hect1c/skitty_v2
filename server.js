@@ -14,11 +14,11 @@ var init = require('./config/init')(),
 /**
  * Skitty Bot Module dependencies
  */
-    // Playlist = require('./modules/skitty/playlist').Playlist, (Note: This will be the statsDB module)
+    // Playlist = require('./app/modules/playlist-manager/playlist').Playlist, (Note: This will be the statsDB module)
     Skitty =      require('./app/modules/skitty/main').Skitty,
     InfoPlugin =  require('./app/modules/skitty/info').InfoPlugin,
     Dj =          require ('./app/modules/skitty/dj').Dj,
-    // StatTracker = require('./modules/statTracker').StatTracker,
+    StatTracker = require('./app/modules/playlist-manager/statsTracker').StatTracker,
     // KillSwitch =  require('./modules/killSwitch').KillSwitch,
     // Curmudgeon =      require('./modules/curmudgeon').Curmudgeon,
 
