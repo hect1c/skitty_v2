@@ -27,7 +27,7 @@ var init = require('./config/init')(),
  * TT Module dependencies
  * @todo Determine if this module is still necessary
  */
-    //TurntableStats = require('./modules/ttApi').TurntableStats,
+    TurntableStats = require('./app/modules/turntable/ttApi').TurntableStats,
 
 /**
  * Resources
