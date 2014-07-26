@@ -33,6 +33,7 @@
 		"passport-twitter": "~1.0.2",
 		"passport-linkedin": "~0.1.3",
 		"passport-google-oauth": "~0.1.5",
+		"plugapi": "*",
 		"lodash": "~2.4.1",
 		"forever": "~0.11.0",
 		"bower": "~1.3.1",
