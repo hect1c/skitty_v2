@@ -86,7 +86,7 @@
       });
 
       return dfr.promise;
-    }
+    };
 
     self.qFindFirstLastPlayById = function (id, sort) {
       var dfr = q.defer(),
@@ -109,7 +109,7 @@
         .sort({ startTime: sort }, dataHandler);
 
       return dfr.promise;
-    }
+    };
   }
 
   exports.StatsDb = StatsDb;

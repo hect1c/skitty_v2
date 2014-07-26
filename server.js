@@ -51,6 +51,52 @@ var init = require('./config/init')(),
 // Bootstrap db connection
 var db = mongoose.connect(config.db);
 
+// define bot model
+  var model = {
+        room: config.room,
+        auth: config.auth,
+        reconnectDelay: 1000,
+        reconnectAttempts: 5
+      },
+
+      // create plugins
+      plugins = [
+        new Skitty({
+          resources: resources
+        }),
+        new Dj({
+          defaultPlaylist: 'snags',
+          autoDj: true,
+          autoDjThreshold: 0,
+          resources: {
+            generic: resources.info,
+            dj: resources.dj
+          }
+        }),
+        new StatTracker({
+          announcePlayStats: false,
+          announceSongPlay: true,
+          resources: {
+            generic: resources.info,
+            stats: resources.stats
+          },
+          stats: new StatsDb( db, ['songPlays'] )
+        }),
+        new InfoPlugin({
+          resources: resources.info
+        }),
+        new KillSwitch({
+          timeout: 5000,
+          resources: resources.info.killSwitch
+        }),
+        new Curmudgeon({
+          resources: resources.curmudgeon
+        })
+      ];
+
+ // run bot
+var skitty = new PlugBot(model, plugins);
+
 // Init the express application
 var app = require('./config/express')(db);
 
