@@ -19,7 +19,7 @@ var init = require('./config/init')(),
     InfoPlugin =  require('./app/modules/skitty/info').InfoPlugin,
     Dj =          require ('./app/modules/skitty/dj').Dj,
     StatTracker = require('./app/modules/playlist-manager/statsTracker').StatTracker,
-    // KillSwitch =  require('./modules/killSwitch').KillSwitch,
+    KillSwitch =  require('./app/modules/skitty/killSwitch').KillSwitch,
     // Curmudgeon =      require('./modules/curmudgeon').Curmudgeon,
 
 /**
