@@ -1,8 +1,9 @@
 {
 	"name": "skitty",
-	"description": "Full-Stack JavaScript with MongoDB, Express, AngularJS, and Node.js",
-	"version": "0.0.1",
-	"author": "Hartley",
+	"description": "Plug.dj Bot",
+	"version": "2.0.0",
+	"author": "",
+	"contributors": "https://github.com/hect1c/skitty_v2/graphs/contributors",
 	"engines": {
 		"node": "0.10.x",
 		"npm": "1.4.x"
@@ -60,5 +61,14 @@
 		"karma-chrome-launcher": "~0.1.2",
 		"karma-firefox-launcher": "~0.1.3",
 		"karma-phantomjs-launcher": "~0.1.2"
+	},
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/hect1c/skitty_v2.git"
+	},
+	"license": "BSD-2-Clause",
+	"homepage": "https://github.com/hect1c/skitty_v2",
+	"bugs": {
+		"url": "https://github.com/hect1c/skitty_v2/issues"
 	}
 }
