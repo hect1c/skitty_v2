@@ -2,24 +2,27 @@
   //@todo Write models for this module
   // local dependencies
   var q = require('q'),
-      mongoose = require('mongoose');
+      mongoose = require('mongoose'),
+      SongPlayModel = require('../../models/song-play.server.model.js'),
+      SongPlay = mongoose.model('SongPlay');
 
   // promise-based interface for accessing plug statistics
   function StatsDb (model) {
     var self = this;
 
     self.logSongPlay = function (song) {
-      model.db.songPlays.save(song, function (err, saved) {
-        if (err || !saved) {
-          console.log('Song save failed: ' + err);
-        }
+      console.dir('==logSongPlay==');
+      var songPlay = new SongPlay(song);
+      songPlay.save(function(err, song){
+        if (err) return console.error('Song save failed: ' + err);
       });
     };
 
     self.qGetAllPlays = function () {
+      console.dir('==qGetAllPlays==');
       var dfr = q.defer();
 
-      model.db.songPlays.find(function(err, plays) {
+      SongPlay.find(function(err, plays) {
         if (err || !plays) {
           dfr.reject(err);
         } else {
@@ -35,9 +38,10 @@
     };
 
     self.qGetDjPlaysById = function (djId) {
+      console.dir('==qGetDjPlaysById==');
       var dfr = q.defer();
 
-      model.db.songPlays.find({ djId: djId }, function(err, plays) {
+      SongPlay.find({ djId: djId }, function(err, plays) {
         if (err || !plays) {
           dfr.reject(err);
         } else {
@@ -53,9 +57,10 @@
     };
 
     self.qGetAllBySongsById = function (id) {
+      console.dir('==qGetAllBySongsById==');
       var dfr = q.defer();
 
-      model.db.songPlays.find({ id: id }, function(err, plays) {
+      SongPlay.find({ id: id }, function(err, plays) {
         if (err || !plays) {
           dfr.reject(err);
         } else {
@@ -71,9 +76,10 @@
     };
 
     self.qGetAllByArtistName = function (artistName) {
+      console.dir('==qGetAllByArtistName==');
       var dfr = q.defer();
 
-      model.db.songPlays.find({ author: artistName }, function(err, plays) {
+      SongPlay.find({ author: artistName }, function(err, plays) {
         if (err || !plays) {
           dfr.reject(err);
         } else {
@@ -84,29 +90,6 @@
           }
         }
       });
-
-      return dfr.promise;
-    };
-
-    self.qFindFirstLastPlayById = function (id, sort) {
-      var dfr = q.defer(),
-          dataHandler = function(err, plays) {
-            if (err || !plays) {
-              dfr.reject(err);
-            } else {
-              if (plays.length > 0) {
-                dfr.resolve(plays[0]);
-              } else {
-                dfr.resolve(null);
-              }
-            }
-          };
-
-      // query database
-      model.db.songPlays
-        .find({ id: id })
-        .limit(2)
-        .sort({ startTime: sort }, dataHandler);
 
       return dfr.promise;
     };

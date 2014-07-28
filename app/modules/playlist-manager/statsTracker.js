@@ -2,7 +2,9 @@
 
   // local dependencies
   var moment = require('moment'),
-      q = require('q');
+      mongoose = require('mongoose'),
+      SongPlayModel = require('../../models/song-play.server.model.js'),
+      SongPlay = mongoose.model('SongPlay');
 
   // tracking and reporting plugin for songs, artists and djs
   function StatTracker (model) {
@@ -107,22 +109,27 @@
       // play start with last played info
       function playStart (data) {
         if (currentSong.startTime && announceSongPlay) {
-          model.stats.qFindFirstLastPlayById(currentSong.id, -1).then(function (lastplay) {
-            var message = model.resources.stats.songStart.base.replace('{title}', currentSong.title).replace('{artist}', currentSong.author);
+          console.log('==Song play start==');
 
-            //Instantiate Dj Username
-            var currentDjName = api.getDJ().username; //Use getDJ action
-            message = message.replace('{dj}', currentDjName); //Setup Message
+          SongPlay.findOne({id:currentSong.id}, function(err, lastplay){
+            if (err) throw err;
 
-            if (lastplay) {
-              var timefrom = moment().from(lastplay.startTime, true);
-              message = message + model.resources.stats.songStart.lastPlayed.replace('{time}', timefrom);
-            } else {
-              message = message + model.resources.stats.songStart.newPlay;
-            }
+              var message = model.resources.stats.songStart.base.replace('{title}', currentSong.title).replace('{artist}', currentSong.author);
 
-            core.showMessage(message);
-          }, genericErrorHandler);
+              //Instantiate Dj Username
+              var currentDjName = api.getDJ().username; //Use getDJ action
+              message = message.replace('{dj}', currentDjName); //Setup Message
+
+              if (lastplay) {
+                var timefrom = moment().from(lastplay.startTime, true);
+                message = message + model.resources.stats.songStart.lastPlayed.replace('{time}', timefrom);
+              } else {
+                message = message + model.resources.stats.songStart.newPlay;
+              }
+
+              core.showMessage(message);
+
+          });
         }
       }
     // </stat reports>
