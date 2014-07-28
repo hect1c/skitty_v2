@@ -39,6 +39,18 @@ var SongPlaySchema = new Schema({
 	},
 	startTime: {
 		type: Date
+	},
+	users: {
+		type: [Schema.Types.Mixed]
+	},
+	woots: {
+		type: [Schema.Types.Mixed]
+	},
+	mehs: {
+		type: [Schema.Types.Mixed]
+	},
+	grabs: {
+		type: [Schema.Types.Mixed]
 	}
 
 });
