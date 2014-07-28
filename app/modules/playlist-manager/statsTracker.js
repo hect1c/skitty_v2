@@ -257,6 +257,7 @@
 
       function songChange (data) {
         if (currentSong.startTime) {
+          console.log('==songChange - statsTracker.js==');
           model.stats.logSongPlay(currentSong);
           playStats(currentSong);
         }

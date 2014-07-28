@@ -114,6 +114,7 @@
 
     // <subscription methods>
       function songChange (data) {
+        console.log('== songChange - main.js ==');
         voteReqCount = 0;
         maxMsgSent = false;
         currentSong = data.media;
