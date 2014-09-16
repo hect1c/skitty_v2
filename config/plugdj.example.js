@@ -4,4 +4,4 @@ module.exports = {
         email : 'account-email',
         password : 'account-password'
     }
-}
+};
