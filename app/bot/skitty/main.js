@@ -123,7 +123,7 @@
       function joinRoom (data) {
         botAcctInfo = api.getSelf();
         currentSong = api.getMedia();
-        // api.sendChat(model.resources.info.roomEnter);
+        api.sendChat(model.resources.info.roomEnter);
       }
     // </subscription methods>
 
