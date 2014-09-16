@@ -114,17 +114,16 @@
 
     // <subscription methods>
       function songChange (data) {
+        console.log('== songChange - main.js ==');
         voteReqCount = 0;
         maxMsgSent = false;
-        console.log('=== songChange ===');
-        console.log(data);
         currentSong = data.media;
       }
 
       function joinRoom (data) {
         botAcctInfo = api.getSelf();
         currentSong = api.getMedia();
-        //api.sendChat(model.resources.info.roomEnter);
+        // api.sendChat(model.resources.info.roomEnter);
       }
     // </subscription methods>
 

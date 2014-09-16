@@ -42,7 +42,7 @@
 
       // connect
       api.on('roomJoin', function(data) {
-        console.log('Connected to: ' + data.room.name);
+        console.log('Connected to: ' + data );
       });
       api.connect(model.room);
     }
