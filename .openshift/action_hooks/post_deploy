@@ -1,3 +1,0 @@
-# Launch Application
-echo Lauching Application
-node $OPENSHIFT_REPO_DIR/app.js
