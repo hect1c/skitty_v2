@@ -199,7 +199,7 @@
       if (core.isFirstConnect()) {
         // subscriptions
         api.on('chat', core.checkCommands.bind(core, chatCommands));
-        api.on('djAdvance', songChange);
+        api.on('advance', songChange);
         api.on('djUpdate', djUpdate);
         api.on('roomJoin', roomJoin);
       }
