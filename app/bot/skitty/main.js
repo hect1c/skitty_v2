@@ -24,10 +24,6 @@
       }
 
       function bop (speak) {
-        console.log( currentSong );
-        console.log( voteReqCount );
-        console.log( speak );
-        console.log( maxMsgSent );
         if (voteReqCount === 0 && currentSong) {
           api.woot();
 
