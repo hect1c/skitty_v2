@@ -24,6 +24,10 @@
       }
 
       function bop (speak) {
+        console.log( currentSong );
+        console.log( voteReqCount );
+        console.log( speak );
+        console.log( maxMsgSent );
         if (voteReqCount === 0 && currentSong) {
           api.woot();
 
@@ -114,7 +118,6 @@
 
     // <subscription methods>
       function songChange (data) {
-        console.log('== songChange - main.js ==');
         voteReqCount = 0;
         maxMsgSent = false;
         currentSong = data.media;
@@ -135,7 +138,7 @@
         // subscriptions
         api.on('chat', core.checkCommands.bind(core, chatCommands));
         api.on('roomJoin', joinRoom);
-        api.on('djAdvance', songChange);
+        api.on('advance', songChange);
       }
     };
   }
