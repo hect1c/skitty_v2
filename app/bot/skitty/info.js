@@ -31,7 +31,7 @@
           { trigger: 'plugapi',    action: showMessage.bind(this, model.resources.plugapi) },
           { trigger: 'src',        action: showMessage.bind(this, model.resources.src) },
           { trigger: 'rules',      action: showMessage.bind(this, model.resources.rules) },
-          { trigger: 'report',      action: showMessage.bind(this, model.resources.issues) },
+          { trigger: 'report',      action: showMessage.bind(this, model.resources.report) },
           { trigger: 'theme',      action: showTheme }
         ];
 
