@@ -1,6 +1,6 @@
 {
-  "src": "https://github.com/deLaDude/skitty",
-  "plugapi": "https://github.com/TATDK/plugapi",
+  "src": "https://github.com/hect1c/skitty_v2",
+  "plugapi": "https://github.com/plugCubed/plugAPI",
   "theme": {
     "funkyFriday": "Funky Fuckin' Friday! Every Friday we implement a theme: Electro Soul, Glitch, Funk, Hip Hop, medium Dubstep(if it has some funk to it) ...as long as it has a sick beat and some funk you're winning.",
     "none": "No theme active. See room info for music format details."
