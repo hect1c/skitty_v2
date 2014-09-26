@@ -74,7 +74,7 @@
 
     // <subscription methods>
       function autoDj (data) {
-        if (core.hasPermission(data.fromID)) {
+        if (core.hasPermission(data.from.id)) {
           if (model.autoDj) {
             core.showMessage(model.resources.generic.redundantRequestResponse);
           } else {
@@ -96,7 +96,7 @@
         var wasAutoDj = model.autoDj;
         model.autoDj = false;
 
-        if (core.hasPermission(data.fromID)) {
+        if (core.hasPermission(data.from.id)) {
           if (onff !== inTheBooth || wasAutoDj) {
             if (onff) {
               api.joinBooth();
@@ -127,7 +127,7 @@
 
       function skip (data) {
         if (playingTrack) {
-          if (core.hasPermission(data.fromID)) {
+          if (core.hasPermission(data.from.id)) {
             api.skipSong();
           } else {
             core.showMessage(model.resources.generic.accessDeniedResponse);

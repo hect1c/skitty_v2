@@ -1,21 +1,23 @@
 'use strict';
 
+  var _ = require('lodash');
+
   // set of core functions that can be leveraged by the bot plugins
   function PlugCore (shell, api) {
     var self = this;
 
     self.hasPermission = function (userId) {
-      var staff = api.getStaff(),
-          admins = api.getAdmins(),
-          mods = staff.concat(admins);
-
-      for (var i in mods) {
-        if (mods[i].id === userId) {
-          return true;
-        }
-      }
-
-      return false;
+      /**
+       * Previous implementation joined api.getAdmins() and api.getStaff()
+       * but getAdmins() doesn't work anymore. Just leaving it as staff
+       * for now. Also refactored to use lodash, just cause.
+       */
+      var hasPermission = false;
+      _.forEach(api.getStaff(), function(user){
+        hasPermission = _.contains(user, userId) || hasPermission;
+        if(hasPermission) return false; // Stop iterating if match found
+      });
+      return hasPermission;
     };
 
     self.isFirstConnect = function() {
@@ -49,7 +51,7 @@
       }
 
       // don't evaluate messages sent by self
-      if (self.botInfo.id !== data.fromID) {
+      if (self.botInfo.id !== data.from.id) {
         var msg = data.message.trim().toLowerCase();
 
         for (var i in chatCommands) {
