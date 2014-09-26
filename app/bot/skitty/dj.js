@@ -159,7 +159,7 @@
       }
 
       function roomJoin (data) {
-        currentSong = { media: api.getMedia };
+        currentSong = { media: api.getMedia() };
         botAccountInfo = api.getSelf();
 
         djs = api.getDJs();
