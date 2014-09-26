@@ -59,6 +59,7 @@
             playlistId = findPlaylistId(model.defaultPlaylist, playlists);
 
             if (playlistId && songId) {
+              // This REST command seems to fail in PlugAPI so the song isn't added and the callback never fires
               api.addSongToPlaylist(playlistId, songId, function() {
                 core.showMessage(model.resources.dj.currateMessage);
               });
