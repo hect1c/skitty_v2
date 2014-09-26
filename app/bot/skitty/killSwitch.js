@@ -9,8 +9,8 @@
         killStagedBy = null;
 
     function stageKill (data) {
-      if (core.hasPermission(data.fromID) && !killStagedBy) {
-        killStagedBy = data.fromID;
+      if (core.hasPermission(data.from.id) && !killStagedBy) {
+        killStagedBy = data.from.id;
         core.showMessage(model.resources.confirm);
 
         // TODO: make auto-unstage configurable via model
@@ -22,7 +22,7 @@
 
     function terminate (data) {
       // only the person who staged the kill can execute it
-      if (core.hasPermission(data.fromID) && data.fromID === killStagedBy) {
+      if (core.hasPermission(data.from.id) && data.from.id === killStagedBy) {
         core.showMessage(model.resources.logoff);
 
         setTimeout(function() {
@@ -34,7 +34,7 @@
 
     function cancel (data) {
       // only the person who staged the kill can cancel it
-      if (core.hasPermission(data.fromID) && data.fromID === killStagedBy) {
+      if (core.hasPermission(data.from.id) && data.from.id === killStagedBy) {
         core.showMessage(model.resources.cancel);
         killStagedBy = null;
       }

@@ -166,7 +166,7 @@
       }
 
       function toggleStatChat (onoff, data) {
-        if (core.hasPermission(data.fromID)) {
+        if (core.hasPermission(data.from.id)) {
           core.showMessage(model.resources.generic.affirmativeResponse);
           announcePlayStats = onoff;
         } else {
@@ -175,7 +175,7 @@
       }
 
       function toggleSongMessage (onoff, data) {
-        if (core.hasPermission(data.fromID)) {
+        if (core.hasPermission(data.from.id)) {
           core.showMessage(model.resources.generic.affirmativeResponse);
           announceSongPlay = onoff;
         } else {
@@ -184,7 +184,7 @@
       }
 
       function djStats (data) {
-        model.stats.qGetDjPlaysById(data.fromID).then(djSummary, genericErrorHandler);
+        model.stats.qGetDjPlaysById(data.from.id).then(djSummary, genericErrorHandler);
       }
 
       function skittyStats () {
