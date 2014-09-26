@@ -52,7 +52,7 @@
       if (currentSong.media) {
         var playlistId,
             songId = currentSong.media.id,
-            allowed = core.hasPermission(data.fromID);
+            allowed = core.hasPermission(data.from.id);
 
         if (allowed && snagReqCount === 0) {
           api.getPlaylists(function(playlists) {
