@@ -166,7 +166,7 @@
       }
 
       function toggleStatChat (onoff, data) {
-        if (core.hasPermission(data.fromID)) {
+        if (core.hasPermission(data.from.id)) {
           core.showMessage(model.resources.generic.affirmativeResponse);
           announcePlayStats = onoff;
         } else {
@@ -175,7 +175,7 @@
       }
 
       function toggleSongMessage (onoff, data) {
-        if (core.hasPermission(data.fromID)) {
+        if (core.hasPermission(data.from.id)) {
           core.showMessage(model.resources.generic.affirmativeResponse);
           announceSongPlay = onoff;
         } else {
@@ -184,7 +184,7 @@
       }
 
       function djStats (data) {
-        model.stats.qGetDjPlaysById(data.fromID).then(djSummary, genericErrorHandler);
+        model.stats.qGetDjPlaysById(data.from.id).then(djSummary, genericErrorHandler);
       }
 
       function skittyStats () {
@@ -300,7 +300,10 @@
 
       if (core.isFirstConnect()) {
         api.on('chat', core.checkCommands.bind(core, chatCommands));
-        api.on('djAdvance', songChange);
+        api.on('advance', songChange);
+
+        // @TODO Looks like these two events changed as well, need to update accordingly
+        // https://github.com/plugCubed/plugAPI/blob/e43376fdba8eaa24835052c4867bdd08961b84c5/src/client.js#L877
         api.on('voteUpdate', voteUpdate);
         api.on('curateUpdate', grabUpdate);
       }

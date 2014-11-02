@@ -52,13 +52,14 @@
       if (currentSong.media) {
         var playlistId,
             songId = currentSong.media.id,
-            allowed = core.hasPermission(data.fromID);
+            allowed = core.hasPermission(data.from.id);
 
         if (allowed && snagReqCount === 0) {
           api.getPlaylists(function(playlists) {
             playlistId = findPlaylistId(model.defaultPlaylist, playlists);
 
             if (playlistId && songId) {
+              // This REST command seems to fail in PlugAPI so the song isn't added and the callback never fires
               api.addSongToPlaylist(playlistId, songId, function() {
                 core.showMessage(model.resources.dj.currateMessage);
               });
@@ -74,7 +75,7 @@
 
     // <subscription methods>
       function autoDj (data) {
-        if (core.hasPermission(data.fromID)) {
+        if (core.hasPermission(data.from.id)) {
           if (model.autoDj) {
             core.showMessage(model.resources.generic.redundantRequestResponse);
           } else {
@@ -96,7 +97,7 @@
         var wasAutoDj = model.autoDj;
         model.autoDj = false;
 
-        if (core.hasPermission(data.fromID)) {
+        if (core.hasPermission(data.from.id)) {
           if (onff !== inTheBooth || wasAutoDj) {
             if (onff) {
               api.joinBooth();
@@ -127,7 +128,7 @@
 
       function skip (data) {
         if (playingTrack) {
-          if (core.hasPermission(data.fromID)) {
+          if (core.hasPermission(data.from.id)) {
             api.skipSong();
           } else {
             core.showMessage(model.resources.generic.accessDeniedResponse);
@@ -159,7 +160,7 @@
       }
 
       function roomJoin (data) {
-        currentSong = { media: api.getMedia };
+        currentSong = { media: api.getMedia() };
         botAccountInfo = api.getSelf();
 
         djs = api.getDJs();
