@@ -11,7 +11,6 @@
     var self = this;
 
     self.logSongPlay = function (song) {
-      console.dir('==logSongPlay==');
       var songPlay = new SongPlay(song);
       songPlay.save(function(err, song){
         if (err) return console.error('Song save failed: ' + err);
@@ -19,7 +18,6 @@
     };
 
     self.qGetAllPlays = function () {
-      console.dir('==qGetAllPlays==');
       var dfr = q.defer();
 
       SongPlay.find(function(err, plays) {
@@ -38,7 +36,6 @@
     };
 
     self.qGetDjPlaysById = function (djId) {
-      console.dir('==qGetDjPlaysById==');
       var dfr = q.defer();
 
       SongPlay.find({ djId: djId }, function(err, plays) {
@@ -57,10 +54,10 @@
     };
 
     self.qGetAllBySongsById = function (id) {
-      console.dir('==qGetAllBySongsById==');
       var dfr = q.defer();
-
+      // console.dir(id);
       SongPlay.find({ id: id }, function(err, plays) {
+        // console.dir( plays );
         if (err || !plays) {
           dfr.reject(err);
         } else {
@@ -71,12 +68,11 @@
           }
         }
       });
-
+      // console.dir( dfr.promise );
       return dfr.promise;
     };
 
     self.qGetAllByArtistName = function (artistName) {
-      console.dir('==qGetAllByArtistName==');
       var dfr = q.defer();
 
       SongPlay.find({ author: artistName }, function(err, plays) {

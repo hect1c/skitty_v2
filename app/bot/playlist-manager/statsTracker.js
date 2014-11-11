@@ -27,7 +27,6 @@
             botPlays = 0;
 
         if (plays) {
-          console.log( plays );
           for (var i in plays) {
             if (plays[i].woots && !isInBlacklist(plays[i].djId)) {
               ups = ups + plays[i].woots.length;
@@ -110,7 +109,6 @@
       // play start with last played info
       function playStart (data) {
         if (currentSong.startTime && announceSongPlay) {
-          console.log('==Song play start==');
 
           SongPlay.findOne({id:currentSong.id}, function(err, lastplay){
             if (err) throw err;
@@ -253,16 +251,12 @@
 
       function grabUpdate (data) {
         if (currentSong.startTime) {
-          currentSong.grabs.push(data.id);
+          currentSong.grabs.push(data.i);
         }
       }
 
       function songChange (data) {
         if (currentSong.startTime) {
-          console.log('==songChange - statsTracker.js==');
-          // console.log(currentSong);
-          console.log('==songChange - data==');
-          // console.log(data);
           model.stats.logSongPlay(currentSong);
           playStats(currentSong);
         }
@@ -271,8 +265,6 @@
         if (data.media) {
           currentSong = data.media;
 
-          console.log('===current song data ===');
-          // console.log(data.currentDJ.id);
           // append stat props
           currentSong.djId = data.currentDJ.id;
           currentSong.earned = data.earned;
@@ -308,9 +300,6 @@
       if (core.isFirstConnect()) {
         api.on('chat', core.checkCommands.bind(core, chatCommands));
         api.on('advance', songChange);
-
-        // @TODO Looks like these two events changed as well, need to update accordingly
-        // https://github.com/plugCubed/plugAPI/blob/e43376fdba8eaa24835052c4867bdd08961b84c5/src/client.js#L877
         api.on('vote', voteUpdate);
         api.on('grab', grabUpdate);
       }
