@@ -27,6 +27,7 @@
             botPlays = 0;
 
         if (plays) {
+          console.log( plays );
           for (var i in plays) {
             if (plays[i].woots && !isInBlacklist(plays[i].djId)) {
               ups = ups + plays[i].woots.length;
@@ -149,7 +150,8 @@
 
       function findDjName (play) {
         for (var i in play.users) {
-          if (play.users[i].id === play.djId) {
+          //make sure same type cast
+          if ( Number(play.users[i].id) === Number(play.djId) ) {
             return play.users[i].username;
           }
         }
@@ -233,16 +235,16 @@
         var clearFrom;
 
         if (currentSong.startTime) {
-          if (data.vote === 1) {
-            currentSong.woots.push(data.id);
+          if (data.v === 1) {
+            currentSong.woots.push(data.i);
             clearFrom = currentSong.mehs;
           } else {
-            currentSong.mehs.push(data.id);
+            currentSong.mehs.push(data.i);
             clearFrom = currentSong.woots;
           }
 
           // if user changes vote we need to cancel previous vote
-          var check = clearFrom.indexOf(data.id);
+          var check = clearFrom.indexOf(data.i);
           if (check > -1) {
             clearFrom.splice(check, 1);
           }
@@ -258,6 +260,9 @@
       function songChange (data) {
         if (currentSong.startTime) {
           console.log('==songChange - statsTracker.js==');
+          // console.log(currentSong);
+          console.log('==songChange - data==');
+          // console.log(data);
           model.stats.logSongPlay(currentSong);
           playStats(currentSong);
         }
@@ -266,8 +271,10 @@
         if (data.media) {
           currentSong = data.media;
 
+          console.log('===current song data ===');
+          // console.log(data.currentDJ.id);
           // append stat props
-          currentSong.djId = data.currentDJ;
+          currentSong.djId = data.currentDJ.id;
           currentSong.earned = data.earned;
           currentSong.startTime = Date.now();
           currentSong.users = api.getUsers();
@@ -304,8 +311,8 @@
 
         // @TODO Looks like these two events changed as well, need to update accordingly
         // https://github.com/plugCubed/plugAPI/blob/e43376fdba8eaa24835052c4867bdd08961b84c5/src/client.js#L877
-        api.on('voteUpdate', voteUpdate);
-        api.on('curateUpdate', grabUpdate);
+        api.on('vote', voteUpdate);
+        api.on('grab', grabUpdate);
       }
     };
   }
