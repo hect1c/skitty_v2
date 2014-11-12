@@ -53,11 +53,9 @@
         var playlistId,
             songId = currentSong.media.id,
             allowed = core.hasPermission(data.from.id);
-
         if (allowed && snagReqCount === 0) {
           api.getPlaylists(function(playlists) {
             playlistId = findPlaylistId(model.defaultPlaylist, playlists);
-
             if (playlistId && songId) {
               // This REST command seems to fail in PlugAPI so the song isn't added and the callback never fires
               api.addSongToPlaylist(playlistId, songId, function() {
@@ -127,9 +125,14 @@
       }
 
       function skip (data) {
-        if (playingTrack) {
+        if (currentSong) {
           if (core.hasPermission(data.from.id)) {
-            api.skipSong();
+            //delete moderator who issued command
+            deleteMsg(data);
+            //allow msg to be deleted before skipping user
+            setTimeout(function() {
+                api.moderateForceSkip();
+            }, 100);
           } else {
             core.showMessage(model.resources.generic.accessDeniedResponse);
           }
@@ -138,7 +141,17 @@
         }
       }
 
+      //Deletes a chat msg
+      function deleteMsg(data){
+        // botAccountInfo = api.getSelf();
+        // console.log(botAccountInfo);
+        //Before deleting send a chat message
+        api.moderateDeleteChat(data.raw.cid);
+        // api.Chat(data.raw.message,data.raw.un)
+      }
+
       function songChange (data) {
+        // console.log(data);
         currentSong = data;
         snagReqCount = 0;
 
