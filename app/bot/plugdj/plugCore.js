@@ -39,7 +39,7 @@
           message = message.replace('{sender}', '@' + data.from);
         }
 
-        api.sendChat(message);
+        api.sendChat('/em '+message);
       }
     };
 

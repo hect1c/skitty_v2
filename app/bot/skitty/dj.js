@@ -143,11 +143,9 @@
 
       //Deletes a chat msg
       function deleteMsg(data){
-        // botAccountInfo = api.getSelf();
-        // console.log(botAccountInfo);
-        //Before deleting send a chat message
+        //Before deleting send a chat message from skitty
+        core.showMessage(data.raw.un+' used skip!');
         api.moderateDeleteChat(data.raw.cid);
-        // api.Chat(data.raw.message,data.raw.un)
       }
 
       function songChange (data) {
