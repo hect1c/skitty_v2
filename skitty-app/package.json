@@ -8,10 +8,6 @@
     "node": "0.10.x",
     "npm": "1.4.x"
   },
-  "scripts": {
-    "start": "grunt",
-    "test": "grunt test"
-  },
   "dependencies": {
     "glob": "^4.0.6",
     "lodash": "~2.4.1",
