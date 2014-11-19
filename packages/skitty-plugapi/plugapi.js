@@ -1,12 +1,12 @@
 SkittyPlugApi = {};
 
 var plugApi = Npm.require('plugapi');
+var reconnectAttempts = 0;
 
 SkittyPlugApi.connect = function(auth, con) {
     //Instantiate PlugAPI
     var api = new plugApi(auth);
     //setup connection variables
-    var reconnectAttempts = 0;
     var delay = con.delay || 0;
     con.attempts = con.attempts || 100;
 
@@ -32,4 +32,8 @@ SkittyPlugApi.connect = function(auth, con) {
     });
 
     api.connect(con.room);
+}
+
+SkittyPlugApi.isFirstConnect = function() {
+    return reconnectAttempts === 0;
 }
