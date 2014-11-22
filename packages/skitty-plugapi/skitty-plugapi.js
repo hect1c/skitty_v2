@@ -1,37 +1,43 @@
+var plug = Npm.require('plugapi');
+
 SkittyPlugApi = {};
 
-var plugApi = Npm.require('plugapi');
 var reconnectAttempts = 0;
 
 SkittyPlugApi.connect = function(auth, con) {
     //Instantiate PlugAPI
-    api = new plugApi(auth);
+    plugObj = new plug(auth);
+
     //setup connection variables
     var delay = con.delay || 0;
     con.attempts = con.attempts || 100;
 
-    var reconnect = function() {
+    //@todo Test to see if this function is working or necessary
+    var reconnect = function(err) {
         var err = arguments;
-        console.dir( arguments );
 
-        if( reconnectAttempts < con.attempts ){
-            setTimeout( function(){
-                console.log('Disconnected ' + err );
-                api.connect(con.room);
-            });
+        if (reconnectAttempts < con.attempts) {
+            setTimeout(function() {
+                console.log('Disconnected ' + err);
+                plugObj.connect(con.room);
+            }, delay );
+
+            reconnectAttempts++;
         }
     }
 
     //Recoonect upon these events
-    api.on('close',reconnect);
-    api.on('error',reconnect);
+    plugObj.on('close', reconnect);
+    plugObj.on('error', reconnect);
 
     //connect
-    api.on('roomJoin', function(room){
+    plugObj.on('roomJoin', function(room) {
         console.log('Joined ' + room);
     });
+    plugObj.connect(con.room);
 
-    api.connect(con.room);
+    //return obj
+    return plugObj;
 }
 
 SkittyPlugApi.isFirstConnect = function() {

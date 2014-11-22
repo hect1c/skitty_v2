@@ -6,6 +6,10 @@ Package.describe({
 
 Package.onUse(function(api) {
   api.versionsFrom('1.0');
+
+  //variables to be used in other packages
+  api.export('SkittyPlugApi');
+
   api.addFiles('skitty-plugapi.js');
 });
 
