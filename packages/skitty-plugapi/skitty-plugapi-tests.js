@@ -2,12 +2,12 @@
 Tinytest.add('SkittyPlugApi.connect()', function(test) {
     //@todo gather credentials from a file
     var api = SkittyPlugApi.connect({
-        'email': "email",
-        'password': "password"
+        'email': "testbot@eran.sh",
+        'password': "test2test2"
     }, {
         'attempts': 5,
         'delay': 1000,
-        'room': 'room-name'
+        'room': 'coding-soundtrack-lounge'
     });
 
     var attempts = SkittyPlugApi.isFirstConnect();

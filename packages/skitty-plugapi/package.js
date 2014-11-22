@@ -1,3 +1,5 @@
+'use strickt';
+
 Package.describe({
     name: 'skitty-plugapi',
     summary: "Plug.dj API",
