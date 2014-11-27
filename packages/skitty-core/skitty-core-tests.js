@@ -2,13 +2,14 @@
 
 //@todo get contents from file
 //ensure file can't be read from client
+//@todo gather credentials from a file
 api = SkittyPlugApi.api({
-    'email': "testbot@eran.sh",
-    'password': "test2test2"
+    'email': "email",
+    'password': "password"
 }, {
     'attempts': 5,
     'delay': 1000,
-    'room': 'coding-soundtrack-lounge'
+    'room': 'room-name'
 });
 
 //Get Core methods
@@ -57,7 +58,7 @@ function testSkittyCorePerm() {
         }));
 
         //can only be tested when song changes
-        api.on('advance', Meteor.bindEnvironment( function(data){
+        api.on('advance', Meteor.bindEnvironment(function(data) {
             var song = core.songChange(data);
 
             //returns a document
