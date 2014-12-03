@@ -1,20 +1,23 @@
 /* Test connect method */
-Tinytest.add('SkittyPlugApi.connect()', function(test) {
-    //@todo gather credentials from a file
-    var api = SkittyPlugApi.api({
-        'email': "email",
-        'password': "password"
-    }, {
-        'attempts': 5,
-        'delay': 1000,
-        'room': 'room-name'
-    });
+Tinytest.add('SkittyPlugApi.run()', function(test) {
 
-    var attempts = SkittyPlugApi.isFirstConnect();
+    //@todo implement necessary modules
+    var config = {
+            auth: {
+                'email': "testbot@eran.sh",
+                'password': "test2test2"
+            },
+            con: {
+                'attempts': 5,
+                'delay': 1000,
+                'room': 'coding-soundtrack-lounge'
+            }
+        },
+        modules = [];
+
+    //@todo gather credentials from a file
+    var api = SkittyPlugApi.run(config,modules);
 
     test.throws(api);
     test.isNotNull(api);
-    //test attempts
-    test.isNotNull(attempts);
-    test.isTrue(attempts);
 });

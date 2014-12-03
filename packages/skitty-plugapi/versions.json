@@ -5,6 +5,14 @@
       "1.1.3"
     ],
     [
+      "skitty-core",
+      "1.0.0"
+    ],
+    [
+      "stevezhu:lodash",
+      "0.1.0"
+    ],
+    [
       "underscore",
       "1.0.1"
     ]

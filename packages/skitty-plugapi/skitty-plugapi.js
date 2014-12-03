@@ -1,15 +1,33 @@
-var plug = Npm.require('plugapi');
+// 'use strict';
 
-var reconnectAttempts = 0;
+/**
+ * Connects to 3rd Party API (PLUG.DJ)
+ * & Registers
+ *
+ * @author <hect1c17@gmail.com>
+ * @since 2014-11-29
+ */
+
+var plug = Npm.require('plugapi');
 
 SkittyPlugApi = {
     //Instantiate PlugAPI
-    api: function(auth, con) {
-        var plugObj = new plug(auth);
+    run: function(config, modules) {
+        var self = this;
+
+        self.reconnectAttempts = 0;
+
+        var plugObj = new plug(config.auth),
+            core = new SkittyCore(self, plugObj);
+
+        //register modules
+        // for( var i = 0; i <= modules.length; i++){
+        //     modules[i].init(plugObj, core);
+        // }
 
         //setup connection variables
-        var delay = con.delay || 0;
-        con.attempts = con.attempts || 100;
+        var delay = config.con.delay || 0;
+        config.con.attempts = config.con.attempts || 100;
 
         //@todo Test to see if this function is working or necessary
         var reconnect = function(err) {
@@ -18,10 +36,10 @@ SkittyPlugApi = {
             if (reconnectAttempts < con.attempts) {
                 setTimeout(function() {
                     console.log('Disconnected ' + err);
-                    plugObj.connect(con.room);
+                    plugObj.connect(config.con.room);
                 }, delay);
 
-                reconnectAttempts++;
+                self.reconnectAttempts++;
             }
         }
 
@@ -33,12 +51,7 @@ SkittyPlugApi = {
         plugObj.on('roomJoin', function(room) {
             console.log('Joined ' + room);
         });
-        plugObj.connect(con.room);
-        //return obj
-        return plugObj;
-    },
 
-    isFirstConnect: function(){
-        return reconnectAttempts === 0;
+        plugObj.connect(config.con.room);
     }
 }

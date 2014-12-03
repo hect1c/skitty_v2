@@ -1,5 +1,3 @@
-'use strickt';
-
 Package.describe({
     name: 'skitty-plugapi',
     summary: "Plug.dj API",
@@ -7,18 +5,19 @@ Package.describe({
 });
 
 Package.onUse(function(api) {
-  api.versionsFrom('1.0');
+    api.versionsFrom('1.0');
 
-  //variables to be used in other packages
-  api.export('SkittyPlugApi');
+    api.use('skitty-core');
 
-  api.addFiles('skitty-plugapi.js');
+    api.export('SkittyPlugApi');
+    api.addFiles('skitty-plugapi.js');
 });
 
 Package.onTest(function(api) {
-  api.use('tinytest');
-  api.addFiles('skitty-plugapi.js');
-  api.add_files('skitty-plugapi-tests.js');
+    api.use('skitty-plugapi');
+    api.use('skitty-core');
+    api.use('tinytest');
+    api.addFiles('skitty-plugapi-tests.js', 'server');
 });
 
 Npm.depends({
