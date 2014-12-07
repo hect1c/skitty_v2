@@ -6,18 +6,14 @@ Package.describe({
 
 Package.onUse(function(api) {
     api.versionsFrom('1.0');
-
     api.use('skitty-core');
-
-    api.export('SkittyPlugApi');
+    api.export("SkittyPlugApi");
     api.addFiles('skitty-plugapi.js');
 });
 
 Package.onTest(function(api) {
-    api.use('skitty-plugapi');
-    api.use('skitty-core');
-    api.use('tinytest');
-    api.addFiles('skitty-plugapi-tests.js', 'server');
+    api.use(['skitty-core','tinytest']);
+    api.addFiles(['skitty-plugapi-tests.js', "skitty-plugapi.js"], 'server');
 });
 
 Npm.depends({

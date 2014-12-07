@@ -1,5 +1,3 @@
-// 'use strict';
-
 /**
  * Connects to 3rd Party API (PLUG.DJ)
  * & Registers
@@ -17,9 +15,11 @@ SkittyPlugApi = {
 
         self.reconnectAttempts = 0;
 
-        var plugObj = new plug(config.auth),
-            core = new SkittyCore(self, plugObj);
+        var plugObj = new plug(config.auth);
 
+        var core = new SkittyCore.run(self, plugObj);
+
+        //@todo enable this logic when modules begin to get implemented
         //register modules
         // for( var i = 0; i <= modules.length; i++){
         //     modules[i].init(plugObj, core);

@@ -1,4 +1,4 @@
-/* Test connect method */
+/* Test run method */
 Tinytest.add('SkittyPlugApi.run()', function(test) {
 
     //@todo implement necessary modules
