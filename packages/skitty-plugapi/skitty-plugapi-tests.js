@@ -4,8 +4,8 @@ Tinytest.add('SkittyPlugApi.run()', function(test) {
     //@todo implement necessary modules
     var config = {
             auth: {
-                'email': "testbot@eran.sh",
-                'password': "test2test2"
+                'email': "email",
+                'password': "password"
             },
             con: {
                 'attempts': 5,
