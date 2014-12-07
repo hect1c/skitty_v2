@@ -13,14 +13,19 @@ Tinytest.add('SkittyPlugApi.run()', function(test) {
             con: {
                 'attempts': 5,
                 'delay': 1000,
-                'room': 'coding-soundtrack-lounge'
+                'room': 'room-name'
             }
         },
         modules = [];
 
     //@todo gather credentials from a file
-    var api = SkittyPlugApi.run(config,modules);
+    var skitty = SkittyPlugApi.run(config,modules);
 
-    test.throws(api);
-    test.isNotNull(api);
+    test.ok(skitty);
+    //check loads plugapi
+    test.isNotNull(skitty.plugapi);
+    test.throws(skitty.plugapi);
+    //check loads skitty-core methods
+    test.isNotNull(skitty.core);
+    test.throws(skitty.core);
 });

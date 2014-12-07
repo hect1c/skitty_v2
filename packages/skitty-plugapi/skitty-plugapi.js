@@ -15,9 +15,8 @@ SkittyPlugApi = {
 
         self.reconnectAttempts = 0;
 
-        var plugObj = new plug(config.auth);
-
-        var core = new SkittyCore(self, plugObj);
+        plugObj = new plug(config.auth),
+            core = new SkittyCore(self, plugObj);
 
         //@todo enable this logic when modules begin to get implemented
         //register modules
@@ -53,5 +52,10 @@ SkittyPlugApi = {
         });
 
         plugObj.connect(config.con.room);
+
+        return {
+            plugapi: plugObj,
+            core: core
+        };
     }
 }
