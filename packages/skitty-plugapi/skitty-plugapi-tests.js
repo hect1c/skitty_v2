@@ -2,6 +2,9 @@
 Tinytest.add('SkittyPlugApi.run()', function(test) {
 
     //@todo implement necessary modules
+    //@todo get credentials from file (ensure file is in gitignore)
+    //@todo create method which aggregates all names of existing packages to be
+    //registerd as modules?
     var config = {
             auth: {
                 'email': "email",
