@@ -17,7 +17,7 @@ SkittyPlugApi = {
 
         var plugObj = new plug(config.auth);
 
-        var core = new SkittyCore.run(self, plugObj);
+        var core = new SkittyCore(self, plugObj);
 
         //@todo enable this logic when modules begin to get implemented
         //register modules
