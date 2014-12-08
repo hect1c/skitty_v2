@@ -9,7 +9,8 @@ var _ = lodash;
  *
  * @param {{object}} api PlugApi Object
  */
-SkittyCore = function(api) {
+
+SkittyCore = function(shell, api) {
     api = api || null;
 
     var self = this,
@@ -28,6 +29,10 @@ SkittyCore = function(api) {
         });
         return hasPermission;
     }
+
+    self.isFirstConnect = function() {
+      return shell.reconnectAttempts === 0;
+    };
 
     self.showMessage = function(msg, data) {
         if (msg) {
@@ -83,39 +88,6 @@ SkittyCore = function(api) {
         }
 
         return false;
-    }
-
-    self.bop = function(speak) {
-        console.log(currentSong);
-        if (voteReqCount === 0 && currentSong) {
-            api.woot();
-
-            if (speak) {
-                api.sendChat('Bonus. :thumbsup:');
-            }
-        } else if (speak && !maxMsgSent) {
-            api.sendChat('Bonuses to the max! Good play youse. :thumbsup:');
-            maxMsgSent = true;
-        } else if (!currentSong && speak) {
-            api.sendChat('There ain\'t nothing to bop to kid!');
-        }
-
-        voteReqCount++;
-    }
-
-    self.songChange = function(data){
-        // console.log(data);
-        voteReqCount = 0;
-        maxMsgSent = false;
-        currentSong = data.media;
-
-        return currentSong;
-    }
-
-    self.joinRoom = function(data){
-        botAcctInfo = api.getSelf();
-        currentSong = api.getMedia();
-        api.sendChat('Im bacccccckkk!');
     }
 
     return self;
