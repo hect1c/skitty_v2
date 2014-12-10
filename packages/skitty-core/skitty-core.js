@@ -20,6 +20,11 @@ SkittyCore = function(shell, api) {
         maxMsgSent = false,
         botAcctInfo = {};
 
+    /**
+     * Checks if user has appropriate permission level
+     * @param  {int}  userId Id of user
+     * @return {Boolean}        Result of user permission check
+     */
     self.hasPermission = function(userId) {
         // console.log(api);
         var hasPermission = false;
@@ -30,10 +35,20 @@ SkittyCore = function(shell, api) {
         return hasPermission;
     }
 
+    /**
+     * Checks if first time connecting to plugapi + room
+     * @return {Boolean}
+     */
     self.isFirstConnect = function() {
       return shell.reconnectAttempts === 0;
     };
 
+    /**
+     * Displays message to chat
+     * @param  {string} msg  String or message to be sent to chat
+     * @param  {[type]} data Not sure?
+     * @return {Boolean}      If message has been sent
+     */
     self.showMessage = function(msg, data) {
         if (msg) {
             var message = msg;
@@ -56,8 +71,15 @@ SkittyCore = function(shell, api) {
         }
     }
 
-    // checks against array of trigger/action sets and fires trigger if match is found
-    //  NOTE: matching is case-insensitive
+    /**
+     * checks against array of trigger/
+     * action sets and fires trigger if match is found
+     * NOTE: matching is case-insensitive
+     *
+     * @param  {Object} chatCommands Object of commands and actions
+     * @param  {Object} data         Object of user and currentsong callback
+     * @return {Boolean}
+     */
     self.checkCommands = function(chatCommands, data) {
         if (!self.botInfo) {
             self.botInfo = api.getSelf();
@@ -73,7 +95,7 @@ SkittyCore = function(shell, api) {
                 // wildcard check
                 if (chatCommands[i].wildCard && msg.indexOf(chatCommands[i].trigger.toLowerCase()) !== -1) {
                     chatCommands[i].action(data);
-                    return chatCommands[i].action(data);
+                    return true;
                 }
 
                 // command check
@@ -82,7 +104,7 @@ SkittyCore = function(shell, api) {
                         msg.indexOf('?') === 0) &&
                     msg.indexOf(chatCommands[i].trigger) === 1) {
                     chatCommands[i].action(data);
-                    return chatCommands[i].action(data);
+                    return true;
                 }
             }
         }
