@@ -1,9 +1,7 @@
 /* Test run method */
 Tinytest.add('SkittyPlugApi.run()', function(test) {
 
-    //@todo implement necessary modules
     //@todo get credentials from file (ensure file is in gitignore)
-    //@todo create method which aggregates all names of existing packages to be
     //registerd as modules?
     var config = {
             auth: {
@@ -16,9 +14,10 @@ Tinytest.add('SkittyPlugApi.run()', function(test) {
                 'room': 'room-name'
             }
         },
-        modules = [];
+        modules = [
+        ];
 
-    //@todo gather credentials from a file
+    //run method
     var skitty = SkittyPlugApi.run(config,modules);
 
     test.ok(skitty);

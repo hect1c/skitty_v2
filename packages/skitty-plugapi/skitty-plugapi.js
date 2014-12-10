@@ -8,8 +8,17 @@
 
 var plug = Npm.require('plugapi');
 
+/**
+ * Instantiates plugapi, skitty-core and additional modules
+ * @type {Object}
+ */
 SkittyPlugApi = {
-    //Instantiate PlugAPI
+    /**
+     * Method to run & load modules
+     * @param  {Object} config  Login + Room settings
+     * @param  {Array} modules List of functions or modules to be loaded
+     * @return {Object}         Return plugapi object & skitty-core
+     */
     run: function(config, modules) {
         var self = this;
 
@@ -18,11 +27,10 @@ SkittyPlugApi = {
         plugObj = new plug(config.auth),
             core = new SkittyCore(self, plugObj);
 
-        //@todo enable this logic when modules begin to get implemented
         //register modules
-        // for( var i = 0; i <= modules.length; i++){
-        //     modules[i].init(plugObj, core);
-        // }
+        for( var i = 0; i <= modules.length-1; i++){
+            modules[i].init(plugObj, core);
+        }
 
         //setup connection variables
         var delay = config.con.delay || 0;
