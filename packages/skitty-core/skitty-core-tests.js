@@ -19,10 +19,10 @@ var config = {
 var skitty = SkittyPlugApi.run(config, modules);
 
 function testSkittyCoreMethods() {
-    Tinytest.addAsync('SkittyCore - Methods', function(test, done) {
+    Tinytest.addAsync('SkittyCore Package - Methods', function(test, done) {
 
         //setup variables
-        var msg = "Test Method - showMessage()",
+        var msg = "Test Method - SkittyCore.showMessage()",
             counter = 0,
             testCommand = 'testSkittyCore()',
             chatCommand = [{
