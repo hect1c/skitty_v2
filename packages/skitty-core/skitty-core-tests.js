@@ -1,20 +1,9 @@
 //Test SkittyCore Methods
 
-//@todo get contents from file
-//ensure file can't be read from client
-//@todo gather credentials from a file
-var config = {
-        auth: {
-            'email': "email",
-            'password': "password"
-        },
-        con: {
-            'attempts': 5,
-            'delay': 1000,
-            'room': 'room-name'
-        }
-    },
-    modules = [];
+//get config
+var config = SkittyConfig.load();
+
+var modules = [];
 
 var skitty = SkittyPlugApi.run(config, modules);
 

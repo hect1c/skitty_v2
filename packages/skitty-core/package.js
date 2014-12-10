@@ -12,6 +12,6 @@ Package.onUse(function(api) {
 });
 
 Package.onTest(function(api) {
-  api.use(['stevezhu:lodash','skitty-plugapi','tinytest']);
+  api.use(['stevezhu:lodash','skitty-plugapi','skitty-config','tinytest']);
   api.addFiles(['skitty-core.js','skitty-core-tests.js']);
 });
