@@ -1,5 +1,9 @@
 {
-    "room": "room",
+    "con": {
+        "attempts": 5,
+        "delay": 1000,
+        "room": "room-name"
+    },
     "auth": {
         "email": "email",
         "password": "password"

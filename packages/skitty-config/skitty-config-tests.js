@@ -4,6 +4,10 @@ Tinytest.add('SkittyConfig', function (test) {
 
     //Make sure data is being returned
     test.isNotNull(config);
-    test.throws(config);
+    test.throws(config.con.delay);
+    test.throws(config.con.attempts);
+    test.throws(config.con.room);
+    test.throws(config.auth.email);
+    test.throws(config.auth.password);
     test.ok(config);
 });
