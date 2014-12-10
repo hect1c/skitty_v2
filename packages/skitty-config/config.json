@@ -1,0 +1,7 @@
+{
+    "room": "room",
+    "auth": {
+        "email": "email",
+        "password": "password"
+    }
+}
