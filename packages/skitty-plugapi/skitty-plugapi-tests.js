@@ -2,20 +2,8 @@
 Tinytest.add('SkittyPlugApi.run()', function(test) {
 
     //@todo get credentials from file (ensure file is in gitignore)
-    //registerd as modules?
-    var config = {
-            auth: {
-                'email': "email",
-                'password': "password"
-            },
-            con: {
-                'attempts': 5,
-                'delay': 1000,
-                'room': 'room-name'
-            }
-        },
-        modules = [
-        ];
+    var config = SkittyConfig.load();
+    var modules = [];
 
     //run method
     var skitty = SkittyPlugApi.run(config,modules);

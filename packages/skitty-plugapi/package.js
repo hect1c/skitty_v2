@@ -12,7 +12,7 @@ Package.onUse(function(api) {
 });
 
 Package.onTest(function(api) {
-    api.use(['skitty-core','tinytest']);
+    api.use(['skitty-core','skitty-config','tinytest']);
     api.addFiles(['skitty-plugapi-tests.js', "skitty-plugapi.js"], 'server');
 });
 
