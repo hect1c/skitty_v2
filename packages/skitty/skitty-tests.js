@@ -44,6 +44,9 @@ function testSkittyMod() {
             counter++;
 
             //wait on return msged before closing
+            //@todo Figure out a better way to have the test continue to run
+            //allowing user to test various chat commands until the final
+            //.testSkittyMod() command which will finish test and close api
             if (counter > 3) {
                 skitty.plugapi.close(); //close api connection
                 done(); //finish test run
