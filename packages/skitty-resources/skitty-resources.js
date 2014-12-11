@@ -9,11 +9,21 @@ SkittyResource = {};
  *
  * @return {array}          Array of values from object
  */
-SkittyResource.call = function(category, key){
-    var obj = Assets.getText('public/'+ category +'.json');
-    var obj_json = JSON.parse( obj );
+SkittyResource.call = function(category, key) {
+    var obj = Assets.getText('public/' + category + '.json');
+    var obj_json = JSON.parse(obj);
 
-    if( key ){
+    //If second parameter is key.key
+    if (key.indexOf('.') > -1) {
+        var keys = key.split('.');
+
+        var key1 = keys[0];
+        var key2 = keys[1];
+    }
+
+    if (keys) {
+        return obj_json[key1][key2]
+    } else {
         return obj_json[key];
     }
 
