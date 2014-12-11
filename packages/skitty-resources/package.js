@@ -6,7 +6,6 @@ Package.describe({
 
 Package.onUse(function(api) {
     api.versionsFrom('1.0.1');
-    api.use('stevezhu:lodash');
     api.addFiles(
         [
             'public/gifs.json',
