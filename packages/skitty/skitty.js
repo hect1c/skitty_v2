@@ -1,8 +1,7 @@
 'use strict';
 
 // the soul of our beloved bot
-Skitty = function(model) {
-    model = model || {};
+Skitty = function() {
     var self = this,
         api = {},
         core = {},
