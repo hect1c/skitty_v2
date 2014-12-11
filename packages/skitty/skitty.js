@@ -32,16 +32,14 @@ Skitty = function(model) {
 
             if (speak) {
                 api.sendChat('Bonus. :thumbsup:');
-            } else if (speak && !maxMsgSent) {
-                api.sendChat('Bonuses to the max! Good play youse. :thumbsup:');
-                maxMsgSent = true;
-            } else if (!currentSong && speak) {
-                api.sendChat('There ain\'t nothing to bop to kid!');
-            } else {
-                api.sendChat('I\'m already bopping dude.');
             }
-
             voteReqCount++;
+            maxMsgSent = true; //set max to true on upvote
+        } else if (speak && maxMsgSent === true) {
+            api.sendChat('Bonuses to the max! Good play youse. :thumbsup:');
+            maxMsgSent = true;
+        } else if (!currentSong && speak) {
+            api.sendChat('There ain\'t nothing to bop to kid!');
         }
 
         return voteReqCount;
@@ -106,132 +104,132 @@ Skitty = function(model) {
             action: this.bop.bind(this, true)
         },
 
-        // // bop and gif
-        // {
-        //     trigger: 'dance',
-        //     action: this.showMessage.bind(this, gifs.smiffDance, true)
-        // }, {
-        //     trigger: 'boogie',
-        //     action: this.showMessage.bind(this, gifs.dance, true)
-        // }, {
-        //     trigger: 'groove',
-        //     action: this.showMessage.bind(this, gifs.dance, true)
-        // }, {
-        //     trigger: 'bounce',
-        //     action: this.showMessage.bind(this, gifs.dance, true)
-        // }, {
-        //     trigger: 'rave',
-        //     action: this.showMessage.bind(this, gifs.rave, true)
-        // }, {
-        //     trigger: 'trippy',
-        //     action: this.showMessage.bind(this, gifs.trippy, true)
-        // }, {
-        //     trigger: 'chill',
-        //     action: this.showMessage.bind(this, gifs.chill, true)
-        // }, {
-        //     trigger: 'smooth',
-        //     action: this.showMessage.bind(this, gifs.smooth, true)
-        // },
+        // bop and gif
+        {
+            trigger: 'dance',
+            action: this.showMessage.bind(this, SkittyResource.call('gifs', 'smiffDance'), true)
+        }, {
+            trigger: 'boogie',
+            action: this.showMessage.bind(this, SkittyResource.call('gifs', 'dance'), true)
+        }, {
+            trigger: 'groove',
+            action: this.showMessage.bind(this, SkittyResource.call('gifs', 'dance'), true)
+        }, {
+            trigger: 'bounce',
+            action: this.showMessage.bind(this, SkittyResource.call('gifs', 'dance'), true)
+        }, {
+            trigger: 'rave',
+            action: this.showMessage.bind(this, SkittyResource.call('gifs', 'rave'), true)
+        }, {
+            trigger: 'trippy',
+            action: this.showMessage.bind(this, SkittyResource.call('gifs', 'trippy'), true)
+        }, {
+            trigger: 'chill',
+            action: this.showMessage.bind(this, SkittyResource.call('gifs', 'chill'), true)
+        }, {
+            trigger: 'smooth',
+            action: this.showMessage.bind(this, SkittyResource.call('gifs', 'smooth'), true)
+        },
 
-        // // gif only
-        // {
-        //     trigger: 'meow',
-        //     action: this.showMessage.bind(this, gifs.meow, false)
-        // }, {
-        //     trigger: 'prrr',
-        //     action: this.showMessage.bind(this, gifs.prrr, false)
-        // }, {
-        //     trigger: 'pur',
-        //     action: this.showMessage.bind(this, gifs.prrr, false)
-        // }, {
-        //     trigger: 'twerk',
-        //     action: this.showMessage.bind(this, gifs.twerk, false)
-        // }, {
-        //     trigger: 'milkshake',
-        //     action: this.showMessage.bind(this, gifs.milkshake, false)
-        // }, {
-        //     trigger: 'thuglife',
-        //     action: this.showMessage.bind(this, gifs.thugLife, false)
-        // }, {
-        //     trigger: 'fail',
-        //     action: this.showMessage.bind(this, gifs.fail, false)
-        // }, {
-        //     trigger: 'wut',
-        //     action: this.showMessage.bind(this, gifs.wut, false)
-        // }, {
-        //     trigger: 'ynb',
-        //     action: this.showMessage.bind(this, gifs.whynotboth, false)
-        // }, {
-        //     trigger: 'cry',
-        //     action: this.showMessage.bind(this, gifs.cry, false)
-        // }, {
-        //     trigger: 'flow',
-        //     action: this.showMessage.bind(this, gifs.poorFlow, false)
-        // }, {
-        //     trigger: 'poorflow',
-        //     action: this.showMessage.bind(this, gifs.poorFlow, false)
-        // }, {
-        //     trigger: 'flowkill',
-        //     action: this.showMessage.bind(this, gifs.poorFlow, false)
-        // }, {
-        //     trigger: 'haters',
-        //     action: this.showMessage.bind(this, gifs.haters, false)
-        // }, {
-        //     trigger: 'hatehatehate',
-        //     action: this.showMessage.bind(this, gifs.haters, false)
-        // }, {
-        //     trigger: 'silence',
-        //     action: this.showMessage.bind(this, gifs.silence, false)
-        // }, {
-        //     trigger: 'nosound',
-        //     action: this.showMessage.bind(this, gifs.silence, false)
-        // }, {
-        //     trigger: 'gross',
-        //     action: this.showMessage.bind(this, gifs.gross, false)
-        // }, {
-        //     trigger: 'barf',
-        //     action: this.showMessage.bind(this, gifs.gross, false)
-        // },
+        // gif only
+        {
+            trigger: 'meow',
+            action: this.showMessage.bind(this, SkittyResource.call( 'gifs', 'meow'), false)
+        }, {
+            trigger: 'prrr',
+            action: this.showMessage.bind(this, SkittyResource.call( 'gifs', 'prrr'), false)
+        }, {
+            trigger: 'pur',
+            action: this.showMessage.bind(this, SkittyResource.call( 'gifs', 'prrr'), false)
+        }, {
+            trigger: 'twerk',
+            action: this.showMessage.bind(this, SkittyResource.call( 'gifs', 'twerk'), false)
+        }, {
+            trigger: 'milkshake',
+            action: this.showMessage.bind(this, SkittyResource.call( 'gifs', 'milkshake'), false)
+        }, {
+            trigger: 'thuglife',
+            action: this.showMessage.bind(this, SkittyResource.call( 'gifs', 'thugLife'), false)
+        }, {
+            trigger: 'fail',
+            action: this.showMessage.bind(this, SkittyResource.call( 'gifs', 'fail'), false)
+        }, {
+            trigger: 'wut',
+            action: this.showMessage.bind(this, SkittyResource.call( 'gifs', 'wut'), false)
+        }, {
+            trigger: 'ynb',
+            action: this.showMessage.bind(this, SkittyResource.call( 'gifs', 'whynotboth'), false)
+        }, {
+            trigger: 'cry',
+            action: this.showMessage.bind(this, SkittyResource.call( 'gifs', 'cry'), false)
+        }, {
+            trigger: 'flow',
+            action: this.showMessage.bind(this, SkittyResource.call( 'gifs', 'poorFlow'), false)
+        }, {
+            trigger: 'poorflow',
+            action: this.showMessage.bind(this, SkittyResource.call( 'gifs', 'poorFlow'), false)
+        }, {
+            trigger: 'flowkill',
+            action: this.showMessage.bind(this, SkittyResource.call( 'gifs', 'poorFlow'), false)
+        }, {
+            trigger: 'haters',
+            action: this.showMessage.bind(this, SkittyResource.call( 'gifs', 'haters'), false)
+        }, {
+            trigger: 'hatehatehate',
+            action: this.showMessage.bind(this, SkittyResource.call( 'gifs', 'haters'), false)
+        }, {
+            trigger: 'silence',
+            action: this.showMessage.bind(this, SkittyResource.call( 'gifs', 'silence'), false)
+        }, {
+            trigger: 'nosound',
+            action: this.showMessage.bind(this, SkittyResource.call( 'gifs', 'silence'), false)
+        }, {
+            trigger: 'gross',
+            action: this.showMessage.bind(this, SkittyResource.call( 'gifs', 'gross'), false)
+        }, {
+            trigger: 'barf',
+            action: this.showMessage.bind(this, SkittyResource.call( 'gifs', 'gross'), false)
+        },
 
-        // // text-based responses
-        // {
-        //     trigger: 'catfacts',
-        //     action: this.showMessage.bind(this, model.resources.facts.catfacts, false)
-        // }, {
-        //     trigger: 'pandafacts',
-        //     action: this.showMessage.bind(this, model.resources.facts.pandafacts, false)
-        // },
+        // text-based responses
+        {
+            trigger: 'catfacts',
+            action: this.showMessage.bind(this, SkittyResource.call('facts', 'catfacts'), false)
+        }, {
+            trigger: 'pandafacts',
+            action: this.showMessage.bind(this, SkittyResource.call('facts', 'pandafacts'), false)
+        },
 
-        // // generic responses
-        // {
-        //     trigger: 'quote',
-        //     action: this.showMessage.bind(this, model.resources.quotes, false)
-        // },
+        // generic responses
+        {
+            trigger: 'quote',
+            action: this.showMessage.bind(this, SkittyResource.call('quotes'), false)
+        },
 
-        // {
-        //     trigger: 'lol',
-        //     action: this.showMessage.bind(this, model.resources.funnyResponses.generic, false)
-        // }, {
-        //     trigger: 'haha',
-        //     action: this.showMessage.bind(this, model.resources.funnyResponses.generic, false)
-        // },
+        {
+            trigger: 'lol',
+            action: this.showMessage.bind(this, SkittyResource.call('funny_responses', 'generic'), false)
+        }, {
+            trigger: 'haha',
+            action: this.showMessage.bind(this, SkittyResource.call('funny_responses', 'generic'), false)
+        },
 
-        // // wildcard triggers
-        // {
-        //     trigger: 'motorboat',
-        //     wildCard: true,
-        //     action: this.showMessage.bind(this, gifs.motorboat, false)
-        // }, {
-        //     trigger: 'Supercalifragilisticexpialidocious',
-        //     wildCard: true,
-        //     action: this.showMessage.bind(this, model.resources.funnyResponses.magicWord, false)
-        // },
+        // wildcard triggers
+        {
+            trigger: 'motorboat',
+            wildCard: true,
+            action: this.showMessage.bind(this, SkittyResource.call( 'gifs', 'motorboat'), false)
+        }, {
+            trigger: 'Supercalifragilisticexpialidocious',
+            wildCard: true,
+            action: this.showMessage.bind(this, SkittyResource.call( 'funny_responses','magicWord'), false)
+        },
 
-        // //Bitbucket Issue
-        // {
-        //     trigger: 'reportbug',
-        //     action: this.showMessage.bind(this, model.resources.info.issuetracker, false)
-        // }
+        //Bitbucket Issue
+        {
+            trigger: 'reportbug',
+            action: this.showMessage.bind(this, SkittyResource.call('info','issuetracker'), false)
+        }
     ];
     // </chat commands>
 
@@ -245,12 +243,12 @@ Skitty = function(model) {
     }
 
     self.joinRoom = function(data) {
-        botAcctInfo = api.getSelf();
-        currentSong = api.getMedia();
-        api.sendChat("Hey guuuurrrlllfriend");
-        return botAcctInfo;
-    }
-    // </subscription methods>
+            botAcctInfo = api.getSelf();
+            currentSong = api.getMedia();
+            api.sendChat("Hey guuuurrrlllfriend");
+            return botAcctInfo;
+        }
+        // </subscription methods>
 
 
     self.init = function(plugApi, pluginCore) {

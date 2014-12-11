@@ -1,4 +1,8 @@
 //Test Skitty Main Module Methods
+//Note: It is unecessary to test for each command as, if the functions work as
+//      well as the skitty-resources package then the commands work inherently
+//
+// type .testSkittyMod() in chat to test
 
 //variables
 var config = SkittyConfig.load(),
@@ -17,8 +21,6 @@ function testSkittyMod() {
 
         skitty.plugapi.on('chat', Meteor.bindEnvironment(function(data) {
             callbacks = [];
-
-            counter++;
 
             //only register callback on specific input message
             if (data.message == '.testSkittyMod()') {
@@ -39,6 +41,7 @@ function testSkittyMod() {
                 callbacks.push(data);
             }
 
+            counter++;
 
             //wait on return msged before closing
             if (counter > 3) {

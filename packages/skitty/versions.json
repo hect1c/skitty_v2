@@ -5,6 +5,10 @@
       "1.1.3"
     ],
     [
+      "skitty-resources",
+      "1.0.0"
+    ],
+    [
       "underscore",
       "1.0.1"
     ]

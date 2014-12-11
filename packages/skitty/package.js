@@ -6,6 +6,7 @@ Package.describe({
 
 Package.onUse(function(api) {
   api.versionsFrom('1.0');
+  api.use('skitty-resources');
   api.export('Skitty');
   api.addFiles('skitty.js');
 });
