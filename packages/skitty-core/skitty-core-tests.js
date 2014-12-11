@@ -1,4 +1,5 @@
 //Test SkittyCore Methods
+//type .testSkittyCore() to run test
 
 //get config
 var config = SkittyConfig.load();
@@ -42,8 +43,10 @@ function testSkittyCoreMethods() {
                 callbacks.push(data);
             }
 
-
             //listen for command just once
+            //@todo Figure out a better way to have the test continue to run
+            //allowing user to test various chat commands until the final
+            //.testSkittyCurmMod() command which will finish test and close api
             if (counter > 1) {
                 skitty.plugapi.close(); //close api connection
                 done(); //finish test run

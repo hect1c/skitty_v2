@@ -61,10 +61,12 @@ SkittyCore = function(shell, api) {
 
             // if data is passed check for sender placeholder
             if (data) {
-                message = message.replace('{sender}', '@' + data.raw);
+                message = message.replace('{sender}', '@' + data.from.username);
+            } else {
+                message = '/em ' + message;
             }
 
-            api.sendChat('/em ' + message);
+            api.sendChat(message);
             msgSent = true;
 
             return msgSent;
@@ -86,12 +88,12 @@ SkittyCore = function(shell, api) {
         }
 
         // don't evaluate messages sent by self
-        if (self.botInfo.id !== data.raw.id) {
+        if (self.botInfo.id !== data.raw.uid) {
             var msg = data.message.trim().toLowerCase();
 
             for (var i in chatCommands) {
                 // make match check case-insensitive
-
+                // console.log(chatCommands[i]);
                 // wildcard check
                 if (chatCommands[i].wildCard && msg.indexOf(chatCommands[i].trigger.toLowerCase()) !== -1) {
                     chatCommands[i].action(data);
@@ -111,6 +113,4 @@ SkittyCore = function(shell, api) {
 
         return false;
     }
-
-    return self;
 }
