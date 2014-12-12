@@ -23,9 +23,9 @@ The Plug.dj bot for [Coding Soundtrack Lounge](http://plug.dj/coding-soundtrack-
 This project uses [MUP](https://github.com/arunoda/meteor-up) to deploy any Meteor app to our own server
 
 1. Install [MUP](https://github.com/arunoda/meteor-up#installation)
-2. Edit `mup.json` and `settings.json`
+2. Edit the following files:
 
-    mup.json
+    `mup.json`
 
     ``` json
     // Server authentication info
@@ -68,7 +68,7 @@ This project uses [MUP](https://github.com/arunoda/meteor-up) to deploy any Mete
     "deployCheckWaitTime": 15
     ```
 
-    settings.json
+    `settings.json`
 
     ``` json
     "public": {},
