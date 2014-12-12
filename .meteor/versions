@@ -41,6 +41,7 @@ reload@1.1.1
 retry@1.0.1
 routepolicy@1.0.2
 session@1.0.4
+skitty-config@1.0.0
 skitty-core@1.0.0
 skitty-curmudgeon@1.0.0
 skitty-info@1.0.0
