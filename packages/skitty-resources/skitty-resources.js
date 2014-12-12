@@ -14,16 +14,18 @@ SkittyResource.call = function(category, key) {
     var obj_json = JSON.parse(obj);
 
     //If second parameter is key.key
-    if (key.indexOf('.') > -1) {
-        var keys = key.split('.');
+    if (key) {
+        if (key.indexOf('.') > -1) {
+            var keys = key.split('.');
 
-        var key1 = keys[0];
-        var key2 = keys[1];
+            var key1 = keys[0];
+            var key2 = keys[1];
+        }
     }
 
     if (keys) {
-        return obj_json[key1][key2]
-    } else {
+        return obj_json[key1][key2];
+    } else if (key) {
         return obj_json[key];
     }
 
