@@ -26,24 +26,26 @@ Skitty = function() {
     }
 
     self.bop = function(speak) {
-        if (voteReqCount === 0 && currentSong) {
-            api.woot();
+            if (voteReqCount === 0 && currentSong) {
+                api.woot();
 
-            if (speak) {
-                api.sendChat('Bonus. :thumbsup:');
+                if (speak) {
+                    api.sendChat('/em Bonus. :thumbsup:');
+                }
+
+                voteReqCount++;
+                maxMsgSent = true; //set max to true on upvote
+            } else if (speak && maxMsgSent === true) {
+                api.sendChat('/em Bonuses to the max! Good play youse. :thumbsup:');
+                maxMsgSent = true;
+            } else if (!currentSong && speak) {
+                api.sendChat('/em There ain\'t nothing to bop to kid!');
             }
-            voteReqCount++;
-            maxMsgSent = true; //set max to true on upvote
-        } else if (speak && maxMsgSent === true) {
-            api.sendChat('Bonuses to the max! Good play youse. :thumbsup:');
-            maxMsgSent = true;
-        } else if (!currentSong && speak) {
-            api.sendChat('There ain\'t nothing to bop to kid!');
-        }
 
-        return voteReqCount;
-    }
-    // </action methods>
+            return voteReqCount;
+        }
+        // </action methods>
+
 
     // <chat commands>
     // @todo Create seperate package for chatcommands?
@@ -133,61 +135,61 @@ Skitty = function() {
         // gif only
         {
             trigger: 'meow',
-            action: this.showMessage.bind(this, SkittyResource.call( 'gifs', 'meow'), false)
+            action: this.showMessage.bind(this, SkittyResource.call('gifs', 'meow'), false)
         }, {
             trigger: 'prrr',
-            action: this.showMessage.bind(this, SkittyResource.call( 'gifs', 'prrr'), false)
+            action: this.showMessage.bind(this, SkittyResource.call('gifs', 'prrr'), false)
         }, {
             trigger: 'pur',
-            action: this.showMessage.bind(this, SkittyResource.call( 'gifs', 'prrr'), false)
+            action: this.showMessage.bind(this, SkittyResource.call('gifs', 'prrr'), false)
         }, {
             trigger: 'twerk',
-            action: this.showMessage.bind(this, SkittyResource.call( 'gifs', 'twerk'), false)
+            action: this.showMessage.bind(this, SkittyResource.call('gifs', 'twerk'), false)
         }, {
             trigger: 'milkshake',
-            action: this.showMessage.bind(this, SkittyResource.call( 'gifs', 'milkshake'), false)
+            action: this.showMessage.bind(this, SkittyResource.call('gifs', 'milkshake'), false)
         }, {
             trigger: 'thuglife',
-            action: this.showMessage.bind(this, SkittyResource.call( 'gifs', 'thugLife'), false)
+            action: this.showMessage.bind(this, SkittyResource.call('gifs', 'thugLife'), false)
         }, {
             trigger: 'fail',
-            action: this.showMessage.bind(this, SkittyResource.call( 'gifs', 'fail'), false)
+            action: this.showMessage.bind(this, SkittyResource.call('gifs', 'fail'), false)
         }, {
             trigger: 'wut',
-            action: this.showMessage.bind(this, SkittyResource.call( 'gifs', 'wut'), false)
+            action: this.showMessage.bind(this, SkittyResource.call('gifs', 'wut'), false)
         }, {
             trigger: 'ynb',
-            action: this.showMessage.bind(this, SkittyResource.call( 'gifs', 'whynotboth'), false)
+            action: this.showMessage.bind(this, SkittyResource.call('gifs', 'whynotboth'), false)
         }, {
             trigger: 'cry',
-            action: this.showMessage.bind(this, SkittyResource.call( 'gifs', 'cry'), false)
+            action: this.showMessage.bind(this, SkittyResource.call('gifs', 'cry'), false)
         }, {
             trigger: 'flow',
-            action: this.showMessage.bind(this, SkittyResource.call( 'gifs', 'poorFlow'), false)
+            action: this.showMessage.bind(this, SkittyResource.call('gifs', 'poorFlow'), false)
         }, {
             trigger: 'poorflow',
-            action: this.showMessage.bind(this, SkittyResource.call( 'gifs', 'poorFlow'), false)
+            action: this.showMessage.bind(this, SkittyResource.call('gifs', 'poorFlow'), false)
         }, {
             trigger: 'flowkill',
-            action: this.showMessage.bind(this, SkittyResource.call( 'gifs', 'poorFlow'), false)
+            action: this.showMessage.bind(this, SkittyResource.call('gifs', 'poorFlow'), false)
         }, {
             trigger: 'haters',
-            action: this.showMessage.bind(this, SkittyResource.call( 'gifs', 'haters'), false)
+            action: this.showMessage.bind(this, SkittyResource.call('gifs', 'haters'), false)
         }, {
             trigger: 'hatehatehate',
-            action: this.showMessage.bind(this, SkittyResource.call( 'gifs', 'haters'), false)
+            action: this.showMessage.bind(this, SkittyResource.call('gifs', 'haters'), false)
         }, {
             trigger: 'silence',
-            action: this.showMessage.bind(this, SkittyResource.call( 'gifs', 'silence'), false)
+            action: this.showMessage.bind(this, SkittyResource.call('gifs', 'silence'), false)
         }, {
             trigger: 'nosound',
-            action: this.showMessage.bind(this, SkittyResource.call( 'gifs', 'silence'), false)
+            action: this.showMessage.bind(this, SkittyResource.call('gifs', 'silence'), false)
         }, {
             trigger: 'gross',
-            action: this.showMessage.bind(this, SkittyResource.call( 'gifs', 'gross'), false)
+            action: this.showMessage.bind(this, SkittyResource.call('gifs', 'gross'), false)
         }, {
             trigger: 'barf',
-            action: this.showMessage.bind(this, SkittyResource.call( 'gifs', 'gross'), false)
+            action: this.showMessage.bind(this, SkittyResource.call('gifs', 'gross'), false)
         },
 
         // text-based responses
@@ -217,17 +219,17 @@ Skitty = function() {
         {
             trigger: 'motorboat',
             wildCard: true,
-            action: this.showMessage.bind(this, SkittyResource.call( 'gifs', 'motorboat'), false)
+            action: this.showMessage.bind(this, SkittyResource.call('gifs', 'motorboat'), false)
         }, {
             trigger: 'Supercalifragilisticexpialidocious',
             wildCard: true,
-            action: this.showMessage.bind(this, SkittyResource.call( 'funny_responses','magicWord'), false)
+            action: this.showMessage.bind(this, SkittyResource.call('funny_responses', 'magicWord'), false)
         },
 
         //Bitbucket Issue
         {
             trigger: 'reportbug',
-            action: this.showMessage.bind(this, SkittyResource.call('info','issuetracker'), false)
+            action: this.showMessage.bind(this, SkittyResource.call('info', 'issuetracker'), false)
         }
     ];
     // </chat commands>
@@ -244,11 +246,10 @@ Skitty = function() {
     self.joinRoom = function(data) {
             botAcctInfo = api.getSelf();
             currentSong = api.getMedia();
-            api.sendChat("Hey guuuurrrlllfriend");
+            api.sendChat("/em Meoooooowwwwwwwwwww!");
             return botAcctInfo;
         }
         // </subscription methods>
-
 
     self.init = function(plugApi, pluginCore) {
         api = plugApi;

@@ -62,11 +62,9 @@ SkittyCore = function(shell, api) {
             // if data is passed check for sender placeholder
             if (data) {
                 message = message.replace('{sender}', '@' + data.from.username);
-            } else {
-                message = '/em ' + message;
             }
 
-            api.sendChat(message);
+            api.sendChat('/em ' + message);
             msgSent = true;
 
             return msgSent;
