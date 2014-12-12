@@ -1,23 +1,23 @@
 skitty
 ======
-The Plug.dj bot for [Coding Soundtrack Lounge](http://plug.dj/coding-soundtrack-lounge/) that runs on Node.js
+The Plug.dj bot for [Coding Soundtrack Lounge](http://plug.dj/coding-soundtrack-lounge/) that runs on [Meteor](https://www.meteor.com/)
 
-## How To Use
+## How To Use In 3 Easy Steps
 1. Clone the Repo
-2. Run `npm install` to install app dependencies
-3. Run `bower install` to install frontend dependencies
-3. Copy `config/plugdj.example.js` to `plugdj.js` and complete each field
+2. Edit `packages/skitty-config/config.json` and update each field
 
-   ``` js
-   module.exports = {
-     room : '<plugdj-room-name>',
-     auth : '<usr-cookie-value>'
-   };
+   ``` json
+   "con": {
+        "attempts": 5,
+        "delay": 1000,
+        "room": "plugdj-room-name"
+    },
+    "auth": {
+        "email": "plugdj-bot-acct-email",
+        "password": "plugdj-bot-acct-pw"
+    }
     ```
-    
-    To find your usr-cookie-value, check out [this](https://github.com/TATDK/plugapi/wiki/How-to-get-your-auth-token) tutorial.
-4. Fire up [MongoDB](http://www.mongodb.org/)
-5. Launch app `grunt`
+3. Launch app `sudo meteor`
 
 If you frequent the room and wish to contribute, feel free open a pull request or issue.
 Have fun!
