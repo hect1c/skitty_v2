@@ -5,8 +5,8 @@
       "host": "hostname",
       "username": "root",
       "password": "password"
-      // or pem file (ssh based authentication)
-      //"pem": "~/.ssh/id_rsa"
+      // "sshOptions": { "Port" : 22 },
+      "pem": "~/.ssh/id_rsa"
     }
   ],
 
