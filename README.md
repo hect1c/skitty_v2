@@ -25,15 +25,16 @@ This project uses [MUP](https://github.com/arunoda/meteor-up) to deploy any Mete
 1. Install [MUP](https://github.com/arunoda/meteor-up#installation)
 2. Edit `mup.json` and `settings.json`
 
+    mup.json
+
     ``` json
-    // mup.json
     // Server authentication info
     "servers": [
     {
       "host": "hostname",
       "username": "root",
-      "password": "password"
-      //"sshOptions": { "Port" : 22 },
+      "password": "password",
+      "sshOptions": { "Port" : 22 },
       "pem": "~/.ssh/id_rsa"
     }
     ],
@@ -58,7 +59,7 @@ This project uses [MUP](https://github.com/arunoda/meteor-up) to deploy any Mete
 
     // Configure environment
     "env": {
-    //"PORT": 3000
+    "PORT": 80,
     "ROOT_URL": "http://myapp.com"
     },
 
@@ -67,12 +68,13 @@ This project uses [MUP](https://github.com/arunoda/meteor-up) to deploy any Mete
     "deployCheckWaitTime": 15
     ```
 
-    ``` json
-    // settings.json
-    "public": {}
+    settings.json
 
-    //You can set settings for Meteor's [settings API](http://docs.meteor.com/#/full/meteor_settings)
+    ``` json
+    "public": {},
     ```
+    You can set settings for Meteor's [settings API](http://docs.meteor.com/#/full/meteor_settings)
+
 
 If you frequent the room and wish to contribute, feel free open a pull request or issue.
 Have fun!
