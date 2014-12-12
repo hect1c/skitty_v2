@@ -1,8 +1,8 @@
 //Test Skitty Main Module Methods
-//Note: It is unecessary to test for each command as, if the functions work as
-//      well as the skitty-resources package then the commands work inherently
+//Note: We don't close the plug api connection allowing other Skitty Package
+//      test commands to be run for testing ie. .dance, .props
 //
-// type .testSkittyMod() in chat to test
+// TEST COMMAND = .testSkittyMod()
 
 //variables
 var config = SkittyConfig.load(),
@@ -39,16 +39,11 @@ function testSkittyMod() {
                 test.ok(song);
 
                 callbacks.push(data);
+                counter++;
             }
 
-            counter++;
-
-            //wait on return msged before closing
-            //@todo Figure out a better way to have the test continue to run
-            //allowing user to test various chat commands until the final
-            //.testSkittyMod() command which will finish test and close api
-            if (counter > 3) {
-                skitty.plugapi.close(); //close api connection
+            //wait on test command before completing test
+            if (counter === 1 && callbacks.length === 1) {
                 done(); //finish test run
             }
         }));
