@@ -36,16 +36,11 @@ function testSkittyMod() {
                 test.throws(erm);
 
                 callbacks.push(data);
+                counter++;
             }
 
-            counter++;
-
             //wait on return msgs from bot before closing
-            //@todo Figure out a better way to have the test continue to run
-            //allowing user to test various chat commands until the final
-            //.testSkittyCurmMod() command which will finish test and close api
-            if (counter >= 3) {
-                skitty.plugapi.close(); //close api connection
+            if (counter === 1 && callbacks.length === 1) {
                 done(); //finish test run
             }
         }));

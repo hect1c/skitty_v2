@@ -23,27 +23,16 @@ function testSkittyMod() {
             if (data.message == '.testSkittyInfoMod()') {
                 //test on each skitty method
                 var theme = skitty_info.showTheme();
-                //testing ermify inherently tests .translate
-                // var erm = skitty_info.ermify(data);
 
-                console.log(theme)
                 //run tests
-                // test.isNotNull(insult);
-                // test.throws(insult);
-                // test.isNotNull(erm);
-                // test.throws(erm);
-
+                test.isNotNull(theme);
+                test.throws(theme);
                 callbacks.push(data);
+                counter++;
             }
 
-            counter++;
-
             //wait on return msgs from bot before closing
-            //@todo Figure out a better way to have the test continue to run
-            //allowing user to test various chat commands until the final
-            //.testSkittyCurmMod() command which will finish test and close api
-            if (counter >= 3) {
-                skitty.plugapi.close(); //close api connection
+            if (counter === 1 && callbacks.length === 1) {
                 done(); //finish test run
             }
         }));

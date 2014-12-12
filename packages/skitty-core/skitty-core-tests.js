@@ -1,29 +1,25 @@
 //Test SkittyCore Methods
-//type .testSkittyCore() to run test
+//Note: We don't close the plug api connection allowing other Skitty Package
+//      test commands to be run for testing ie. .dance, .props
+//
+// TEST COMMAND = .testSkittyCore()
 
-//get config
-var config = SkittyConfig.load();
-
-var modules = [];
-
-var skitty = SkittyPlugApi.run(config, modules);
+//setup variables
+var config = SkittyConfig.load(),
+    modules = [],
+    skitty = SkittyPlugApi.run(config, modules),
+    msg = "Test Method - SkittyCore.showMessage()",
+    counter = 0,
+    testCommand = 'testSkittyCore()',
+    chatCommand = [{
+        trigger: testCommand,
+        action: skitty.core.showMessage.bind(this, null, true),
+    }];
 
 function testSkittyCoreMethods() {
     Tinytest.addAsync('SkittyCore Package - Methods', function(test, done) {
-
-        //setup variables
-        var msg = "Test Method - SkittyCore.showMessage()",
-            counter = 0,
-            testCommand = 'testSkittyCore()',
-            chatCommand = [{
-                trigger: testCommand,
-                action: skitty.core.showMessage.bind(this, null, true),
-            }];
-
         skitty.plugapi.on('chat', Meteor.bindEnvironment(function(data) {
             callbacks = [];
-
-            counter++;
 
             //only register callback on specific input message
             if (data.message == '.' + testCommand) {
@@ -41,14 +37,10 @@ function testSkittyCoreMethods() {
                 test.isTrue(first);
 
                 callbacks.push(data);
+                counter++;
             }
 
-            //listen for command just once
-            //@todo Figure out a better way to have the test continue to run
-            //allowing user to test various chat commands until the final
-            //.testSkittyCurmMod() command which will finish test and close api
-            if (counter > 1) {
-                skitty.plugapi.close(); //close api connection
+            if (counter === 1 && callbacks.length === 1) {
                 done(); //finish test run
             }
         }));
