@@ -2,6 +2,8 @@ skitty
 ======
 The Plug.dj bot for [Coding Soundtrack Lounge](http://plug.dj/coding-soundtrack-lounge/) that runs on [Meteor](https://www.meteor.com/)
 
+Note: This bot uses [TATDK/plugapi](https://github.com/TATDK/plugapi) as its API dependency
+
 ## How To Use In 3 Easy Steps
 1. Clone the Repo
 2. Edit `packages/skitty-config/config.json` and update each field
