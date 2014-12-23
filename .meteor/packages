@@ -17,4 +17,5 @@ skitty-killswitch
 skitty-config
 skitty-db
 aldeed:collection2
-
+aldeed:simple-schema
+mrt:q
