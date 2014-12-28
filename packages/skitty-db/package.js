@@ -8,11 +8,12 @@ Package.onUse(function(api) {
     api.versionsFrom('1.0.1');
     api.use([
         'mongo',
-        'aldeed:simple-schema',
-        'aldeed:collection2',
+        // 'aldeed:simple-schema', @todo Determine how to implement schema
+        // 'aldeed:collection2', @todo Determine how to implement validation
         'mrt:q'
     ]);
     api.export('SkittyDb');
+    api.export('Songs');
     api.addFiles([
         'skitty-db.js',
         'lib/songs.js'

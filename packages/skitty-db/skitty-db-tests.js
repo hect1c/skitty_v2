@@ -15,7 +15,6 @@ Tinytest.addAsync('Skitty DB Manager', function(test, done) {
             // append stat props
             currentSong.djId = data.currentDJ.id;
             currentSong.earned = data.earned;
-            // currentSong.startTime = Date.now();
             currentSong.startTime = new Date(Math.floor(Date.now() / 1000));
             currentSong.users = skitty.plugapi.getUsers();
             currentSong.woots = [];
