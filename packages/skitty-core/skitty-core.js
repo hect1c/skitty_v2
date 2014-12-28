@@ -64,7 +64,7 @@ SkittyCore = function(shell, api) {
                 message = message.replace('{sender}', '@' + data.from.username);
             }
 
-            api.sendChat('/em ' + message);
+            api.sendChat(message);
             msgSent = true;
 
             return msgSent;
