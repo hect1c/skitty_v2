@@ -32,6 +32,7 @@ minifiers@1.1.3
 minimongo@1.0.6
 mobile-status-bar@1.0.2
 mongo@1.0.11
+mrt:moment@2.8.1
 mrt:q@1.0.1
 observe-sequence@1.0.4
 ordered-dict@1.0.2
@@ -51,6 +52,7 @@ skitty-info@1.0.0
 skitty-killswitch@1.0.0
 skitty-plugapi@1.0.0
 skitty-resources@1.0.0
+skitty-stats@1.0.0
 spacebars@1.0.4
 spacebars-compiler@1.0.4
 stevezhu:lodash@1.0.2
