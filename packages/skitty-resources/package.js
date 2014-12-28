@@ -14,6 +14,8 @@ Package.onUse(function(api) {
             'public/curmudgeon.json',
             'public/facts.json',
             'public/funny_responses.json',
+            'public/stats.json',
+            'public/dj.json'
         ], 'server', {
             isAsset: true
         });
