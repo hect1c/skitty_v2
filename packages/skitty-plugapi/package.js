@@ -17,5 +17,5 @@ Package.onTest(function(api) {
 });
 
 Npm.depends({
-    "plugapi": "https://github.com/plugCubed/plugAPI/archive/8b12f898bd2762b3a208b7af2385fb91f93c1ea4.tar.gz"
+    "plugapi": "3.0.0"
 });
