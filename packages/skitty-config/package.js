@@ -6,7 +6,7 @@ Package.describe({
 
 Package.onUse(function(api) {
   api.versionsFrom('1.0.1');
-  api.addFiles('skitty-config.js');
+  api.addFiles('skitty-config.js', ['server']);
   api.export('SkittyConfig');
   api.addFiles(['config.json'], 'server', {isAsset: true});
 });
