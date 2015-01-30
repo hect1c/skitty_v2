@@ -8,7 +8,7 @@ Package.onUse(function(api) {
     api.versionsFrom('1.0');
     api.use('skitty-core');
     api.export("SkittyPlugApi");
-    api.addFiles('skitty-plugapi.js');
+    api.addFiles('skitty-plugapi.js', ['server']);
 });
 
 Package.onTest(function(api) {
